@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${pageTitle}">FrisÖr - Hairdress Salon in Berlin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<header>
+    <div class="navbar-container">
+        <nav class="navbar-top">
+            <div class="logo">
+                <img th:src="@{/images/logo.svg}" alt="FrisÖr Logo">
+            </div>
+            <div class="salon-name">FriSÖr</div>
+            <button class="login-button">
+                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="7" r="4" fill="#ffffff"/>
+                    <path d="M12 13c-4 0-7 2.5-7 5.5v1c0 .5.5 1 1 1h12c.5 0 1-.5 1-1v-1c0-3-3-5.5-7-5.5z" fill="#ffffff"/>
+                </svg>
+            </button>
+        </nav>
+        <nav class="navbar-buttons">
+            <div class="panel">
+                <a href="/">Home</a>
+                <a href="/my-slots">My slots</a>
+                <a href="/shop">Shop</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+
+
+
+<!-- Main Content -->
+<main>
+    <div th:replace="~{::mainContent}"></div>
+</main>
+
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <p>Address: Main Street 123, Berlin</p>
+        <p>Phone: +49 123 456 789</p>
+        <p>Email: info@frisorberlin.de</p>
+        <p>&copy; 2024 FriSÖr</p>
+    </div>
+</footer>
+
+<script src="/js/script.js"></script>
+</body>
+</html>

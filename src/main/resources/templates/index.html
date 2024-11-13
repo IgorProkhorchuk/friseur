@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<div>
+    <div class="main-content" th:fragment="mainContent">
+        <div id="available-slots">
+            <h1>Welcome to Home Page</h1>
+            <p>This content is unique to the Home page.</p>
+            <div>
+                <h3>
+                    <button hx-get="/book" hx-target="#available-slots" hx-swap="outerHTML">Book a slot</button>
+                </h3>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

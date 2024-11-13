@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: head"></head>
+<body>
+<header th:replace="base :: header"></header>
+
+<div>
+  <div th:fragment="bookingSlots">
+    <div class="available-slots">
+      <h1>Welcome to Book Page</h1>
+      <h5>Slots</h5>
+      <ul>
+        <li>Slot 1</li>
+        <li>Slot 2</li>
+        <li>Slot 3</li>
+      </ul>
+
+      <!-- New Buttons -->
+      <div class="booking-buttons">
+        <button onclick="window.history.back()">Back</button>
+        <a href="/my-bookings">
+          <button>My Bookings</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:replace="base :: footer"></footer>
+</body>
+</html>

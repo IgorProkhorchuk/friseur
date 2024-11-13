@@ -14,6 +14,16 @@ public class HomeController {
 
     @GetMapping("/")
     public String hello() {
-        return "helloWorld";
+        return "index";
     }
+    @GetMapping("/book")
+    public String book() {
+        return "book :: bookingSlots";
+    }
+
+    @GetMapping("/shop")
+    public String shop() {
+        return "shop";
+    }
+
 }
