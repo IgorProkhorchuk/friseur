@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table
-public class Timeslot {
+public class TimeSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
@@ -18,7 +18,7 @@ public class Timeslot {
     @OneToMany(mappedBy = "timeSlot")
     private Set<Bookings> bookings = new HashSet<>();
 
-    public Timeslot(int slotId, String date, String weekDay, String time, boolean bookedSlot, Set<Bookings> bookings) {
+    public TimeSlot(int slotId, String date, String weekDay, String time, boolean bookedSlot, Set<Bookings> bookings) {
         this.slotId = slotId;
         this.date = date;
         this.weekDay = weekDay;
