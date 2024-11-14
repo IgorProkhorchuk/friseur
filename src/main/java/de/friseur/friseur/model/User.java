@@ -5,6 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -16,10 +19,14 @@ public class User {
     private String userName;
     private String userPhone;
 
-    public User(int userId, String userName, String userPhone) {
+    @OneToMany(mappedBy = "user")
+    private Set<Bookings> bookings = new HashSet<>();
+
+    public User(int userId, String userName, String userPhone, Set<Bookings> bookings) {
         this.userId = userId;
         this.userName = userName;
         this.userPhone = userPhone;
+        this.bookings = bookings;
     }
 
     public User() {
