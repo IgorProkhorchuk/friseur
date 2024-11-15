@@ -1,0 +1,6 @@
+<div id="slots" class="slots" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h3>Slots:</h3>
+    <ul>
+        <li th:each="date : ${nextFiveDays}" th:text="${date}"></li>
+    </ul>
+</div>

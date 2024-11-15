@@ -1,12 +1,7 @@
 package de.friseur.friseur.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-import java.util.HashSet;
+import jakarta.persistence.*;
+
 import java.util.Set;
 
 
@@ -19,17 +14,15 @@ public class User {
     private String userName;
     private String userPhone;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Bookings> bookings = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "appointmentId")
+    private Set<Appointment> appointment;
 
-    public User(int userId, String userName, String userPhone, Set<Bookings> bookings) {
+    public User(int userId, String userName, String userPhone, Set<Appointment> appointment) {
         this.userId = userId;
         this.userName = userName;
         this.userPhone = userPhone;
-        this.bookings = bookings;
-    }
-
-    public User() {
+        this.appointment = appointment;
     }
 
     public int getUserId() {
@@ -54,5 +47,13 @@ public class User {
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
+    }
+
+    public Set<Appointment> getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Set<Appointment> appointment) {
+        this.appointment = appointment;
     }
 }
