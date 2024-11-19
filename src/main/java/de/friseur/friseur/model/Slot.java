@@ -25,6 +25,7 @@ public class Slot {
         this.date = date;
         this.weekDay = weekDay;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.slotStatus = slotStatus;
         this.appointment = appointment;
     }

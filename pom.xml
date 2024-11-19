@@ -67,7 +67,17 @@
 			<artifactId>htmx-spring-boot-thymeleaf</artifactId>
 			<version>3.5.0</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
