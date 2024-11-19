@@ -12,6 +12,7 @@
         <button type="submit">Set Schedule</button>
     </form>
     <br>
+    <div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
 </div>
 </body>
 </html>

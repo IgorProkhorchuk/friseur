@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class ScheduleController {
     }
 
     @PostMapping("/admin")
-    public String setSchedule(@ModelAttribute Schedule schedule) {
+    public String setSchedule(@ModelAttribute Schedule schedule, Model model) {
         logger.info("Received startDate: {}", schedule.getStartDate());
         logger.info("Received endDate: {}", schedule.getEndDate());
 
@@ -36,7 +37,8 @@ public class ScheduleController {
         }
 
         scheduleRepository.save(schedule);
-        return "admin :: schedule";
+        model.addAttribute("successMessage", "Dates added successfully");
+        return "admin";
     }
 
 }

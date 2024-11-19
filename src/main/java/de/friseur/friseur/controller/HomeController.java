@@ -27,6 +27,7 @@ public class HomeController {
     public String hello() {
         return "index";
     }
+
     @GetMapping("/book")
     public String book() {
         return "book :: bookingSlots";
