@@ -13,6 +13,11 @@
     </form>
     <br>
     <div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
+
+    <div th:if="${successMessage}" id="edit-schedule-container">
+        <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend">Edit Time for Created Schedule</button>
+    </div>
+    <div id="edit-workingHours"></div>
 </div>
 </body>
 </html>

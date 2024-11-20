@@ -1,1 +1,18 @@
-<div id="schedule">Dates added succesfully</div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule</title>
+</head>
+<body>
+<main>
+    <h3>Schedule</h3>
+    <ul>
+        <th:block th:each="date : ${dateRange}">
+            <li th:text="${date}"></li>
+        </th:block>
+    </ul>
+</main>
+</body>
+</html>
