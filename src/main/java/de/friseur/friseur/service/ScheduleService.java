@@ -2,6 +2,7 @@ package de.friseur.friseur.service;
 
 import de.friseur.friseur.model.Schedule;
 import de.friseur.friseur.repository.ScheduleRepository;
+import de.friseur.friseur.repository.SlotRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,15 @@ public class ScheduleService {
         return dateRange;
     }
 
+    public List<LocalDateTime>  createTimeslots(List<LocalDateTime> dateRange) {
+        List<LocalDateTime> timeslots = new ArrayList<>();
+        for (LocalDateTime date : dateRange) {
+            for (int hour = 9; hour < 17; hour++) {
+                LocalDateTime time = date.withHour(hour);
+                timeslots.add(time);
+            }
+        }
+        return timeslots;
+    }
 
 }

@@ -2,6 +2,7 @@ package de.friseur.friseur.model;
 
 import jakarta.persistence.*;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,7 +13,7 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
     private LocalDate date;
-    private String weekDay;
+    private DayOfWeek weekDay;
     private LocalTime startTime;
     private LocalTime endTime;
     private String slotStatus;
@@ -20,7 +21,7 @@ public class Slot {
     @JoinColumn(name = "appointmentId")
     private Appointment appointment;
 
-    public Slot(int slotId, LocalDate date, String weekDay, LocalTime startTime, LocalTime endTime, String slotStatus, Appointment appointment) {
+    public Slot(int slotId, LocalDate date, DayOfWeek weekDay, LocalTime startTime, LocalTime endTime, String slotStatus, Appointment appointment) {
         this.slotId = slotId;
         this.date = date;
         this.weekDay = weekDay;
@@ -49,11 +50,11 @@ public class Slot {
         this.date = date;
     }
 
-    public String getWeekDay() {
+    public DayOfWeek getWeekDay() {
         return weekDay;
     }
 
-    public void setWeekDay(String weekDay) {
+    public void setWeekDay(DayOfWeek weekDay) {
         this.weekDay = weekDay;
     }
 

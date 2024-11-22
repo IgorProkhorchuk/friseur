@@ -7,10 +7,19 @@
 </head>
 <body>
 <main>
-    <h3>Schedule</h3>
+<h3>Schedule</h3>
     <ul>
         <th:block th:each="date : ${dateRange}">
-            <li th:text="${date}"></li>
+            <li>
+                <span th:text="${date.toLocalDate()}"></span>
+                <ul>
+                    <th:block th:each="timeSlot : ${timeslots}">
+                        <th:block th:if="${timeSlot.toLocalDate() == date.toLocalDate()}">
+                            <li th:text="${timeSlot}"></li>
+                        </th:block>
+                    </th:block>
+                </ul>
+            </li>
         </th:block>
     </ul>
 </main>

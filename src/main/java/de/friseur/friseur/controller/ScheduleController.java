@@ -45,7 +45,9 @@ public class ScheduleController {
     @GetMapping("/admin/schedule")
     public String editWorkingHours(Model model) {
         List<LocalDateTime> dateRange = scheduleService.createDateRange(scheduleService.getLatestSchedule());
+        List<LocalDateTime> timeslots = scheduleService.createTimeslots(scheduleService.createDateRange(scheduleService.getLatestSchedule()));
         model.addAttribute("dateRange", dateRange);
+        model.addAttribute("timeslots", timeslots);
         return "schedule";
     }
 
