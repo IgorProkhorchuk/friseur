@@ -8,15 +8,16 @@
 <body>
 <main>
 <h3>Schedule</h3>
-    <ul>
+    <ul class="schedule-list">
         <th:block th:each="date : ${dateRange}">
-            <li>
-                <span th:text="${date.toLocalDate()}"></span>
-                <ul>
+            <li class="date-item">
+                <span th:text="${#temporals.format(date, 'EEEE, MMMM d, yyyy')}"></span>
+                <ul class="timeslot-list">
                     <th:block th:each="timeSlot : ${timeslots}">
-                        <th:block th:if="${timeSlot.toLocalDate() == date.toLocalDate()}">
-                            <li th:text="${timeSlot}"></li>
-                        </th:block>
+                        <li th:if="${timeSlot.toLocalDate().equals(date.toLocalDate())}"
+                            class="time-item">
+                            <span th:text="${#temporals.format(timeSlot, 'HH:00')}"></span>
+                        </li>
                     </th:block>
                 </ul>
             </li>

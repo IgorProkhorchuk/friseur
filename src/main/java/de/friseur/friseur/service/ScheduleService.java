@@ -44,15 +44,14 @@ public class ScheduleService {
         return dateRange;
     }
 
-    public List<LocalDateTime>  createTimeslots(List<LocalDateTime> dateRange) {
+    public List<LocalDateTime> createTimeslots(List<LocalDateTime> dateRange) {
         List<LocalDateTime> timeslots = new ArrayList<>();
         for (LocalDateTime date : dateRange) {
             for (int hour = 9; hour < 17; hour++) {
-                LocalDateTime time = date.withHour(hour);
+                LocalDateTime time = date.withHour(hour).withMinute(0);
                 timeslots.add(time);
             }
         }
         return timeslots;
     }
-
 }
