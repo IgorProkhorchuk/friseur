@@ -28,18 +28,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/book")
-    public String book() {
-        return "book :: bookingSlots";
-    }
-
-    @GetMapping("/slots")
-    public String getSlots(Model model) {
-        LocalDate today = LocalDate.now();
-        model.addAttribute("nextFiveDays", slotService.getNextFiveDays(today));
-        return "slots";
-    }
-
     @GetMapping("/shop")
     public String shop() {
         return "shop";

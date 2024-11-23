@@ -1,10 +1,8 @@
 package de.friseur.friseur.model;
 
-import jakarta.persistence.*;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -12,21 +10,15 @@ public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
-    private LocalDate date;
-    private DayOfWeek weekDay;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalDateTime timeSlot;
     private String slotStatus;
     @OneToOne
     @JoinColumn(name = "appointmentId")
     private Appointment appointment;
 
-    public Slot(int slotId, LocalDate date, DayOfWeek weekDay, LocalTime startTime, LocalTime endTime, String slotStatus, Appointment appointment) {
+    public Slot(int slotId, LocalDateTime timeSlot, String slotStatus, Appointment appointment) {
         this.slotId = slotId;
-        this.date = date;
-        this.weekDay = weekDay;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.timeSlot = timeSlot;
         this.slotStatus = slotStatus;
         this.appointment = appointment;
     }
@@ -42,36 +34,12 @@ public class Slot {
         this.slotId = slotId;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public DayOfWeek getWeekDay() {
-        return weekDay;
-    }
-
-    public void setWeekDay(DayOfWeek weekDay) {
-        this.weekDay = weekDay;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setTimeSlot(LocalDateTime timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
     public String getSlotStatus() {

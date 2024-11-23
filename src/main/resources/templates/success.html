@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sucess</title>
+    <head th:replace="~{base :: head}"></head>
+</head>
+<body>
+<div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
+<div th:if="${successMessage}">
+  <a href="/admin" class="button">Add Another Date Range</a>
+</div>
+</body>
+</html>

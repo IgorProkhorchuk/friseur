@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +21,17 @@ public class SlotService {
         this.slotRepository = slotRepository;
     }
 
-    public List<Slot> getAvailableSlots(LocalDate date) {
-        return slotRepository.findByDateAndSlotStatus(date, "available");
-    }
+//    public List<Slot> getAvailableSlots(LocalDateTime timeslot) {
+//        return slotRepository.findByDateAndSlotStatus(timeslot, "available");
+//    }
 
-    public List<String> getNextFiveDays(LocalDate today) {
-        List<String> nextFiveDays = new ArrayList<>();
-
-        for (int i = 1; i <= 5; i++) {
-            LocalDate nextDay = today.plusDays(i);
-            nextFiveDays.add(nextDay.toString());
-        }
-        return nextFiveDays;
-    }
+//    public List<String> getNextFiveDays(LocalDate today) {
+//        List<String> nextFiveDays = new ArrayList<>();
+//
+//        for (int i = 1; i <= 5; i++) {
+//            LocalDate nextDay = today.plusDays(i);
+//            nextFiveDays.add(nextDay.toString());
+//        }
+//        return nextFiveDays;
+//    }
 }

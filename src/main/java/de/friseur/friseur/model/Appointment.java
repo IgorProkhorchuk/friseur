@@ -12,8 +12,7 @@ public class Appointment {
     private Long appointmentId;
     private String clientName;
     private String serviceType;
-    @ManyToOne
-    @JoinColumn(name = "slot_id", nullable = false)
+    @OneToOne(mappedBy = "appointment")
     private Slot slot;
     private LocalDateTime createdAt;
     private String appointmentStatus;

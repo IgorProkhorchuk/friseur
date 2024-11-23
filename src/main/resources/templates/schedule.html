@@ -3,26 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head th:replace="~{base :: head}"></head>
     <title>Schedule</title>
 </head>
 <body>
 <main>
 <h3>Schedule</h3>
-    <ul class="schedule-list">
-        <th:block th:each="date : ${dateRange}">
-            <li class="date-item">
-                <span th:text="${#temporals.format(date, 'EEEE, MMMM d, yyyy')}"></span>
-                <ul class="timeslot-list">
-                    <th:block th:each="timeSlot : ${timeslots}">
-                        <li th:if="${timeSlot.toLocalDate().equals(date.toLocalDate())}"
-                            class="time-item">
-                            <span th:text="${#temporals.format(timeSlot, 'HH:00')}"></span>
-                        </li>
-                    </th:block>
-                </ul>
-            </li>
-        </th:block>
-    </ul>
+<div id="save-schedule">
+    <form th:action="@{/admin/save-schedule}" method="post">
+        <ul class="schedule-list">
+            <th:block th:each="date : ${dateRange}">
+                <li class="date-item">
+                    <span th:text="${#temporals.format(date, 'EEEE, MMMM d, yyyy')}"></span>
+                    <ul class="timeslot-list">
+                        <th:block th:each="timeSlot : ${timeslots}">
+                            <li th:if="${timeSlot.toLocalDate().equals(date.toLocalDate())}"
+                                class="time-item">
+                                <label class="timeslot-label">
+                                    <input type="checkbox"
+                                           name="selectedTimeslots"
+                                           th:value="${#temporals.format(timeSlot, 'yyyy-MM-dd HH:mm')}"
+                                           th:checked="${savedSlots != null and #lists.contains(savedSlots, timeSlot)}"/>
+                                    <span th:text="${#temporals.format(timeSlot, 'HH:00')}"></span>
+                                </label>
+                            </li>
+                        </th:block>
+                    </ul>
+                </li>
+            </th:block>
+        </ul>
+
+        <button type="submit" class="submit-button" hx-target="#save-schedule" hx-swap="outerHTML">Save Selected Timeslots</button>
+    </form>
+</div>
 </main>
 </body>
 </html>

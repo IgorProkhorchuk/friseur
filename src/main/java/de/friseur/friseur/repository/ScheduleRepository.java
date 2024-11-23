@@ -7,10 +7,5 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    List<Schedule> findByStartDate(LocalDate startDate);
-    List<Schedule> findByEndDate(LocalDate endDate);
-    List<Schedule> findByStartDateAndEndDate(LocalDate startDate, LocalDate endDate);
-
-
     Schedule findTopByOrderByIdDesc();
 }
