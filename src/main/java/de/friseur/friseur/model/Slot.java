@@ -11,12 +11,13 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
     private LocalDateTime timeSlot;
-    private String slotStatus;
+    @Enumerated(EnumType.ORDINAL)
+    private SlotStatus slotStatus;
     @OneToOne
     @JoinColumn(name = "appointmentId")
     private Appointment appointment;
 
-    public Slot(int slotId, LocalDateTime timeSlot, String slotStatus, Appointment appointment) {
+    public Slot(int slotId, LocalDateTime timeSlot, SlotStatus slotStatus, Appointment appointment) {
         this.slotId = slotId;
         this.timeSlot = timeSlot;
         this.slotStatus = slotStatus;
@@ -24,6 +25,9 @@ public class Slot {
     }
 
     public Slot() {
+    }
+
+    public Slot(LocalDateTime localDateTime, SlotStatus slotStatus) {
     }
 
     public int getSlotId() {
@@ -42,11 +46,11 @@ public class Slot {
         this.timeSlot = timeSlot;
     }
 
-    public String getSlotStatus() {
+    public SlotStatus getSlotStatus() {
         return slotStatus;
     }
 
-    public void setSlotStatus(String slotStatus) {
+    public void setSlotStatus(SlotStatus slotStatus) {
         this.slotStatus = slotStatus;
     }
 

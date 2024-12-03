@@ -1,6 +1,24 @@
-<div id="slots" class="slots" xmlns:th="http://www.w3.org/1999/xhtml">
-    <h3>Slots:</h3>
-    <ul>
-        <li th:each="date : ${nextFiveDays}" th:text="${date}"></li>
-    </ul>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<h2>Available Slots</h2>
+
+<div th:each="date : ${dates}">
+    <h3 th:text="${date}">date</h3>
+    <div th:each="slot : ${slots}">-+
+        -
+        <div th:if="${slot.toLocalDate()} == ${date}">
+            <h4 th:text="${#temporals.format(slot, 'hh:mm a')}">slot</h4>
+        </div>
+    </div>
+
+    </div>
+
 </div>
+
+
+
+<!--<script th:replace="~{base :: script}"></script>-->
+</body>
+</html>

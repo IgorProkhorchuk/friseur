@@ -2,6 +2,7 @@ package de.friseur.friseur.service;
 
 import de.friseur.friseur.model.Schedule;
 import de.friseur.friseur.model.Slot;
+import de.friseur.friseur.model.SlotStatus;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import org.slf4j.Logger;
@@ -68,7 +69,7 @@ public class ScheduleService {
                 .map(timeSlotStr -> {
                     Slot slot = new Slot();
                     slot.setTimeSlot(LocalDateTime.parse(timeSlotStr, formatter));
-                    slot.setSlotStatus("AVAILABLE");
+                    slot.setSlotStatus(SlotStatus.AVAILABLE);
                     slot.setAppointment(null);
                     return slot;
                 })
