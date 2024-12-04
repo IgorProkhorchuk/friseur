@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="~{base :: head}"></head>
 <body>
 <h2>Available Slots</h2>
 
-<div th:each="date : ${dates}">
-    <h3 th:text="${date}">date</h3>
-    <div th:each="slot : ${slots}">-+
-        -
+<th:block th:each="date : ${dates}">
+    <h3 class="date-header" th:text="${#temporals.format(date, 'EEEE dd MMMM')}">date</h3>
+    <form th:action="@{/slots}" method="post">
+    <div class="slot-container">
+    <th:block th:each="slot : ${slots}">
         <div th:if="${slot.toLocalDate()} == ${date}">
-            <h4 th:text="${#temporals.format(slot, 'hh:mm a')}">slot</h4>
+            <label class="timeslot">
+                <input type="radio"
+                       name="slot"
+                       th:value="${#temporals.format(slot, 'yyyy-MM-dd HH:mm:ss')}"
+                       th:checked="${savedSlots != null and #lists.contains(savedSlots, slot)}" />
+                <span th:text="${#temporals.format(slot, 'h:mm a')}">slot</span>
+            </label>
         </div>
+    </th:block>
     </div>
-
-    </div>
-
+    <button type="submit" class="submit-button" hx-target="#confirmation" hx-swap="outerHTML">Select Time</button>
+    </form>
+</th:block>
+<div id="confirmation"></div>
 </div>
-
-
-
-<!--<script th:replace="~{base :: script}"></script>-->
 </body>
 </html>

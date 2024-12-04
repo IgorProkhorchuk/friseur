@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface SlotRepository extends JpaRepository<Slot, Integer> {
@@ -20,4 +20,8 @@ public interface SlotRepository extends JpaRepository<Slot, Integer> {
     );
 
     List<Slot> findAllByTimeSlotGreaterThanEqualAndSlotStatus(LocalDateTime startTime, SlotStatus status);
+
+    Optional<Slot> findByTimeSlotAndSlotStatus(LocalDateTime timeSlot, SlotStatus status);
+
+    Slot findByTimeSlot(LocalDateTime timeSlot);
 }

@@ -245,24 +245,68 @@ h1, p {
 
 /*user slots*/
 
-.date-group {
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+h2 {
+    text-align: center;
     margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
 }
+
 .date-header {
-    font-weight: bold;
     font-size: 1.2em;
-    margin-bottom: 10px;
+    font-weight: bold;
+    margin: 15px 0;
 }
-.timeslots-list {
-    display: flex;
-    flex-wrap: wrap;
+
+.slot-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
+    margin-bottom: 20px;
 }
-.slot-item {
-    display: inline-block;
-    margin-right: 10px;
+
+.timeslot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #2f2f2f; /* Graphite background */
+    color: #f9ba5b; /* Dark gold text */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
 }
+
+.timeslot:hover {
+    transform: scale(1.05);
+    background-color: #414141;
+}
+
+.timeslot.reserved {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+    .slot-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .slot-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
 
 /* Footer Styles */
 footer {
@@ -277,7 +321,7 @@ footer {
 }
 
 /* Responsive Styles */
-@media screen and (max-width: 600px) {
+/*@media screen and (max-width: 600px) {
     .overlay h1 {
         font-size: 1.2rem;
     }
@@ -313,4 +357,4 @@ footer {
         max-width: 300px;
         margin: 0 auto;
     }
-}
+}*/

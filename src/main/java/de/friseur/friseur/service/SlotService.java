@@ -58,7 +58,20 @@ public class SlotService {
         }
     }
 
-
-
-
+public boolean reserveSlot(LocalDateTime timeSlot) {
+    try {
+        logger.info("Reserving slot at {}", timeSlot);
+        Slot slot = slotRepository.findByTimeSlot(timeSlot);
+        if (slot == null) {
+            logger.warn("Slot not found at {}", timeSlot);
+            return false;
+        }
+        slot.setSlotStatus(SlotStatus.RESERVED);
+        slotRepository.save(slot);
+        return true;
+    } catch (Exception e) {
+        logger.error("Error while reserving slot at {}", timeSlot, e);
+        return false;
+    }
+}
 }
