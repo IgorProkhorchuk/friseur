@@ -27,6 +27,11 @@ public class HomeController {
     private SlotService slotService;
 
     @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/home")
     public String hello() {
         return "index";
     }

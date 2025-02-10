@@ -1,0 +1,241 @@
+:root {
+    --charcoal: #2F3336;
+    --matte-gold: #BFA36F;
+    --white: #ffffff;
+    --light-gray: rgba(255, 255, 255, 0.8);
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    background: var(--white);
+    font-size: 16px;
+}
+
+/* Navbar Styling */
+.navbar-container {
+    background: var(--charcoal);
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.salon-name {
+    color: var(--matte-gold);
+    font-size: 2rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 2px;
+}
+
+.panel {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.panel a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* Main Content */
+[role="main"] {
+    padding-top: 4rem; /* Account for fixed navbar */
+}
+
+.main-content {
+    padding: 1.5rem;
+    max-width: 100%;
+}
+
+#available-slots h1 {
+    color: var(--charcoal);
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.profile {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.profile img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 15px;
+    margin: 0 auto 1rem;
+    display: block;
+}
+
+/* Services Section */
+.services {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.service-card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+.service-card h3 {
+    color: var(--charcoal);
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+/* Book Button */
+.main-book-button {
+    background: var(--charcoal);
+    color: var(--white);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    margin: 1.5rem 0;
+    cursor: pointer;
+}
+
+.main-book-button h3 {
+    color: var(--matte-gold);
+    font-size: 1.2rem;
+}
+
+/* Footer */
+.footer-content {
+    background: var(--charcoal);
+    color: var(--light-gray);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    line-height: 2;
+    margin-top: 2rem;
+}
+
+/* Media Queries for larger screens */
+@media (min-width: 768px) {
+    .services {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .service-card {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .profile img {
+        max-width: 400px;
+    }
+}
+
+/*timeslot styling*/
+
+.schedule-list {
+    list-style-type: none;
+    padding: 0;
+}
+.date-item {
+    margin: 20px 0;
+    font-weight: bold;
+}
+.timeslot-list {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+.time-item {
+    display: inline-block;
+    margin: 5px 10px;
+}
+.timeslot-label {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.timeslot-label:hover {
+    background-color: #e0e0e0;
+}
+.submit-button {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.submit-button:hover {
+    background-color: #45a049;
+}
+
+.success-message {
+    color: #4CAF50;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.button {
+    background-color: #f9ba5b;
+    color: #333333;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*shop stub parameters*/
+
+.stub {
+    max-width: 600px;
+    padding: 30px;
+    background-color: #444444;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Paragraph styling for shop-stub text */
+.shop-stub {
+    font-size: 1.25rem;
+    color: #ffffff;
+   /* font-style: italic;*/
+    margin-bottom: 20px;
+}

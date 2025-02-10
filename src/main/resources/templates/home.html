@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrisÖr - Coming Soon</title>
+    <link rel="stylesheet" th:href="@{/css/styles-home.css}">
+    <script th:src="@{/js/scripts.js}"></script>
+    <script th:src="@{/js/script.js}"></script>
+</head>
+<body>
+<div class="container">
+    <img th:src="@{/images/logo.svg}" alt="FrisÖr Logo" class="logo">
+
+    <!-- Salon name: visible in all languages -->
+    <h1>FrisÖr</h1>
+
+    <!-- Coming soon message in different languages -->
+    <p class="coming-soon-text">
+        <!-- English -->
+        <span lang="en">Our hair salon will be opening soon. Stay tuned!</span>
+        <!-- German -->
+        <span lang="de">Unser Friseursalon wird bald eröffnet. Bleiben Sie dran!</span>
+        <!-- Ukrainian -->
+        <span lang="uk">Наш салон незабаром відкриється. Слідкуйте за новинами!</span>
+        <!-- Russian -->
+        <span lang="ru">Наш салон скоро откроется. Следите за обновлениями!</span>
+    </p>
+</div>
+
+<script src="js/script.js"></script>
+<script src="js/scripts.js"></script>
+
+</body>
+</html>

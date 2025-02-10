@@ -1,0 +1,55 @@
+/* General resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background styling */
+body {
+    background-color: #333333;
+    color: #f9ba5b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Container for content */
+.container {
+    max-width: 600px;
+}
+
+/* Logo styling */
+.logo {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Salon name styling */
+h1 {
+    font-family: Georgia, serif;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+/* Coming soon text styling */
+.coming-soon-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #ffffff;
+    font-style: italic;
+}
+
+/* Initially hide all language spans */
+.coming-soon-text span {
+    display: none;
+}

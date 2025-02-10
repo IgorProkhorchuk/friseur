@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${pageTitle}">FrisÖr by Yulia | Tempelhof, Berlin</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+<body>
+
+<header class="navbar-container" th:fragment="header">
+    <div class="logo">
+        <a href="/">
+            <span class="salon-name">FrisÖr</span>
+        </a>
+    </div>
+
+    <nav class="panel">
+        <a href="/">Home</a>
+        <a href="/my-slots">Termine</a>
+        <a href="/shop">Shop</a>
+    </nav>
+</header>
+
+<main role="main">
+    <div th:replace="~{::mainContent}"></div>
+</main>
+
+<footer class="footer-content">
+    <div>
+        <p>Tempelhofer Damm 123</p>
+        <p>12099 Berlin</p>
+        <p>Tel: +49 123 456 789</p>
+        <p>Email: info@frisorberlin.de</p>
+        <p>© 2024 FrisÖr</p>
+    </div>
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

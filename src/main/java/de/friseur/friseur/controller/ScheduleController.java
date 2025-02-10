@@ -1,7 +1,6 @@
 package de.friseur.friseur.controller;
 
 import de.friseur.friseur.model.Schedule;
-import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import de.friseur.friseur.service.ScheduleService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
