@@ -1,6 +1,7 @@
 package de.friseur.friseur.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Set;
 
@@ -13,16 +14,22 @@ public class User {
     private int userId;
     private String userName;
     private String userPhone;
+    @NotNull
+    private String password;
 
     @OneToMany
     @JoinColumn(name = "appointmentId")
     private Set<Appointment> appointment;
 
-    public User(int userId, String userName, String userPhone, Set<Appointment> appointment) {
+    public User() {
+    }
+
+    public User(int userId, String userName, String userPhone, String password, Set<Appointment> appointment) {
         this.userId = userId;
         this.userName = userName;
         this.userPhone = userPhone;
         this.appointment = appointment;
+        this.password = password;
     }
 
     public int getUserId() {
@@ -47,6 +54,14 @@ public class User {
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Appointment> getAppointment() {
