@@ -56,4 +56,11 @@ public class User {
     public void setAppointment(Set<Appointment> appointment) {
         this.appointment = appointment;
     }
+
+    @Override
+    public String toString() {
+        return "User [userName=" + userName + ", appointment=" + appointment + "]";
+    }
+
+    
 }

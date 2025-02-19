@@ -1,0 +1,67 @@
+/* src/main/resources/static/css/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.date-header {
+    font-size: 1.5em;
+    color: #555;
+    margin: 20px 0 10px;
+}
+
+.slot-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.timeslot {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.timeslot input[type="radio"] {
+    margin-right: 10px;
+}
+
+.timeslot span {
+    font-size: 1em;
+    color: #333;
+}
+
+.submit-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+#confirmation {
+    text-align: center;
+    margin-top: 20px;
+    color: #28a745;
+}
