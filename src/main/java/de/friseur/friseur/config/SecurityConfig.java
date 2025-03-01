@@ -23,20 +23,27 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(request ->
                         request
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/home").permitAll()
-                                .requestMatchers("/shop").permitAll()
-                                .requestMatchers("/login").permitAll()
-                                .requestMatchers("/slots").permitAll()
-                                .requestMatchers("/register").permitAll()
-                                .requestMatchers("/schedule").hasRole("ADMIN")
-                                .requestMatchers("/success").hasRole("ADMIN")
-                                .requestMatchers("/css/**").permitAll()
-                                .requestMatchers("/js/**").permitAll()
-                                .requestMatchers("/images/**").permitAll()
-                                .anyRequest().authenticated()
+//                                .requestMatchers("/").permitAll()
+//                                .requestMatchers("/home").permitAll()
+//                                .requestMatchers("/admin/**").permitAll()
+//                                .requestMatchers("/shop").permitAll()
+//                                .requestMatchers("/login").permitAll()
+//                                .requestMatchers("/slots").permitAll()
+//                                .requestMatchers("/register").permitAll()
+//                                .requestMatchers("/schedule").permitAll()
+//                                .requestMatchers("/success").permitAll()
+//                                .requestMatchers("/css/**").permitAll()
+//                                .requestMatchers("/js/**").permitAll()
+//                                .requestMatchers("/images/**").permitAll()
+                                .anyRequest().permitAll()
                 )
-                .formLogin(withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/login?error=true")
+                        .permitAll()
+                );
         return http.build();
     }
 
