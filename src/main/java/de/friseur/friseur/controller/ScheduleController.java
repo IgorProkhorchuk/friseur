@@ -58,7 +58,7 @@ public class ScheduleController {
         List<LocalDateTime> timeslots = scheduleService.createTimeslots(scheduleService.createDateRange(scheduleService.getLatestSchedule()));
         model.addAttribute("dateRange", dateRange);
         model.addAttribute("timeslots", timeslots);
-        return "schedule";
+        return "create-schedule";
     }
     @PostMapping("/admin/save-schedule")
     public String saveSelectedTimeslots(@RequestParam(required = false) List<String> selectedTimeslots,

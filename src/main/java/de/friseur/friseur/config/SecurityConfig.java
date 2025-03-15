@@ -7,9 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -23,19 +25,20 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(request ->
                         request
-//                                .requestMatchers("/").permitAll()
-//                                .requestMatchers("/home").permitAll()
-//                                .requestMatchers("/admin/**").permitAll()
-//                                .requestMatchers("/shop").permitAll()
-//                                .requestMatchers("/login").permitAll()
-//                                .requestMatchers("/slots").permitAll()
-//                                .requestMatchers("/register").permitAll()
-//                                .requestMatchers("/schedule").permitAll()
-//                                .requestMatchers("/success").permitAll()
-//                                .requestMatchers("/css/**").permitAll()
-//                                .requestMatchers("/js/**").permitAll()
-//                                .requestMatchers("/images/**").permitAll()
-                                .anyRequest().permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/home").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/create-schedule").hasRole("ADMIN")
+                                .requestMatchers("/shop").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/slots").permitAll()
+                                .requestMatchers("/book").authenticated()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/success").authenticated()
+                                .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/js/**").permitAll()
+                                .requestMatchers("/images/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -43,10 +46,26 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home", true)
                         .failureUrl("/login?error=true")
                         .permitAll()
-                );
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .maximumSessions(1) // don't forget to modify this later
+                        .expiredUrl("/login?expired")
+                )
+                .userDetailsService(userDetailsService);
         return http.build();
     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(4);
+    }
 
-    
 
 }
