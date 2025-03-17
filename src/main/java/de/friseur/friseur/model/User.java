@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
@@ -21,7 +20,10 @@ public class User implements UserDetails {
     private String username;
 
     @Column(unique = true)
-    private String userPhone;
+    private String email;
+
+    @Column(unique = true)
+    private String phone;
 
     @NotNull
     private String password;
@@ -38,10 +40,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int userId, String username, String userPhone, String password, Set<String> roles, Set<Appointment> appointment) {
+    public User(int userId, String username, String email, String phone, String password, Set<String> roles, Set<Appointment> appointment) {
         this.userId = userId;
         this.username = username;
-        this.userPhone = userPhone;
+        this.email = email;
+        this.phone = phone;
         this.password = password;
         this.roles = roles;
         this.appointment = appointment;
@@ -52,10 +55,6 @@ public class User implements UserDetails {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -64,12 +63,20 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public String getUserPhone() {
-        return userPhone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserPhone(String userPhone) {
-        this.userPhone = userPhone;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {

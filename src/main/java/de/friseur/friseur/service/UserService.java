@@ -6,25 +6,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.Set;
 
 @Service
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-    public User registerUser(String username, String phone, String rawPassword) {
+
+    public boolean existsByUsername(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+    public boolean registerUser(String username, String email, String phone, String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            throw new IllegalArgumentException("Passwords do not match!");
+        }
+
+        if (existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already exists!");
+        }
+
         User user = new User();
         user.setUsername(username);
-        user.setUserPhone(phone);
-        user.setPassword(passwordEncoder.encode(rawPassword));
-        user.setRoles(Collections.singleton("ROLE_USER"));
-        return userRepository.save(user);
-    }
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(Set.of("ROLE_USER"));
 
+        userRepository.save(user);
+        return true;
+    }
 }
