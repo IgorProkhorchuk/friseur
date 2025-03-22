@@ -4,6 +4,9 @@
 <body>
 <div id="set-schedule">
     <form hx-post="/admin" hx-target="#set-schedule" hx-swap="outerHTML">
+        <!-- CSRF Token -->
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
         <label for="startDate">Start Date:</label>
         <input type="date" id="startDate" name="startDate" required />
         <label for="endDate">End Date:</label>
