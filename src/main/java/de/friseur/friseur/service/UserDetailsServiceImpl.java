@@ -21,17 +21,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        return userRepository.findByUsername(username)
+//                .map(user -> {
+//                    UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
+//                    builder.password(user.getPassword());
+//                    builder.authorities(user.getRoles().stream()
+//                            .map(SimpleGrantedAuthority::new)
+//                            .collect(Collectors.toSet()));
+//                    return builder.build();
+//                })
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .map(user -> {
-                    UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
-                    builder.password(user.getPassword());
-                    builder.authorities(user.getRoles().stream()
-                            .map(SimpleGrantedAuthority::new)
-                            .collect(Collectors.toSet()));
-                    return builder.build();
-                })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }
