@@ -7,9 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -30,8 +33,10 @@ public class UserController {
     ) {
         try {
             userService.registerUser(username, email, phone, password, confirmPassword);
+            logger.info("User registration successful for username {}", username);
             return "redirect:/register?success";
         } catch (IllegalArgumentException e) {
+            logger.error("User registration failed for username {}: {}", username, e.getMessage());
             model.addAttribute("error", e.getMessage());
             return "register";
         }
@@ -39,11 +44,13 @@ public class UserController {
 
     @GetMapping("/login")
     public String showLoginForm() {
+        logger.info("Login form displayed");
         return "login";
     }
 
     @GetMapping("/logout")
     public String logout() {
+        logger.info("User logged out");
         return "logout";
     }
 }
