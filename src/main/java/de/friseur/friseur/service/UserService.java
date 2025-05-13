@@ -49,5 +49,16 @@ public class UserService {
         logger.info("User registered successfully: username {}", username);
         return true;
     }
+
+    public boolean loginUser(String username, String password) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            logger.info("User {} logged in successfully", username);
+            return true;
+        } else {
+            logger.warn("Failed login attempt for user {}", username);
+            return false;
+        }
+    }
 }
 

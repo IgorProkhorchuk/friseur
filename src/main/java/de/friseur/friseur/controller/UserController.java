@@ -48,6 +48,22 @@ public class UserController {
         return "login";
     }
 
+    @PostMapping("/login")
+    public String loginUser(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            Model model
+    ) {
+        if (userService.loginUser(username, password)) {
+            logger.info("User {} logged in successfully", username);
+            return "redirect:/slots";
+        } else {
+            logger.warn("Failed login attempt for user {}", username);
+            model.addAttribute("error", "Invalid username or password");
+            return "login";
+        }
+    }
+
     @GetMapping("/logout")
     public String logout() {
         logger.info("User logged out");
