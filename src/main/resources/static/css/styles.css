@@ -1,12 +1,30 @@
 /* General Styles */
-body, html {
+
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: 'Merriweather', serif;
-    background-color: #fff;
-    color: #f9ba5bff;
+    background-color: #d4d3c0;
+    color: rgb(44, 33, 9);
     overflow-x: hidden;
 }
+
+main {
+    flex: 1;
+}
+
+/* Layout wrapper for sticky footer */
+.page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 
 h1, p {
     margin: 0;
@@ -210,7 +228,7 @@ h1, p {
 
 /* Main Content Styles */
 .main-content {
-    /*background: url('https://www.qiez.de/app/uploads/2019/03/chez-matthieu-qiez-910x511.jpg') no-repeat center center/cover;*/
+    /* background: url('https://www.qiez.de/app/uploads/2019/03/chez-matthieu-qiez-910x511.jpg') no-repeat center center/cover; */
     min-height: 100vh;
     position: relative;
 }
@@ -244,12 +262,16 @@ h1, p {
   }
 
 /*user slots*/
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+.user-slots {
+    background-color: #f9ba5b; /* Dark gold background */
+    color: #242424; /* Graphite text */
     padding: 20px;
-    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.user-slots h2 {
+    color: #242424; /* Graphite text */
+    margin-bottom: 15px;
 }
 
 h2 {
@@ -310,6 +332,7 @@ h2 {
 
 /* Footer Styles */
 footer {
+    flex-shrink: 0;
     background-color: #242424ff;
     color: #f9ba5bff;
     text-align: center;
@@ -319,42 +342,3 @@ footer {
 .footer-content p {
     margin: 0.5rem 0;
 }
-
-/* Responsive Styles */
-/*@media screen and (max-width: 600px) {
-    .overlay h1 {
-        font-size: 1.2rem;
-    }
-
-    .overlay p {
-        font-size: 0.9rem;
-        margin: 0.5rem;
-    }
-
-    .booking {
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
-        padding: 1rem;
-    }
-
-    .booking h2 {
-        font-size: 1.2rem;
-    }
-
-    .booking label, .booking input, .booking select {
-        width: 100%;
-        font-size: 0.9rem;
-    }
-
-    .booking button {
-        width: 100%;
-        font-size: 1rem;
-    }
-
-    .booking form {
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
-    }
-}*/

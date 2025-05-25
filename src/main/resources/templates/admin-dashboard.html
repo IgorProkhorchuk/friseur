@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+<div class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    <div class="admin-actions">
+        <a href="/admin" class="button">Add Date Range</a>
+        <a href="/view-appointments" class="button">View Appointments</a>
+        <a href="/manage-users" class="button">Manage Users</a>
+    </div>
+    <div class="admin-info">
+        <p>Welcome to the Admin Dashboard. Here you can manage date ranges, view appointments, and manage users.</p>
+    </div>
+    <div class="admin-appointments">
+        <h2>Upcoming Appointments</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="appointment : ${appointments}">
+                    <td th:text="${#temporals.format(appointment.date, 'dd MMM yyyy')}"></td>
+                    <td th:text="${#temporals.format(appointment.time, 'h:mm a')}"></td>
+                    <td th:text="${appointment.user.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

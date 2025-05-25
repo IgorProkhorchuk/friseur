@@ -10,6 +10,7 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
+    private int userId;
     private String clientName;
     private String serviceType;
     @OneToOne(mappedBy = "appointment")
@@ -17,8 +18,9 @@ public class Appointment {
     private LocalDateTime createdAt;
     private String appointmentStatus;
 
-    public Appointment(Long appointmentId, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, String appointmentStatus) {
+    public Appointment(Long appointmentId, int userId, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, String appointmentStatus) {
         this.appointmentId = appointmentId;
+        this.userId = userId;
         this.clientName = clientName;
         this.serviceType = serviceType;
         this.slot = slot;
@@ -75,5 +77,12 @@ public class Appointment {
 
     public void setAppointmentStatus(String appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

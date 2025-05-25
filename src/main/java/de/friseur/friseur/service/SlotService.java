@@ -1,7 +1,9 @@
 package de.friseur.friseur.service;
 
+import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.model.SlotStatus;
+import de.friseur.friseur.repository.AppointmentRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 public class SlotService {
     private static final Logger logger = LoggerFactory.getLogger(SlotService.class);
     private final SlotRepository slotRepository;
+    private final AppointmentRepository appointmentRepository;
 
 
-    public SlotService(SlotRepository slotRepository) {
+    public SlotService(SlotRepository slotRepository, AppointmentRepository appointmentRepository) {
+        this.appointmentRepository = appointmentRepository;
         this.slotRepository = slotRepository;
     }
 
@@ -58,20 +62,37 @@ public class SlotService {
         }
     }
 
-public boolean reserveSlot(LocalDateTime timeSlot) {
-    try {
-        logger.info("Reserving slot at {}", timeSlot);
-        Slot slot = slotRepository.findByTimeSlot(timeSlot);
-        if (slot == null) {
-            logger.warn("Slot not found at {}", timeSlot);
+public boolean reserveSlot(LocalDateTime timeSlot, int userId, String clientName, String serviceType) {
+        try {
+            logger.info("Reserving slot at {}", timeSlot);
+            Slot slot = slotRepository.findByTimeSlot(timeSlot);
+            if (slot == null) {
+                logger.warn("Slot not found at {}", timeSlot);
+                return false;
+            }
+
+            // 1. Create a new Appointment
+            Appointment newAppointment = new Appointment();
+            newAppointment.setUserId(userId);
+            newAppointment.setClientName(clientName);
+            newAppointment.setServiceType(serviceType);
+            newAppointment.setCreatedAt(LocalDateTime.now());
+            newAppointment.setAppointmentStatus("BOOKED"); // Or "PENDING" depending on your flow
+            newAppointment.setSlot(slot); // Set the slot for the appointment
+
+            // 2. Save the Appointment to get the generated ID
+            newAppointment = appointmentRepository.save(newAppointment);
+
+            // 3. Update the Slot with the new Appointment
+            slot.setSlotStatus(SlotStatus.RESERVED);
+            slot.setAppointment(newAppointment); // Link the appointment to the slot
+            slotRepository.save(slot);
+
+            logger.info("Slot at {} reserved and appointment created with ID {}", timeSlot, newAppointment.getAppointmentId());
+            return true;
+        } catch (Exception e) {
+            logger.error("Error while reserving slot at {}", timeSlot, e);
             return false;
         }
-        slot.setSlotStatus(SlotStatus.RESERVED);
-        slotRepository.save(slot);
-        return true;
-    } catch (Exception e) {
-        logger.error("Error while reserving slot at {}", timeSlot, e);
-        return false;
     }
-}
 }
