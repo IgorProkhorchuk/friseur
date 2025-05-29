@@ -16,9 +16,10 @@ public class Appointment {
     @OneToOne(mappedBy = "appointment")
     private Slot slot;
     private LocalDateTime createdAt;
-    private String appointmentStatus;
+    @Enumerated(EnumType.ORDINAL)
+    private AppointmentStatus appointmentStatus;
 
-    public Appointment(Long appointmentId, int userId, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, String appointmentStatus) {
+    public Appointment(Long appointmentId, int userId, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, AppointmentStatus appointmentStatus) {
         this.appointmentId = appointmentId;
         this.userId = userId;
         this.clientName = clientName;
@@ -71,11 +72,11 @@ public class Appointment {
         this.createdAt = createdAt;
     }
 
-    public String getAppointmentStatus() {
+    public AppointmentStatus getAppointmentStatus() {
         return appointmentStatus;
     }
 
-    public void setAppointmentStatus(String appointmentStatus) {
+    public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
     }
 
