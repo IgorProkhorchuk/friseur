@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,8 +53,12 @@ public class HomeController {
     }
 
 @PostMapping("/slots")
-public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timeSlot, Model model) {
-    boolean savedSlot = slotService.reserveSlot(timeSlot);
+public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timeSlot,  Model model) {
+
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    int userID = repository.findByUsername(username).orElseThrow().getUserId();
+
+    boolean savedSlot = slotService.reserveSlot(timeSlot, userID, username, "Haircut");
     if (savedSlot) {
         model.addAttribute("message", "Slot reserved successfully");
     } else {
