@@ -1,6 +1,7 @@
 package de.friseur.friseur.service;
 
 import de.friseur.friseur.model.Appointment;
+import de.friseur.friseur.model.AppointmentStatus;
 import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.model.SlotStatus;
 import de.friseur.friseur.repository.AppointmentRepository;
@@ -62,7 +63,7 @@ public class SlotService {
         }
     }
 
-public boolean reserveSlot(LocalDateTime timeSlot, int userId, String clientName, String serviceType) {
+public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, String serviceType) {
         try {
             logger.info("Reserving slot at {}", timeSlot);
             Slot slot = slotRepository.findByTimeSlot(timeSlot);
@@ -74,10 +75,10 @@ public boolean reserveSlot(LocalDateTime timeSlot, int userId, String clientName
             // 1. Create a new Appointment
             Appointment newAppointment = new Appointment();
             newAppointment.setUserId(userId);
-            newAppointment.setClientName(clientName);
+            newAppointment.setClientName(username);
             newAppointment.setServiceType(serviceType);
             newAppointment.setCreatedAt(LocalDateTime.now());
-            newAppointment.setAppointmentStatus("BOOKED"); // Or "PENDING" depending on your flow
+            newAppointment.setAppointmentStatus(AppointmentStatus.UPCOMING);
             newAppointment.setSlot(slot); // Set the slot for the appointment
 
             // 2. Save the Appointment to get the generated ID
