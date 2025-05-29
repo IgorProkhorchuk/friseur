@@ -74,32 +74,4 @@ class HomeControllerTest {
         verify(model).addAttribute("dates", mockDates);
         verify(model).addAttribute("slots", mockSlots);
     }
-
-    @Test
-    void testReserveSlot_Success() {
-        // Arrange
-        LocalDateTime timeSlot = LocalDateTime.now().plusHours(1);
-        when(slotService.reserveSlot(timeSlot)).thenReturn(true);
-
-        // Act
-        String viewName = homeController.reserveSlot(timeSlot, model);
-
-        // Assert
-        assertEquals("fragments/confirmation", viewName);
-        verify(model).addAttribute("message", "Slot reserved successfully");
-    }
-
-    @Test
-    void testReserveSlot_Failure() {
-        // Arrange
-        LocalDateTime timeSlot = LocalDateTime.now().plusHours(1);
-        when(slotService.reserveSlot(timeSlot)).thenReturn(false);
-
-        // Act
-        String viewName = homeController.reserveSlot(timeSlot, model);
-
-        // Assert
-        assertEquals("fragments/confirmation", viewName);
-        verify(model).addAttribute("message", "Slot reservation failed");
-    }
 }

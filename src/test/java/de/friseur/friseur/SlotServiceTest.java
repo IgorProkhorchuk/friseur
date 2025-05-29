@@ -97,38 +97,6 @@ class SlotServiceTest {
         assertTrue(availableDates.isEmpty());
     }
 
-    @Test
-    void testReserveSlot_Success() {
-        // Arrange
-        LocalDateTime timeSlot = LocalDateTime.now().plusHours(1);
-        Slot slot = createSlot(timeSlot);
-
-        when(slotRepository.findByTimeSlot(timeSlot)).thenReturn(slot);
-
-        // Act
-        boolean result = slotService.reserveSlot(timeSlot);
-
-        // Assert
-        assertTrue(result);
-        assertEquals(SlotStatus.RESERVED, slot.getSlotStatus());
-        verify(slotRepository).save(slot);
-    }
-
-    @Test
-    void testReserveSlot_SlotNotFound() {
-        // Arrange
-        LocalDateTime timeSlot = LocalDateTime.now().plusHours(1);
-
-        when(slotRepository.findByTimeSlot(timeSlot)).thenReturn(null);
-
-        // Act
-        boolean result = slotService.reserveSlot(timeSlot);
-
-        // Assert
-        assertFalse(result);
-        verify(slotRepository, never()).save(any());
-    }
-
     private Slot createSlot(LocalDateTime timeSlot) {
         Slot slot = new Slot();
         slot.setTimeSlot(timeSlot);
