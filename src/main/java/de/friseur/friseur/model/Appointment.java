@@ -10,7 +10,11 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
-    private int userId;
+
+    @ManyToOne(fetch = FetchType.LAZY) // Many appointments can belong to one user
+    @JoinColumn(name = "user_id") // This will be the foreign key column in the 'appointment' table
+    private User user; // Reference to the User entity
+
     private String clientName;
     private String serviceType;
     @OneToOne(mappedBy = "appointment")
@@ -19,9 +23,9 @@ public class Appointment {
     @Enumerated(EnumType.ORDINAL)
     private AppointmentStatus appointmentStatus;
 
-    public Appointment(Long appointmentId, int userId, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, AppointmentStatus appointmentStatus) {
+    public Appointment(Long appointmentId, User user, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, AppointmentStatus appointmentStatus) {
         this.appointmentId = appointmentId;
-        this.userId = userId;
+        this.user = user; // Use the User object
         this.clientName = clientName;
         this.serviceType = serviceType;
         this.slot = slot;
@@ -80,10 +84,11 @@ public class Appointment {
         this.appointmentStatus = appointmentStatus;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() { // Getter for User
+        return user;
     }
-    public void setUserId(int userId) {
-        this.userId = userId;
+
+    public void setUser(User user) { // Setter for User
+        this.user = user;
     }
 }

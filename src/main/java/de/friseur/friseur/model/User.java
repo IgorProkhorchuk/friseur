@@ -15,7 +15,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    // Ensure usernames are unique, disable once email verification is implemented
     @Column(unique = true, name = "user_name")
     private String username;
 
@@ -28,14 +27,13 @@ public class User implements UserDetails {
     @NotNull
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER) // Store roles in a separate table
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "userId"))
     @Column(name = "role")
     private Set<String> roles = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name = "appointmentId")
-    private Set<Appointment> appointment;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true) // 'user' is the field in Appointment that owns the relationship
+    private Set<Appointment> appointment = new HashSet<>(); // Initialize to prevent NullPointerExceptions
 
     public User() {
     }

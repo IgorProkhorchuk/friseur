@@ -4,8 +4,10 @@ import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.model.AppointmentStatus;
 import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.model.SlotStatus;
+import de.friseur.friseur.model.User;
 import de.friseur.friseur.repository.AppointmentRepository;
 import de.friseur.friseur.repository.SlotRepository;
+import de.friseur.friseur.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,12 @@ public class SlotService {
     private static final Logger logger = LoggerFactory.getLogger(SlotService.class);
     private final SlotRepository slotRepository;
     private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository; // Inject UserRepository
 
-
-    public SlotService(SlotRepository slotRepository, AppointmentRepository appointmentRepository) {
+    public SlotService(SlotRepository slotRepository, AppointmentRepository appointmentRepository, UserRepository userRepository) {
         this.appointmentRepository = appointmentRepository;
         this.slotRepository = slotRepository;
+        this.userRepository = userRepository; // Initialize UserRepository
     }
 
     public List<LocalDateTime> getAllAvailableSlots() {
@@ -36,9 +39,9 @@ public class SlotService {
             List<Slot> availableSlots = slotRepository.findAllAvailableSlots(today, SlotStatus.AVAILABLE);
 
             return availableSlots.stream()
-                    .map(Slot::getTimeSlot)  // Get the time slot
-                    .sorted()  // Sort in natural (chronological) order
-                    .collect(Collectors.toList());  // Collect as a list of LocalDateTime
+                    .map(Slot::getTimeSlot)
+                    .sorted()
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             logger.error("Error while getting available slots", e);
             return Collections.emptyList();
@@ -52,11 +55,11 @@ public class SlotService {
             List<Slot> availableSlots = slotRepository.findAllAvailableSlots(now, SlotStatus.AVAILABLE);
 
             return availableSlots.stream()
-                    .map(Slot::getTimeSlot)  // Get the time slot
-                    .map(LocalDateTime::toLocalDate)  // Convert to LocalDate
-                    .distinct()  // Remove duplicates
-                    .sorted()  // Sort in natural (chronological) order
-                    .toList();  // Collect as a list of LocalDate
+                    .map(Slot::getTimeSlot)
+                    .map(LocalDateTime::toLocalDate)
+                    .distinct()
+                    .sorted()
+                    .toList();
         } catch (NullPointerException e) {
             logger.error("NullPointerException caught while getting available dates", e);
             return List.of();
@@ -72,21 +75,29 @@ public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, 
                 return false;
             }
 
+            // Fetch the User entity
+            User user = userRepository.findById(userId)
+                                       .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+
             // 1. Create a new Appointment
             Appointment newAppointment = new Appointment();
-            newAppointment.setUserId(userId);
+            newAppointment.setUser(user); // Set the User object
             newAppointment.setClientName(username);
             newAppointment.setServiceType(serviceType);
             newAppointment.setCreatedAt(LocalDateTime.now());
             newAppointment.setAppointmentStatus(AppointmentStatus.UPCOMING);
-            newAppointment.setSlot(slot); // Set the slot for the appointment
+            newAppointment.setSlot(slot);
 
             // 2. Save the Appointment to get the generated ID
             newAppointment = appointmentRepository.save(newAppointment);
 
-            // 3. Update the Slot with the new Appointment
+            // 3. Add the new appointment to the user's appointments set
+            user.getAppointment().add(newAppointment);
+            userRepository.save(user); // Save the user to update the relationship
+
+            // 4. Update the Slot with the new Appointment
             slot.setSlotStatus(SlotStatus.RESERVED);
-            slot.setAppointment(newAppointment); // Link the appointment to the slot
+            slot.setAppointment(newAppointment);
             slotRepository.save(slot);
 
             logger.info("Slot at {} reserved and appointment created with ID {}", timeSlot, newAppointment.getAppointmentId());
