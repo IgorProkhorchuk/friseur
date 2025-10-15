@@ -5,8 +5,8 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Merriweather', serif;
-    background-color: #d4d3c0;
-    color: rgb(44, 33, 9);
+    background-color: #242424ff;
+    color: #d4d3c0;
     overflow-x: hidden;
 }
 
@@ -194,14 +194,14 @@ h1, p {
 .submit-button {
     margin: 20px;
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #333333;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 .submit-button:hover {
-    background-color: #45a049;
+    background-color: #4d4c4c;
 }
 
 .success-message {
