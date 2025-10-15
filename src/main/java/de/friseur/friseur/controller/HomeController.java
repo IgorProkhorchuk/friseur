@@ -1,12 +1,15 @@
 package de.friseur.friseur.controller;
 
+import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.repository.UserRepository;
+import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.SlotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,8 @@ public class HomeController {
     UserRepository repository;
     @Autowired
     private SlotService slotService;
+    @Autowired
+    private AppointmentService appointmentService;
 
     @GetMapping("/")
     public String home() {
@@ -66,5 +71,20 @@ public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-
     }
     return "fragments/confirmation";
 }
+
+    @GetMapping("/user-dashboard")
+    public String userDashboard(Model model, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login"; // Should be handled by security config,
+        }
+        String username = authentication.getName();
+        List<Appointment> userAppointments = appointmentService.getUpcomingAppointmentsForUser(username);
+
+        model.addAttribute("userAppointments", userAppointments);
+        model.addAttribute("pageTitle", "My Dashboard");
+        return "user-dashboard";
+    }
+
+
 
 }
