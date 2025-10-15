@@ -12,5 +12,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             LocalDateTime timeSlot,
             AppointmentStatus appointmentStatus
     );
-}
 
+    // This method is used by AppointmentServiceImpl to get upcoming appointments for a user
+    List<Appointment> findByUser_UsernameAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
+            String username,
+            AppointmentStatus status,
+            LocalDateTime dateTime
+    );
+}
