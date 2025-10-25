@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user/appointments") // Base path for user appointment actions
@@ -23,6 +21,21 @@ public class UserAppointmentController {
     public UserAppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
+
+    @GetMapping("/dashboard")
+    public String showUserDashboard(Authentication authentication, Model model) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        String username = authentication.getName();
+        // Fetch upcoming appointments for logged-in user
+        var appointments = appointmentService.getUpcomingAppointmentsForUser(username);
+        model.addAttribute("appointments", appointments);
+
+        return "dashboard"; // Name of Thymeleaf template
+    }
+
 
     @PostMapping("/cancel/{appointmentId}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long appointmentId,
@@ -94,6 +107,7 @@ public class UserAppointmentController {
     }
 
     private boolean isHtmxRequest(String hxRequestHeader) {
-        return "true".equals(hxRequestHeader);
+        return hxRequestHeader != null && hxRequestHeader.equalsIgnoreCase("true");
     }
+
 }
