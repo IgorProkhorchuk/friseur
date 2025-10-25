@@ -72,19 +72,4 @@ public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-
     return "fragments/confirmation";
 }
 
-    @GetMapping("/user-dashboard")
-    public String userDashboard(Model model, Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login"; // Should be handled by security config,
-        }
-        String username = authentication.getName();
-        List<Appointment> userAppointments = appointmentService.getUpcomingAppointmentsForUser(username);
-
-        model.addAttribute("userAppointments", userAppointments);
-        model.addAttribute("pageTitle", "My Dashboard");
-        return "user-dashboard";
-    }
-
-
-
 }
