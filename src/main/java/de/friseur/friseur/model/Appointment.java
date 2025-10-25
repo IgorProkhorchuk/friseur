@@ -13,14 +13,14 @@ public class Appointment {
 
     @ManyToOne(fetch = FetchType.LAZY) // Many appointments can belong to one user
     @JoinColumn(name = "user_id") // This will be the foreign key column in the 'appointment' table
-    private User user; // Reference to the User entity
+    private User user;
 
     private String clientName;
     private String serviceType;
     @OneToOne(mappedBy = "appointment")
     private Slot slot;
     private LocalDateTime createdAt;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
 
     public Appointment(Long appointmentId, User user, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, AppointmentStatus appointmentStatus) {
