@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<h1>Welcome to Your Dashboard</h1>
+<h2>Your Upcoming Appointments</h2>
+
+<table border="1">
+    <tr>
+        <th>Service</th>
+        <th>Date & Time</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="appointment : ${appointments}" th:id="'appointment-' + ${appointment.appointmentId}">
+        <td th:text="${appointment.serviceType}"></td>
+        <td th:text="${#temporals.format(appointment.slot.timeSlot, 'dd MMM yyyy HH:mm')}"></td>
+        <td th:text="${appointment.appointmentStatus}"></td>
+        <td>
+            <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}"
+                  method="post"
+                  hx-post="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}"
+                  hx-target="closest tr"
+                  hx-swap="outerHTML">
+                <button type="submit">Cancel</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>
