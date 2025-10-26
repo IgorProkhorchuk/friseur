@@ -11,7 +11,7 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
     private LocalDateTime timeSlot;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private SlotStatus slotStatus;
     @OneToOne
     @JoinColumn(name = "appointmentId")
