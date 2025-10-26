@@ -80,6 +80,12 @@ public class ScheduleController {
                     "Error saving timeslots: " + e.getMessage());
         }
 
-return "redirect:/success";
+        return "redirect:/success";
     }
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "admin-dashboard";
+    }
+
 }
