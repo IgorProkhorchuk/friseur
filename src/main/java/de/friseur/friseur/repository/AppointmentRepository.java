@@ -2,6 +2,7 @@ package de.friseur.friseur.repository;
 
 import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.model.AppointmentStatus;
+import de.friseur.friseur.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -19,4 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             AppointmentStatus status,
             LocalDateTime dateTime
     );
+
+    List<Appointment> findByUser(User user);
+
 }
