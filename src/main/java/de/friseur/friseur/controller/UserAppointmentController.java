@@ -33,7 +33,7 @@ public class UserAppointmentController {
         var appointments = appointmentService.getUpcomingAppointmentsForUser(username);
         model.addAttribute("appointments", appointments);
 
-        return "dashboard"; // Name of Thymeleaf template
+        return "dashboard";
     }
 
 
@@ -71,7 +71,7 @@ public class UserAppointmentController {
                 // For standard form submissions (noscript fallback), redirect to the dashboard.
                 // A query parameter can optionally indicate success.
                 return ResponseEntity.status(HttpStatus.FOUND)
-                                     .header("Location", "/user-dashboard?cancelSuccess=true")
+                                     .header("Location", "/user/appointments/dashboard?cancelSuccess=true")
                                      .build();
             }
         } catch (AppointmentNotFoundException e) {
@@ -82,7 +82,7 @@ public class UserAppointmentController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Appointment not found.");
             } else {
                 return ResponseEntity.status(HttpStatus.FOUND)
-                                     .header("Location", "/user-dashboard?error=notFound")
+                                     .header("Location", "/user/appointments/dashboard?error=notFound")
                                      .build();
             }
         } catch (UnauthorizedCancelException e) {
@@ -91,7 +91,7 @@ public class UserAppointmentController {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to cancel this appointment.");
             } else {
                 return ResponseEntity.status(HttpStatus.FOUND)
-                                     .header("Location", "/user-dashboard?error=unauthorized")
+                                     .header("Location", "/user/appointments/dashboard?error=unauthorized")
                                      .build();
             }
         } catch (Exception e) {
@@ -100,7 +100,7 @@ public class UserAppointmentController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
             } else {
                 return ResponseEntity.status(HttpStatus.FOUND)
-                                     .header("Location", "/user-dashboard?error=generic")
+                                     .header("Location", "/user/appointments/dashboard?error=generic")
                                      .build();
             }
         }
