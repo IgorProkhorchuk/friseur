@@ -7,29 +7,38 @@
 <h1>Welcome to Your Dashboard</h1>
 <h2>Your Upcoming Appointments</h2>
 
-<table border="1">
-    <tr>
-        <th>Service</th>
-        <th>Date & Time</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
+<!-- Check if the user has any appointments -->
+<div th:if="${#lists.isEmpty(appointments)}" class="no-appointments">
+    <p>You have no booked slots yet.</p>
+    <a th:href="@{/slots}">
+        <button type="button">Book a Slot</button>
+    </a>
+</div>
 
-    <tr th:each="appointment : ${appointments}" th:id="'appointment-' + ${appointment.appointmentId}">
-        <td th:text="${appointment.serviceType}"></td>
-        <td th:text="${#temporals.format(appointment.slot.timeSlot, 'dd MMM yyyy HH:mm')}"></td>
-        <td th:text="${appointment.appointmentStatus}"></td>
-        <td>
-            <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}"
-                  method="post"
-                  hx-post="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}"
-                  hx-target="closest tr"
-                  hx-swap="outerHTML">
-                <button type="submit">Cancel</button>
-            </form>
-        </td>
-    </tr>
-</table>
+<!-- Show appointments table if there are any -->
+<div th:if="${!#lists.isEmpty(appointments)}">
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="appointment : ${appointments}">
+            <td th:text="${appointment.serviceType}"></td>
+            <td th:text="${#temporals.format(appointment.slot.timeSlot, 'dd MMM yyyy HH:mm')}"></td>
+            <td th:text="${appointment.appointmentStatus}"></td>
+            <td>
+                <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}" method="post">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button type="submit">Cancel</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+
 <footer th:replace="~{base :: footer}"></footer>
 </body>
 </html>
