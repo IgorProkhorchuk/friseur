@@ -33,6 +33,7 @@ public class SecurityConfig {
                                 .requestMatchers("/home").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/create-schedule").hasRole("ADMIN")
+                                .requestMatchers("/admin-dashboard").hasRole("ADMIN")
                                 .requestMatchers("/shop").permitAll()
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/slots").permitAll()
