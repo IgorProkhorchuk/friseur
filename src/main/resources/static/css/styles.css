@@ -342,3 +342,24 @@ footer {
 .footer-content p {
     margin: 0.5rem 0;
 }
+/*style no appointments on the dashboard.html*/
+.no-appointments {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+}
+
+.no-appointments button {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.no-appointments button:hover {
+    background-color: #0056b3;
+}
