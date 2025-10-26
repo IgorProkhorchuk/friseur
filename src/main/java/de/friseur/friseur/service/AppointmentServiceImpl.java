@@ -79,7 +79,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (slot != null) {
             slot.setSlotStatus(SlotStatus.AVAILABLE);
             slot.setAppointment(null); // Unlink appointment from slot
+            appointment.setSlot(null); // check one more time if I really need this
             slotRepository.save(slot);
+
         }
         log.info("Successfully cancelled appointment ID: {} for user: {}", appointmentId, username);
     }
