@@ -62,5 +62,14 @@
 </footer>
 </div>
 <!-- <script th:src="@{/js/script.js}" src="/js/script.js"></script> -->
+<script>
+    document.body.addEventListener('htmx:configRequest', function(evt) {
+        var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        var csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+        if (csrfToken && csrfHeader) {
+            evt.detail.headers[csrfHeader] = csrfToken;
+        }
+    });
+</script>
 </body>
 </html>
