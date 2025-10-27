@@ -6,5 +6,6 @@ public enum SlotStatus {
     RESERVED,
     PAID,
     CANCELLED,
-    CLOSED
+    CLOSED,
+    HIDDEN
 }
