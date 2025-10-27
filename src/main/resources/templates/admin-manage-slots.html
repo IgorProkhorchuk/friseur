@@ -6,46 +6,61 @@
 
 <main class="admin-panel">
     <h1>Manage Slots</h1>
-    <p>Here you can temporarily hide or unhide available timeslots. Hidden slots are not visible to clients.</p>
+    <p>Click on a date to view or manage its slots. Hidden slots are not visible to clients.</p>
 
-    <div th:if="${error}" class="error-message" th:text="${error}"></div>
-    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+    <div th:if="${#maps.isEmpty(groupedSlots)}">
+        <p>No slots available.</p>
+    </div>
 
-    <table>
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="slot : ${slots}">
-            <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
-            <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
-            <td th:text="${slot.slotStatus}"></td>
-            <td>
-                <form th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}" method="post" style="display:inline;">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-                    <button type="submit"
-                            th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
-                            th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? 'unhide-btn' : 'hide-btn'}">
-                    </button>
-                </form>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(slots)}">
-            <td colspan="4">No slots available.</td>
-        </tr>
-        </tbody>
-    </table>
+    <div th:unless="${#maps.isEmpty(groupedSlots)}" class="accordion-container">
+        <div th:each="entry : ${groupedSlots}">
+            <div class="accordion-item">
+                <button class="accordion-header"
+                        th:text="${#temporals.format(entry.key, 'EEEE, dd MMM yyyy')}"
+                        type="button"
+                        onclick="toggleAccordion(this)">
+                </button>
+
+                <div class="accordion-content">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="slot : ${entry.value}">
+                            <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
+                            <td th:text="${slot.slotStatus}"></td>
+                            <td>
+                                <form th:if="${slot.slotStatus.name() != 'RESERVED'}"
+                                      th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}"
+                                      method="post" style="display:inline;">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                    <button type="submit"
+                                            th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
+                                            th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? 'unhide-btn' : 'hide-btn'}">
+                                    </button>
+                                </form>
+                                <span th:if="${slot.slotStatus.name() == 'RESERVED'}">—</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <br>
     <a href="/admin/dashboard" class="button">⬅ Back to Dashboard</a>
 </main>
 
 <footer th:replace="~{base :: footer}"></footer>
+
+<script th:src="@{/js/admin-manage-slots.js}"></script>
 
 </body>
 </html>
