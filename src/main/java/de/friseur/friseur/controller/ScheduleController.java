@@ -1,6 +1,7 @@
 package de.friseur.friseur.controller;
 
 import de.friseur.friseur.model.Schedule;
+import de.friseur.friseur.model.SlotStatus;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import de.friseur.friseur.service.ScheduleService;
@@ -86,6 +87,48 @@ public class ScheduleController {
     @GetMapping("/admin/dashboard")
     public String adminDashboard() {
         return "admin-dashboard";
+    }
+
+    @GetMapping("/admin/booked")
+    public String viewBookedSlots(Model model) {
+        var bookedSlots = slotRepository.findAll()
+                .stream()
+                .filter(slot -> slot.getSlotStatus().toString().equals("RESERVED"))
+                .toList();
+        model.addAttribute("bookedSlots", bookedSlots);
+        return "admin-booked";
+    }
+
+    @GetMapping("/admin/schedule/all")
+    public String viewAllSlots(Model model) {
+        var allSlots = slotRepository.findAll();
+        model.addAttribute("slots", allSlots);
+        return "admin-schedule-all";
+    }
+
+    @GetMapping("/admin/slots/manage")
+    public String manageSlots(Model model) {
+        var slots = slotRepository.findAll();
+        model.addAttribute("slots", slots);
+        return "admin-manage-slots";
+    }
+
+    @PostMapping("/admin/slots/toggle/{id}")
+    public String toggleSlot(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        var slot = slotRepository.findById(id).orElse(null);
+        if (slot == null) {
+            redirectAttributes.addFlashAttribute("error", "Slot not found");
+            return "redirect:/admin/slots/manage";
+        }
+
+        if (slot.getSlotStatus() == SlotStatus.AVAILABLE) {
+            slot.setSlotStatus(SlotStatus.HIDDEN);
+        } else if (slot.getSlotStatus() == SlotStatus.HIDDEN) {
+            slot.setSlotStatus(SlotStatus.AVAILABLE);
+        }
+
+        slotRepository.save(slot);
+        return "redirect:/admin/slots/manage";
     }
 
 }
