@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<main class="admin-panel">
+    <h1>Manage Slots</h1>
+    <p>Here you can temporarily hide or unhide available timeslots. Hidden slots are not visible to clients.</p>
+
+    <div th:if="${error}" class="error-message" th:text="${error}"></div>
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="slot : ${slots}">
+            <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
+            <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
+            <td th:text="${slot.slotStatus}"></td>
+            <td>
+                <form th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}" method="post" style="display:inline;">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <button type="submit"
+                            th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
+                            th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? 'unhide-btn' : 'hide-btn'}">
+                    </button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(slots)}">
+            <td colspan="4">No slots available.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/admin/dashboard" class="button">⬅ Back to Dashboard</a>
+</main>
+
+<footer th:replace="~{base :: footer}"></footer>
+
+</body>
+</html>

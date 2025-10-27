@@ -1,0 +1,67 @@
+main.admin-panel {
+        margin: 2rem auto;
+        max-width: 800px;
+        font-family: 'Merriweather', serif;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f5f5f5;
+    }
+
+    button {
+        padding: 0.4rem 0.8rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .hide-btn {
+        background-color: #e74c3c; /* red */
+    }
+
+    .hide-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .unhide-btn {
+        background-color: #27ae60; /* green */
+    }
+
+    .unhide-btn:hover {
+        background-color: #1e8449;
+    }
+
+    .button {
+        text-decoration: none;
+        background-color: #3498db;
+        color: white;
+        padding: 0.6rem 1rem;
+        border-radius: 5px;
+    }
+
+    .button:hover {
+        background-color: #2e86c1;
+    }
+
+    .success-message {
+        color: green;
+        margin-bottom: 1rem;
+    }
+
+    .error-message {
+        color: red;
+        margin-bottom: 1rem;
+    }
