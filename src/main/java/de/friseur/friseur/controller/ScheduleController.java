@@ -1,6 +1,7 @@
 package de.friseur.friseur.controller;
 
 import de.friseur.friseur.model.Schedule;
+import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.model.SlotStatus;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
@@ -13,8 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
@@ -109,9 +114,16 @@ public class ScheduleController {
     @GetMapping("/admin/slots/manage")
     public String manageSlots(Model model) {
         var slots = slotRepository.findAll();
-        model.addAttribute("slots", slots);
+
+        // Group by LocalDate
+        Map<LocalDate, List<Slot>> grouped = slots.stream()
+                .collect(Collectors.groupingBy(slot -> slot.getTimeSlot().toLocalDate(),
+                        TreeMap::new, Collectors.toList()));
+
+        model.addAttribute("groupedSlots", grouped);
         return "admin-manage-slots";
     }
+
 
     @PostMapping("/admin/slots/toggle/{id}")
     public String toggleSlot(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
