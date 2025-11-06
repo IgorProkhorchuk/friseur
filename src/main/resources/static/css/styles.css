@@ -42,10 +42,70 @@ h1, p {
     margin-bottom: 0.5rem;
 }
 
-.login-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+.auth-form {
+    margin: 0;
+    display: flex;
+}
+
+.auth-icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.auth-icon-button svg {
+    width: 28px;
+    height: 28px;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.auth-icon-button:hover {
+    background-color: #f9ba5bff;
+}
+
+.auth-icon-button:hover svg {
+    fill: #242424ff;
+    stroke: #242424ff;
+}
+
+.panel .auth-link {
+    text-decoration: none;
+    padding: 0.25rem;
+    color: inherit;
+}
+
+.panel .auth-link:hover {
+    color: inherit;
+}
+
+.panel .auth-link svg {
+    fill: none;
+    stroke: #f9ba5bff;
+}
+
+.auth-form .auth-icon-button svg {
+    fill: none;
+    stroke: #f9ba5bff;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .navbar-buttons {

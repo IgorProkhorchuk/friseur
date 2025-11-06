@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,21 +23,29 @@
                 <img th:src="@{/images/logo.svg}" alt="FrisÖr Logo">
             </div>
             <div class="salon-name">FriSÖr</div>
-            <form th:action="@{/logout}" method="post">
-            <button class="login-button" type="submit">
-                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="7" r="4" fill="#ffffff"/>
-                    <path d="M12 13c-4 0-7 2.5-7 5.5v1c0 .5.5 1 1 1h12c.5 0 1-.5 1-1v-1c0-3-3-5.5-7-5.5z" fill="#ffffff"/>
-                </svg>
-                Logout
-            </button>
-            </form>
         </nav>
         <nav class="navbar-buttons">
             <div class="panel">
                 <a href="/">Home</a>
                 <a href="/user/appointments/dashboard">My slots</a>
-                <a href="/shop">Shop</a>
+                <a class="auth-icon-button auth-link" th:href="@{/login}" sec:authorize="!isAuthenticated()" aria-label="Login">
+                    <span class="sr-only">Login</span>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3 12h11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 8l4 4-4 4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <form class="auth-form" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                    <button class="auth-icon-button" type="submit" aria-label="Logout">
+                        <span class="sr-only">Logout</span>
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12H10" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 8l-4 4 4 4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </form>
             </div>
         </nav>
     </div>
