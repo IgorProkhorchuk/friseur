@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+<main>
+  <h2>All Schedule (All Slots)</h2>
+  <table>
+    <tr><th>Date</th><th>Time</th><th>Status</th></tr>
+    <tr th:each="slot : ${slots}">
+      <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
+      <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
+      <td th:text="${slot.slotStatus}"></td>
+    </tr>
+  </table>
+</main>
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

@@ -1,3 +1,18 @@
-<div id="message">
+<div id="message" xmlns:th="http://www.w3.org/1999/xhtml">
+
     <p th:text="${message}"></p>
 </div>
+<p id="countdown">Redirecting in <span id="seconds">3</span> seconds...</p>
+<script>
+    let seconds = 3;
+    const countdownElem = document.getElementById('seconds');
+    const interval = setInterval(function() {
+        seconds--;
+        countdownElem.textContent = seconds;
+        if (seconds <= 0) {
+            clearInterval(interval);
+            window.location.href = "/user/appointments/dashboard";
+        }
+    }, 1000);
+</script>
+

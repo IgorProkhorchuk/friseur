@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+<main>
+    <h2>Booked Slots</h2>
+    <table>
+        <tr><th>Date</th><th>Time</th><th>Client</th><th>Contact</th></tr>
+        <tr th:each="slot : ${bookedSlots}">
+            <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
+            <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
+            <td th:text="${slot.appointment?.user?.username} ?: '—'"></td>
+            <td th:text="${slot.appointment?.user?.email} ?: '—'"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(bookedSlots)}">
+            <td colspan="4">No booked slots yet.</td>
+        </tr>
+    </table>
+</main>
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

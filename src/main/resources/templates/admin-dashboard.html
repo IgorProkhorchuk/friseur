@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<main class="admin-dashboard">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome to the admin control panel. Choose an action below:</p>
+
+    <div class="admin-actions">
+        <a href="/admin/booked" class="button">📅 View Booked Slots</a>
+        <a href="/admin/schedule/all" class="button">🗓 View Full Schedule</a>
+        <a href="/admin" class="button">➕ Add New Date Range</a>
+        <a href="/admin/slots/manage" class="button">⚙️ Modify Existing Slots</a>
+    </div>
+</main>
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

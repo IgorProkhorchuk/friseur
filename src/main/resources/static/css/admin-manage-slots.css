@@ -1,0 +1,82 @@
+  main.admin-panel {
+        margin: 2rem auto;
+        max-width: 900px;
+        font-family: 'Merriweather', serif;
+    }
+
+    .accordion-header {
+        background-color: #3498db;
+        color: white;
+        cursor: pointer;
+        padding: 0.8rem 1rem;
+        width: 100%;
+        border: none;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        margin-top: 0.4rem;
+        transition: background-color 0.2s;
+    }
+
+    .accordion-header:hover {
+        background-color: #2e86c1;
+    }
+
+    .accordion-header.active {
+        background-color: #1f618d;
+    }
+
+    .accordion-content {
+        background: #f8f9fa;
+        border: 1px solid #ddd;
+        border-top: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0 0 6px 6px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5rem;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    button.hide-btn {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.3rem 0.8rem;
+        cursor: pointer;
+    }
+
+    button.unhide-btn {
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 0.3rem 0.8rem;
+        cursor: pointer;
+    }
+
+    .button {
+        text-decoration: none;
+        background-color: #3498db;
+        color: white;
+        padding: 0.6rem 1rem;
+        border-radius: 5px;
+    }
+
+    .button:hover {
+        background-color: #2e86c1;
+    }

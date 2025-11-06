@@ -358,3 +358,53 @@ footer {
         margin: 0 auto;
     }
 }*/
+
+/* Accordion styles for slots page */
+.accordion-container {
+    margin-top: 20px;
+}
+
+.accordion-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+/* Header for each accordion. We reuse the font size and weight from .date-header */
+.accordion-header {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 15px 0;
+    padding: 10px;
+    cursor: pointer;
+    color: #333333;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-header:hover {
+    background-color: #e0e0e0;
+}
+
+/* Hidden checkbox used to control the open/closed state */
+.accordion-toggle {
+    display: none;
+}
+
+/* The content area is hidden by default */
+.accordion-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    padding: 0 10px;
+}
+
+/* When the checkbox is checked, reveal the content */
+.accordion-toggle:checked + .accordion-header + .accordion-content {
+    max-height: 2000px; /* sufficiently large to display content */
+    opacity: 1;
+    padding-bottom: 15px;
+}

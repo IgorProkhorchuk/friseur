@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}">
+  <title>Login-page</title>
+</head>
+<body>
+<header th:replace="~{base :: header}"></header>
+<h2>Login</h2>
+<div th:fragment="mainContent">
+  
+<form th:action="@{/login}" method="post">
+  <!-- CSRF Token -->
+  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+  <label for="username">Username:</label>
+  <input type="text" id="username" name="username" required />
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required />
+
+  <label>
+    <input type="checkbox" name="remember-me" />
+    Remember Me
+  </label>
+
+  <button type="submit">Login</button>
+
+  <p th:if="${param.error}">Invalid username or password.</p>
+  <p th:if="${param.expired}">Your session has expired. Please log in again.</p>
+  <p th:if="${param.logout}">You have been logged out.</p>
+</form>
+
+<p>
+  Don't have an account? <a th:href="@{/register}">Register here</a>.
+</p>
+</div>
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>

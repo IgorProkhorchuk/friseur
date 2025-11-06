@@ -4,26 +4,43 @@
 <body>
 <h2>Available Slots</h2>
 
-<th:block th:each="date : ${dates}">
-    <h3 class="date-header" th:text="${#temporals.format(date, 'EEEE dd MMMM')}">date</h3>
-    <form th:action="@{/slots}" method="post">
-    <div class="slot-container">
-    <th:block th:each="slot : ${slots}">
-        <div th:if="${slot.toLocalDate()} == ${date}">
-            <label class="timeslot">
-                <input type="radio"
-                       name="slot"
-                       th:value="${#temporals.format(slot, 'yyyy-MM-dd HH:mm:ss')}"
-                       th:checked="${savedSlots != null and #lists.contains(savedSlots, slot)}" />
-                <span th:text="${#temporals.format(slot, 'h:mm a')}">slot</span>
+<!--
+    Render each date as an accordion item. When the header is clicked the
+    associated timeslots become visible. A hidden checkbox is used to
+    control the open/closed state purely with CSS (no JavaScript required).
+ -->
+<div class="accordion-container">
+    <th:block th:each="date, iterStat : ${dates}">
+        <div class="accordion-item">
+            <!-- Unique checkbox per date used for toggling the accordion -->
+            <input type="checkbox" class="accordion-toggle" th:id="'acc-' + ${iterStat.index}" />
+            <!-- The header label references the checkbox; clicking the header toggles the checkbox -->
+            <label class="accordion-header" th:for="'acc-' + ${iterStat.index}">
+                <span th:text="${#temporals.format(date, 'EEEE dd MMMM')}">date</span>
             </label>
+            <!-- Content area containing the form and timeslots -->
+            <div class="accordion-content">
+                <form th:action="@{/slots}" method="post">
+                    <div class="slot-container">
+                        <th:block th:each="slot : ${slots}">
+                            <div th:if="${slot.toLocalDate()} == ${date}">
+                                <label class="timeslot">
+                                    <input type="radio"
+                                           name="slot"
+                                           th:value="${#temporals.format(slot, 'yyyy-MM-dd HH:mm:ss')}"
+                                           th:checked="${savedSlots != null and #lists.contains(savedSlots, slot)}" />
+                                    <span th:text="${#temporals.format(slot, 'h:mm a')}">slot</span>
+                                </label>
+                            </div>
+                        </th:block>
+                    </div>
+                    <button type="submit" class="submit-button" hx-target="#confirmation" hx-swap="outerHTML">Select Time</button>
+                </form>
+            </div>
         </div>
     </th:block>
-    </div>
-    <button type="submit" class="submit-button" hx-target="#confirmation" hx-swap="outerHTML">Select Time</button>
-    </form>
-</th:block>
-<div id="confirmation"></div>
+    <!-- Container where the server will insert the confirmation after selecting a slot -->
+    <div id="confirmation"></div>
 </div>
 </body>
 </html>

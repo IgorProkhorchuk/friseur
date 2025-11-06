@@ -11,6 +11,9 @@
 <h3>Schedule</h3>
 <div id="save-schedule">
     <form th:action="@{/admin/save-schedule}" method="post">
+        <!-- CSRF Token -->
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
         <ul class="schedule-list">
             <th:block th:each="date : ${dateRange}">
                 <li class="date-item">

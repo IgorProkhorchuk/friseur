@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title th:text="${pageTitle}">FrisÖr - Hairdress Salon in Berlin</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-manage-slots.css}">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- Add these meta tags for global HTMX CSRF protection if _csrf object is available -->
+    <meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf}"/>
+    <meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf}"/>
 </head>
 <body>
-
+<div class="page-wrapper">
 <!-- Navbar -->
 <header>
     <div class="navbar-container">
@@ -19,17 +23,20 @@
                 <img th:src="@{/images/logo.svg}" alt="FrisÖr Logo">
             </div>
             <div class="salon-name">FriSÖr</div>
-            <button class="login-button">
+            <form th:action="@{/logout}" method="post">
+            <button class="login-button" type="submit">
                 <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="7" r="4" fill="#ffffff"/>
                     <path d="M12 13c-4 0-7 2.5-7 5.5v1c0 .5.5 1 1 1h12c.5 0 1-.5 1-1v-1c0-3-3-5.5-7-5.5z" fill="#ffffff"/>
                 </svg>
+                Logout
             </button>
+            </form>
         </nav>
         <nav class="navbar-buttons">
             <div class="panel">
                 <a href="/">Home</a>
-                <a href="/my-slots">My slots</a>
+                <a href="/user/appointments/dashboard">My slots</a>
                 <a href="/shop">Shop</a>
             </div>
         </nav>
@@ -54,7 +61,16 @@
         <p>&copy; 2024 FriSÖr</p>
     </div>
 </footer>
-
-<!--<script th:src="@{/js/script.js}" src="/js/script.js"></script>-->
+</div>
+<!-- <script th:src="@{/js/script.js}" src="/js/script.js"></script> -->
+<script>
+    document.body.addEventListener('htmx:configRequest', function(evt) {
+        var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        var csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+        if (csrfToken && csrfHeader) {
+            evt.detail.headers[csrfHeader] = csrfToken;
+        }
+    });
+</script>
 </body>
 </html>
