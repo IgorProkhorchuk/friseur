@@ -14,12 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
@@ -113,14 +110,19 @@ public class ScheduleController {
 
     @GetMapping("/admin/slots/manage")
     public String manageSlots(Model model) {
-        var slots = slotRepository.findAll();
+        var slots = slotRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Slot::getTimeSlot))
+                .toList();
 
-        // Group by LocalDate
-        Map<LocalDate, List<Slot>> grouped = slots.stream()
-                .collect(Collectors.groupingBy(slot -> slot.getTimeSlot().toLocalDate(),
-                        TreeMap::new, Collectors.toList()));
+        var slotDates = slots.stream()
+                .map(slot -> slot.getTimeSlot().toLocalDate())
+                .distinct()
+                .sorted()
+                .toList();
 
-        model.addAttribute("groupedSlots", grouped);
+        model.addAttribute("slots", slots);
+        model.addAttribute("slotDates", slotDates);
         return "admin-manage-slots";
     }
 
