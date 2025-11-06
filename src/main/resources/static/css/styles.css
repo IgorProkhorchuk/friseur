@@ -1,30 +1,12 @@
 /* General Styles */
-
-html, body {
-    height: 100%;
+body, html {
     margin: 0;
     padding: 0;
     font-family: 'Merriweather', serif;
-    background-color: #242424ff;
-    color: #d4d3c0;
+    background-color: #fff;
+    color: #f9ba5bff;
     overflow-x: hidden;
 }
-
-main {
-    flex: 1;
-}
-
-/* Layout wrapper for sticky footer */
-.page-wrapper {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1 0 auto;
-}
-
 
 h1, p {
     margin: 0;
@@ -194,14 +176,14 @@ h1, p {
 .submit-button {
     margin: 20px;
     padding: 10px 20px;
-    background-color: #333333;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 .submit-button:hover {
-    background-color: #4d4c4c;
+    background-color: #45a049;
 }
 
 .success-message {
@@ -228,7 +210,7 @@ h1, p {
 
 /* Main Content Styles */
 .main-content {
-    /* background: url('https://www.qiez.de/app/uploads/2019/03/chez-matthieu-qiez-910x511.jpg') no-repeat center center/cover; */
+    /*background: url('https://www.qiez.de/app/uploads/2019/03/chez-matthieu-qiez-910x511.jpg') no-repeat center center/cover;*/
     min-height: 100vh;
     position: relative;
 }
@@ -262,16 +244,12 @@ h1, p {
   }
 
 /*user slots*/
-.user-slots {
-    background-color: #f9ba5b; /* Dark gold background */
-    color: #242424; /* Graphite text */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-.user-slots h2 {
-    color: #242424; /* Graphite text */
-    margin-bottom: 15px;
+    background-color: #f8f9fa;
 }
 
 h2 {
@@ -332,7 +310,6 @@ h2 {
 
 /* Footer Styles */
 footer {
-    flex-shrink: 0;
     background-color: #242424ff;
     color: #f9ba5bff;
     text-align: center;
@@ -342,24 +319,92 @@ footer {
 .footer-content p {
     margin: 0.5rem 0;
 }
-/*style no appointments on the dashboard.html*/
-.no-appointments {
-    text-align: center;
-    margin-top: 2rem;
-    font-size: 1.2rem;
+
+/* Responsive Styles */
+/*@media screen and (max-width: 600px) {
+    .overlay h1 {
+        font-size: 1.2rem;
+    }
+
+    .overlay p {
+        font-size: 0.9rem;
+        margin: 0.5rem;
+    }
+
+    .booking {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    .booking h2 {
+        font-size: 1.2rem;
+    }
+
+    .booking label, .booking input, .booking select {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .booking button {
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .booking form {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+}*/
+
+/* Accordion styles for slots page */
+.accordion-container {
+    margin-top: 20px;
 }
 
-.no-appointments button {
-    margin-top: 1rem;
-    padding: 0.6rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: #007bff;
-    color: white;
+.accordion-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+/* Header for each accordion. We reuse the font size and weight from .date-header */
+.accordion-header {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 15px 0;
+    padding: 10px;
     cursor: pointer;
+    color: #333333;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease;
 }
 
-.no-appointments button:hover {
-    background-color: #0056b3;
+.accordion-header:hover {
+    background-color: #e0e0e0;
+}
+
+/* Hidden checkbox used to control the open/closed state */
+.accordion-toggle {
+    display: none;
+}
+
+/* The content area is hidden by default */
+.accordion-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    padding: 0 10px;
+}
+
+/* When the checkbox is checked, reveal the content */
+.accordion-toggle:checked + .accordion-header + .accordion-content {
+    max-height: 2000px; /* sufficiently large to display content */
+    opacity: 1;
+    padding-bottom: 15px;
 }
