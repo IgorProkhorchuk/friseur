@@ -4,17 +4,40 @@
 <body>
 <header th:replace="~{base :: header}"></header>
 
-<main class="admin-dashboard">
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the admin control panel. Choose an action below:</p>
+<div class="main-content admin-page" th:fragment="mainContent">
+    <section class="admin-hero">
+        <p class="section-eyebrow">Control Center</p>
+        <h1>Admin Dashboard</h1>
+        <p>Steuern Sie Buchungen, Zeitfenster und Verfügbarkeiten zentral von hier.</p>
+    </section>
 
-    <div class="admin-actions">
-        <a href="/admin/booked" class="button">📅 View Booked Slots</a>
-        <a href="/admin/schedule/all" class="button">🗓 View Full Schedule</a>
-        <a href="/admin" class="button">➕ Add New Date Range</a>
-        <a href="/admin/slots/manage" class="button">⚙️ Modify Existing Slots</a>
-    </div>
-</main>
+    <section class="admin-action-grid">
+        <a href="/admin/booked" class="admin-action-card">
+            <span class="admin-card-icon">📅</span>
+            <h3>View Booked Slots</h3>
+            <p>Überprüfen Sie bestätigte Termine und Kundendetails.</p>
+            <span class="admin-card-footer">Open overview →</span>
+        </a>
+        <a href="/admin/schedule/all" class="admin-action-card">
+            <span class="admin-card-icon">🗓</span>
+            <h3>View Full Schedule</h3>
+            <p>Alle Slots nach Datum – inklusive freier und versteckter Zeiten.</p>
+            <span class="admin-card-footer">See calendar →</span>
+        </a>
+        <a href="/admin" class="admin-action-card">
+            <span class="admin-card-icon">➕</span>
+            <h3>Add New Date Range</h3>
+            <p>Planen Sie neue Zeiträume und aktivieren Sie verfügbare Slots.</p>
+            <span class="admin-card-footer">Add dates →</span>
+        </a>
+        <a href="/admin/slots/manage" class="admin-action-card">
+            <span class="admin-card-icon">⚙️</span>
+            <h3>Modify Existing Slots</h3>
+            <p>Slots verstecken oder freigeben – direkt nach Datum gruppiert.</p>
+            <span class="admin-card-footer">Manage slots →</span>
+        </a>
+    </section>
+</div>
 
 <footer th:replace="~{base :: footer}"></footer>
 </body>

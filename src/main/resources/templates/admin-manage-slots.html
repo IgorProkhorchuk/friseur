@@ -4,17 +4,23 @@
 <body>
 <header th:replace="~{base :: header}"></header>
 
-<main class="admin-panel">
-    <h1>Manage Slots</h1>
-    <p>Click on a date to view or manage its slots. Hidden slots are not visible to clients.</p>
+<div class="main-content admin-page" th:fragment="mainContent">
+    <section class="admin-section">
+        <div class="admin-section-header">
+            <div>
+                <p class="section-eyebrow">Admin · Slots</p>
+                <h1>Manage Slots</h1>
+                <p>Click on a date to view or manage its slots. Hidden slots remain unsichtbar für Kund:innen.</p>
+            </div>
+            <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
+        </div>
 
-    <div th:if="${#lists.isEmpty(slots)}">
-        <p>No slots available.</p>
-    </div>
+        <div th:if="${#lists.isEmpty(slots)}" class="info-card">
+            No slots available.
+        </div>
 
-    <div th:unless="${#lists.isEmpty(slots)}" class="accordion-container">
-        <div th:each="date, iterStat : ${slotDates}">
-            <div class="accordion-item">
+        <div th:unless="${#lists.isEmpty(slots)}" class="admin-accordion">
+            <div th:each="date, iterStat : ${slotDates}" class="accordion-item">
                 <input type="checkbox"
                        class="accordion-toggle"
                        th:id="'admin-acc-' + ${iterStat.index}" />
@@ -24,43 +30,48 @@
                 </label>
 
                 <div class="accordion-content">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <th:block th:each="slot : ${slots}">
-                            <tr th:if="${slot.timeSlot.toLocalDate()} == ${date}">
-                                <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
-                                <td th:text="${slot.slotStatus}"></td>
-                                <td>
-                                    <form th:if="${slot.slotStatus.name() != 'RESERVED'}"
-                                          th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}"
-                                          method="post" style="display:inline;">
-                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-                                        <button type="submit"
-                                                th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
-                                                th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? 'unhide-btn' : 'hide-btn'}">
-                                        </button>
-                                    </form>
-                                    <span th:if="${slot.slotStatus.name() == 'RESERVED'}">—</span>
-                                </td>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="slot : ${slots}">
+                                <tr th:if="${slot.timeSlot.toLocalDate()} == ${date}">
+                                    <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
+                                    <td>
+                                        <span class="status-tag"
+                                              th:classappend="${slot.slotStatus.name() == 'AVAILABLE' ? ' tag-available' : (slot.slotStatus.name() == 'HIDDEN' ? ' tag-hidden' : '')}"
+                                              th:text="${slot.slotStatus}">Status</span>
+                                    </td>
+                                    <td>
+                                        <div class="slot-table-actions">
+                                            <form th:if="${slot.slotStatus.name() != 'RESERVED'}"
+                                                  th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}"
+                                                  method="post">
+                                                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                                <button type="submit"
+                                                        th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
+                                                        th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? ' unhide-btn' : ' hide-btn'}">
+                                                </button>
+                                            </form>
+                                            <span th:if="${slot.slotStatus.name() == 'RESERVED'}">—</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <br>
-    <a href="/admin/dashboard" class="button">⬅ Back to Dashboard</a>
-</main>
+    </section>
+</div>
 
 <footer th:replace="~{base :: footer}"></footer>
 </body>

@@ -4,39 +4,37 @@
 <body>
 <header th:replace="~{base :: header}"></header>
 
-<h1>Welcome to Your Dashboard</h1>
-<h2>Your Upcoming Appointments</h2>
+<div class="main-content dashboard-page" th:fragment="mainContent">
+    <section class="dashboard-hero">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>Behalten Sie Ihre nächsten Termine im Blick und verwalten Sie Ihre Buchungen jederzeit.</p>
+        <a class="button" th:href="@{/slots}">Neuen Termin buchen</a>
+    </section>
 
-<!-- Check if the user has any appointments -->
-<div th:if="${#lists.isEmpty(appointments)}" class="no-appointments">
-    <p>You have no booked slots yet.</p>
-    <a th:href="@{/slots}">
-        <button type="button">Book a Slot</button>
-    </a>
-</div>
+    <section class="appointment-section">
+        <h2>Your Upcoming Appointments</h2>
 
-<!-- Show appointments table if there are any -->
-<div th:if="${!#lists.isEmpty(appointments)}">
-    <table>
-        <tr>
-            <th>Service</th>
-            <th>Date & Time</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
+        <div th:if="${#lists.isEmpty(appointments)}" class="no-appointments card-panel">
+            <p>You have no booked slots yet.</p>
+        </div>
 
-        <tr th:each="appointment : ${appointments}">
-            <td th:text="${appointment.serviceType}"></td>
-            <td th:text="${#temporals.format(appointment.slot.timeSlot, 'dd MMM yyyy HH:mm')}"></td>
-            <td th:text="${appointment.appointmentStatus}"></td>
-            <td>
-                <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}" method="post">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-                    <button type="submit">Cancel</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+        <div th:if="${!#lists.isEmpty(appointments)}" class="appointment-grid">
+            <article class="appointment-card" th:each="appointment : ${appointments}">
+                <div class="appointment-card__header">
+                    <p class="appointment-service" th:text="${appointment.serviceType}">Service</p>
+                    <span class="status-badge" th:text="${appointment.appointmentStatus}">Status</span>
+                </div>
+                <p class="appointment-datetime"
+                   th:text="${#temporals.format(appointment.slot.timeSlot, 'dd MMM yyyy HH:mm')}">Date</p>
+                <div class="card-actions">
+                    <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}" method="post">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                        <button type="submit" class="ghost-button">Cancel</button>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
 
 <footer th:replace="~{base :: footer}"></footer>

@@ -2,25 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{base :: head}"></head>
 <body>
-<div id="set-schedule">
-    <form hx-post="/admin" hx-target="#set-schedule" hx-swap="outerHTML">
-        <!-- CSRF Token -->
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+<header th:replace="~{base :: header}"></header>
 
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" required />
-        <label for="endDate">End Date:</label>
-        <input type="date" name="endDate" id="endDate" required />
-        <br><br>
-        <button type="submit">Set Schedule</button>
-    </form>
-    <br>
-    <div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
+<div class="main-content admin-page" th:fragment="mainContent">
+    <section class="admin-section">
+        <div class="admin-section-header">
+            <div>
+                <p class="section-eyebrow">Admin · Planung</p>
+                <h1>Add New Date Range</h1>
+                <p>Definieren Sie neue Verfügbarkeiten – die nativen Datepicker zeigen mobile Scroll-Auswahl (iPhone Style).</p>
+            </div>
+            <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
+        </div>
 
-    <div th:if="${successMessage}" id="edit-schedule-container">
-        <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend">Edit Time for Created Schedule</button>
-    </div>
-    <div id="edit-workingHours"></div>
+        <div class="card-panel" id="set-schedule" th:fragment="set-schedule">
+            <form class="admin-form"
+                  hx-post="/admin"
+                  hx-target="#set-schedule"
+                  hx-swap="outerHTML">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+                <div class="form-grid range-picker">
+                    <label for="startDate">
+                        Start Date
+                        <input type="date" id="startDate" name="startDate" required class="date-input"/>
+                    </label>
+                    <label for="endDate">
+                        End Date
+                        <input type="date" id="endDate" name="endDate" required class="date-input"/>
+                    </label>
+                </div>
+
+                <p class="admin-note">Nutzen Sie die native Scroll-/Picker-Erfahrung Ihres Geräts, um präzise Daten zu wählen.</p>
+
+                <p class="inline-alert" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+                <div class="form-actions">
+                    <button type="submit" class="button">Set Schedule</button>
+                </div>
+            </form>
+
+            <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
+
+            <div th:if="${successMessage}" id="edit-schedule-container">
+                <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend">
+                    Edit Time for Created Schedule
+                </button>
+            </div>
+            <div id="edit-workingHours"></div>
+        </div>
+    </section>
 </div>
+
+<footer th:replace="~{base :: footer}"></footer>
 </body>
 </html>

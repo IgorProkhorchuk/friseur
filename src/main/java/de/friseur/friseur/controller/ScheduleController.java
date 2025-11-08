@@ -41,18 +41,20 @@ public class ScheduleController {
     }
 
     @PostMapping("/admin")
-    public String setSchedule(@ModelAttribute Schedule schedule, Model model) {
+    public String setSchedule(@ModelAttribute Schedule schedule,
+                              Model model,
+                              @RequestHeader(value = "HX-Request", required = false) String hxRequest) {
         logger.info("Received startDate: {}", schedule.getStartDate());
         logger.info("Received endDate: {}", schedule.getEndDate());
 
         if (schedule.getStartDate() == null || schedule.getEndDate() == null) {
             model.addAttribute("errorMessage", "Start and End Dates are required");
-            return "admin";
+            return isHx(hxRequest) ? "admin :: set-schedule" : "admin";
         }
 
         scheduleRepository.save(schedule);
         model.addAttribute("successMessage", "Dates added successfully");
-        return "admin";
+        return isHx(hxRequest) ? "admin :: set-schedule" : "admin";
     }
 
     @GetMapping("/admin/schedule")
@@ -145,4 +147,7 @@ public class ScheduleController {
         return "redirect:/admin/slots/manage";
     }
 
+    private boolean isHx(String hxHeader) {
+        return hxHeader != null && hxHeader.equalsIgnoreCase("true");
+    }
 }

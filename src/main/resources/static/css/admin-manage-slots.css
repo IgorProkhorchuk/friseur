@@ -1,108 +1,25 @@
-main.admin-panel {
-    margin: 2rem auto;
-    max-width: 900px;
-    font-family: 'Merriweather', serif;
+.admin-note {
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: rgba(249, 186, 91, 0.7);
 }
 
-.accordion-container {
+#edit-schedule-container {
+    margin-top: 1rem;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
 }
 
-.accordion-item {
-    border-radius: 6px;
-    overflow: hidden;
-    border: 1px solid #d0d3d4;
-    background: #ffffff;
-}
-
-.accordion-toggle {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.accordion-header {
-    background-color: #3498db;
-    color: white;
+#edit-schedule-container button {
+    border: 1px solid rgba(249, 186, 91, 0.5);
+    background: transparent;
+    color: #f9ba5b;
+    border-radius: 999px;
+    padding: 0.6rem 1.5rem;
     cursor: pointer;
-    padding: 0.8rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1.1rem;
-    font-weight: 600;
-    transition: background-color 0.2s ease-in-out;
+    transition: background 0.2s ease;
 }
 
-.accordion-header::after {
-    content: '+';
-    font-size: 1.2rem;
-    transition: transform 0.2s ease-in-out;
-}
-
-.accordion-toggle:checked + .accordion-header {
-    background-color: #1f618d;
-}
-
-.accordion-toggle:checked + .accordion-header::after {
-    transform: rotate(45deg);
-}
-
-.accordion-content {
-    display: none;
-    background: #f8f9fa;
-    padding: 0.75rem 1rem 1rem;
-}
-
-.accordion-toggle:checked + .accordion-header + .accordion-content {
-    display: block;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: center;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-button.hide-btn {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 0.3rem 0.8rem;
-    cursor: pointer;
-}
-
-button.unhide-btn {
-    background-color: #27ae60;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 0.3rem 0.8rem;
-    cursor: pointer;
-}
-
-.button {
-    text-decoration: none;
-    background-color: #3498db;
-    color: white;
-    padding: 0.6rem 1rem;
-    border-radius: 5px;
-    display: inline-block;
-}
-
-.button:hover {
-    background-color: #2e86c1;
+#edit-schedule-container button:hover {
+    background: rgba(249, 186, 91, 0.15);
 }
