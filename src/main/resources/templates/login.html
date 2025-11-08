@@ -1,39 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{base :: head}">
-  <title>Login-page</title>
-</head>
+<head th:replace="~{base :: head}"></head>
 <body>
 <header th:replace="~{base :: header}"></header>
-<h2>Login</h2>
-<div th:fragment="mainContent">
-  
-<form th:action="@{/login}" method="post">
-  <!-- CSRF Token -->
-  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required />
+<div class="main-content auth-page" th:fragment="mainContent">
+  <section class="auth-card">
+    <div class="auth-header">
+      <p class="section-eyebrow">Welcome back</p>
+      <h1>Login</h1>
+      <p>Greifen Sie auf Ihre persönlichen Slots und Buchungen zu.</p>
+    </div>
 
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required />
+    <form class="auth-form-grid" th:action="@{/login}" method="post">
+      <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
-  <label>
-    <input type="checkbox" name="remember-me" />
-    Remember Me
-  </label>
+      <div class="auth-input-group">
+        <label for="username">Username</label>
+        <input class="auth-input" type="text" id="username" name="username" required />
+      </div>
 
-  <button type="submit">Login</button>
+      <div class="auth-input-group">
+        <label for="password">Password</label>
+        <input class="auth-input" type="password" id="password" name="password" required />
+      </div>
 
-  <p th:if="${param.error}">Invalid username or password.</p>
-  <p th:if="${param.expired}">Your session has expired. Please log in again.</p>
-  <p th:if="${param.logout}">You have been logged out.</p>
-</form>
+      <div class="auth-actions">
+        <label class="auth-checkbox">
+          <input type="checkbox" name="remember-me" />
+          Remember me
+        </label>
+        <button type="submit" class="button">Login</button>
+      </div>
+    </form>
 
-<p>
-  Don't have an account? <a th:href="@{/register}">Register here</a>.
-</p>
+    <div class="auth-alert" th:if="${param.error}">Invalid username or password.</div>
+    <div class="auth-alert" th:if="${param.expired}">Session expired. Please log in again.</div>
+    <div class="auth-success" th:if="${param.logout}">You have been logged out.</div>
+
+    <p class="auth-tertiary">
+      Noch kein Konto?
+      <a th:href="@{/register}">Jetzt registrieren</a>
+    </p>
+  </section>
 </div>
+
 <footer th:replace="~{base :: footer}"></footer>
 </body>
 </html>
