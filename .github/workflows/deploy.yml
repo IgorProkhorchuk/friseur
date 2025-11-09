@@ -47,7 +47,7 @@ jobs:
       - name: Upload deployment artifacts
         run: |
           TARGET=${{ steps.envpick.outputs.TARGET_DIR }}
-          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "sudo mkdir -p $TARGET/app/target"
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "mkdir -p $TARGET/app/target"
 
           rsync -rzlt --delete -e "ssh -i ~/.ssh/id_deploy" \
             target/friseur-0.9.jar \
