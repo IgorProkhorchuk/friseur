@@ -55,7 +55,6 @@ jobs:
 
           rsync -rzlt -e "ssh -i ~/.ssh/id_deploy" \
             infra/docker/${GITHUB_REF_NAME}/docker-compose.yml \
-            infra/docker/${GITHUB_REF_NAME}/.env \
             infra/docker/app/Dockerfile \
             ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:$TARGET/
 
