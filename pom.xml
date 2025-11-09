@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>de.friseur</groupId>
 	<artifactId>friseur</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.9</version>
 	<name>friseur</name>
 	<description>hairdress saloon in Berlin Tempelhof</description>
 	<url/>
@@ -39,12 +39,10 @@
 		</argLine.surefire>
 	</properties>
 	<dependencies>
-
     	<dependency>
     		<groupId>org.springframework.boot</groupId>
     		<artifactId>spring-boot-starter-actuator</artifactId>
     	</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
