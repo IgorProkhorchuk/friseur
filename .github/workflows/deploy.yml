@@ -1,0 +1,76 @@
+name: Build & Deploy (staging/prod)
+
+on:
+  push:
+    branches: [ "testing", "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      SERVER_IP: 87.106.40.134
+      SERVER_USER: igor
+      PROD_DIR: /srv/cut-by-me/production
+      STAGE_DIR: /srv/cut-by-me/testing
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set environment target
+        id: envpick
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "TARGET_DIR=$PROD_DIR" >> $GITHUB_OUTPUT
+          else
+            echo "TARGET_DIR=$STAGE_DIR" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - name: Build with Maven
+        run: mvn -B -ntp clean package -DskipTests
+
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Copy deployment files (rsync)
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+
+          # ensure dirs on server
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "sudo mkdir -p ${{ steps.envpick.outputs.TARGET_DIR }}/app/target"
+
+          # rsync jar + compose + env + Dockerfile to the right env
+          rsync -rzlt --delete -e "ssh -i ~/.ssh/id_deploy" \
+            target/friseur-0.9.jar \
+            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:${{ steps.envpick.outputs.TARGET_DIR }}/app/target/
+
+          rsync -rzlt -e "ssh -i ~/.ssh/id_deploy" \
+            infra/docker/${GITHUB_REF_NAME}/docker-compose.yml \
+            infra/docker/${GITHUB_REF_NAME}/.env \
+            infra/docker/app/Dockerfile \
+            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:${{ steps.envpick.outputs.TARGET_DIR }}/
+
+      - name: Restart stack remotely
+        run: |
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} <<'EOF'
+            set -e
+            if [ "${GITHUB_REF_NAME}" = "main" ]; then
+              TARGET_DIR="${PROD_DIR}"
+            else
+              TARGET_DIR="${STAGE_DIR}"
+            fi
+            cd "$TARGET_DIR"
+            sudo docker compose down
+            sudo docker compose up -d --build
+            sudo docker compose ps
+          EOF
