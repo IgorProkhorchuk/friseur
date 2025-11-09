@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    container_name: friseur_prod_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+    networks:
+      - friseur_net
+
+  app:
+    build: ../app
+    container_name: friseur_prod_app
+    env_file: .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - friseur_net
+    volumes:
+      - /var/log/friseur-prod:/var/log/friseur
+
+volumes:
+  pgdata_prod:
+
+networks:
+  friseur_net:
+
