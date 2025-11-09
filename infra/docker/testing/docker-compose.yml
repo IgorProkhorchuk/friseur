@@ -13,7 +13,9 @@ services:
       - friseur_net
 
   app:
-    build: ../app
+    build:
+      context: ./app
+      dockerfile: Dockerfile
     container_name: friseur_test_app
     env_file: .env
     ports:
