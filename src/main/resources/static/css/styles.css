@@ -743,6 +743,148 @@ footer {
     gap: 1rem;
 }
 
+.success-page {
+    gap: 1.5rem;
+}
+
+.success-hero {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.success-hero h1 {
+    margin-bottom: 0.35rem;
+}
+
+.success-hero p {
+    color: var(--text-muted);
+}
+
+.success-layout {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.success-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.success-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    background: rgba(126, 217, 87, 0.15);
+    color: #7ed957;
+    border: 1px solid rgba(126, 217, 87, 0.35);
+}
+
+.success-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.success-card .success-message {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7ed957;
+}
+
+.success-subtext {
+    color: var(--text-muted);
+}
+
+.success-actions {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.success-action {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.success-action.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(249, 186, 91, 0.4);
+}
+
+@media (min-width: 768px) {
+    .success-layout {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        align-items: stretch;
+    }
+
+    .success-actions {
+        align-self: stretch;
+    }
+}
+
+.confirmation-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.confirmation-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.confirmation-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(126, 217, 87, 0.15);
+    border: 1px solid rgba(126, 217, 87, 0.35);
+    color: #7ed957;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.confirmation-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.confirmation-title {
+    font-weight: 600;
+    color: #7ed957;
+}
+
+.confirmation-note {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
 .admin-action-card {
     background: var(--bg-elevated);
     border-radius: var(--radius-md);

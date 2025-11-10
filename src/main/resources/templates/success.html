@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Sucess</title>
-    <head th:replace="~{base :: head}"></head>
-</head>
+<head th:replace="~{base :: head}"></head>
 <body>
-<div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
-<div th:if="${successMessage}">
-  <a href="/admin" class="button">Add Another Date Range</a>
-  <a href="/admin/dashboard" class="button">Go to admin panel</a>
+<header th:replace="~{base :: header}"></header>
+
+<div class="main-content admin-page success-page" th:fragment="mainContent">
+    <section class="success-hero">
+        <p class="section-eyebrow">Admin Update</p>
+        <h1>Änderungen gespeichert</h1>
+        <p>Die gewünschten Slots wurden übernommen. Wählen Sie unten den nächsten Schritt.</p>
+    </section>
+
+    <div class="success-layout" th:if="${successMessage}">
+        <article class="success-card">
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <div class="success-card-copy">
+                <p class="success-message" th:text="${successMessage}">Die Anpassungen wurden erfolgreich gespeichert.</p>
+                <p class="success-subtext">Sie können sofort weitere Zeiträume hinzufügen oder zum Dashboard zurückkehren.</p>
+            </div>
+        </article>
+
+        <div class="success-actions">
+            <a href="/admin" class="button success-action primary">Add Another Date Range</a>
+            <a href="/admin/dashboard" class="button success-action secondary">Go to admin panel</a>
+        </div>
+    </div>
+
+    <div class="success-layout" th:unless="${successMessage}">
+        <article class="success-card">
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <div class="success-card-copy">
+                <p class="success-message">Ihre Änderungen wurden gespeichert.</p>
+                <p class="success-subtext">Nutzen Sie die Aktionen unten, um weiterzuarbeiten.</p>
+            </div>
+        </article>
+
+        <div class="success-actions">
+            <a href="/admin" class="button success-action primary">Add Another Date Range</a>
+            <a href="/admin/dashboard" class="button success-action secondary">Go to admin panel</a>
+        </div>
+    </div>
 </div>
+
+<footer th:replace="~{base :: footer}"></footer>
 </body>
 </html>
