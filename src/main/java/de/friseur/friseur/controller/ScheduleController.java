@@ -52,8 +52,11 @@ public class ScheduleController {
             return isHx(hxRequest) ? "admin :: set-schedule" : "admin";
         }
 
-        scheduleRepository.save(schedule);
-        model.addAttribute("successMessage", "Dates added successfully");
+        if (scheduleService.saveSchedule(schedule)) {
+            model.addAttribute("successMessage", "Dates added successfully");
+        } else {
+            model.addAttribute("errorMessage", "A schedule with overlapping dates already exists.");
+        }
         return isHx(hxRequest) ? "admin :: set-schedule" : "admin";
     }
 

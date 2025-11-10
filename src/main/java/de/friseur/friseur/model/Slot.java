@@ -10,7 +10,8 @@ public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int slotId;
-    private LocalDateTime timeSlot;
+    /* would be cood to add @UniqueConstraint to timeSlot and handle DataIntegrityViolationException, will be done in first refactor */
+    private LocalDateTime timeSlot; 
     @Enumerated(EnumType.STRING)
     private SlotStatus slotStatus;
     @OneToOne
