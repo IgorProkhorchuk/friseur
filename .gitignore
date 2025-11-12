@@ -1,4 +1,5 @@
 .gitignore
+.gitattributes
 HELP.md
 target/
 *.jar
