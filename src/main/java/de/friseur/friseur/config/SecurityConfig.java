@@ -17,6 +17,10 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * Central Spring Security configuration for endpoint access, authentication
+ * success handling, remember-me and session management policies.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -24,6 +28,14 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    /**
+     * Configures HTTP security including protected routes, login/logout behavior,
+     * remember-me cookies, and session concurrency limits.
+     *
+     * @param http the mutable security configuration
+     * @return the constructed {@link SecurityFilterChain}
+     * @throws Exception if Spring Security fails to build the chain
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -72,15 +84,22 @@ public class SecurityConfig {
                 .userDetailsService(userDetailsService);
         return http.build();
     }
+    /**
+     * Provides a BCrypt encoder with a reduced strength that balances security
+     * and login performance for demo purposes.
+     *
+     * @return the configured {@link PasswordEncoder}
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(4);
     }
 
     /**
-     * A custom success handler that redirects the user to the admin page if the user is an admin.
-     * Otherwise, the user is redirected to the home page.
-     * @return
+     * Routes admins to the dashboard and all other users to the home page after
+     * successful authentication.
+     *
+     * @return the application specific {@link AuthenticationSuccessHandler}
      */
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {

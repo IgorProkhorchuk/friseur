@@ -8,6 +8,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
+/**
+ * Application user that also serves as the {@link org.springframework.security.core.userdetails.UserDetails}
+ * backing Spring Security authentication.
+ */
 @Entity
 @Table(name = "app_user")
 public class User implements UserDetails {
@@ -107,6 +111,11 @@ public class User implements UserDetails {
 
     // Spring Security methods
 
+    /**
+     * Converts textual roles into {@link GrantedAuthority} instances for Spring Security.
+     *
+     * @return authorities resolved from the persistent role set
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

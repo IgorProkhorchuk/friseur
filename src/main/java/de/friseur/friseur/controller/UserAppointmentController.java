@@ -11,17 +11,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Exposes authenticated user operations related to their appointments such as viewing
+ * upcoming bookings and cancelling individual slots via standard or HTMX requests.
+ */
 @Controller
 @RequestMapping("/user/appointments") // Base path for user appointment actions
 public class UserAppointmentController {
 
     private final AppointmentService appointmentService;
 
+    /**
+     * Creates the controller with the required appointment service dependency.
+     *
+     * @param appointmentService business logic for appointment reads/cancellations
+     */
     @Autowired
     public UserAppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
 
+    /**
+     * Displays the authenticated user's dashboard view populated with future appointments.
+     *
+     * @param authentication Spring Security context
+     * @param model          dashboard model attributes
+     * @return redirect to login when unauthenticated or the dashboard view otherwise
+     */
     @GetMapping("/dashboard")
     public String showUserDashboard(Authentication authentication, Model model) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -37,6 +53,15 @@ public class UserAppointmentController {
     }
 
 
+    /**
+     * Cancels one of the user's appointments, adapting the response format depending on
+     * whether the request originated from HTMX or a classic browser submission.
+     *
+     * @param appointmentId id of the appointment to cancel
+     * @param authentication security context for authorization checks
+     * @param hxRequest optional HTMX header
+     * @return appropriate HTTP response/redirect signaling the outcome
+     */
     @PostMapping("/cancel/{appointmentId}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long appointmentId,
                                                Authentication authentication,
@@ -106,6 +131,12 @@ public class UserAppointmentController {
         }
     }
 
+    /**
+     * Detects HTMX requests so the controller can return HX-friendly responses.
+     *
+     * @param hxRequestHeader incoming HX-Request header value
+     * @return {@code true} when the header explicitly states a HTMX call
+     */
     private boolean isHtmxRequest(String hxRequestHeader) {
         return hxRequestHeader != null && hxRequestHeader.equalsIgnoreCase("true");
     }

@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Provides admin-facing endpoints for creating schedules, managing slots, and
+ * viewing booking summaries.
+ */
 @Controller
 @RequestMapping
 public class ScheduleController {
@@ -30,16 +34,34 @@ public class ScheduleController {
     @Autowired
     SlotRepository slotRepository;
 
+    /**
+     * Entry point for the admin dashboard.
+     *
+     * @return admin landing template
+     */
     @GetMapping("/admin")
     public String admin() {
         return "admin";
     }
 
+    /**
+     * Displays a simple success confirmation page for bulk actions.
+     *
+     * @return success view
+     */
     @GetMapping("/success")
     public String success() {
         return "success";
     }
 
+    /**
+     * Stores a minimal schedule window configured through HTMX or full page POST.
+     *
+     * @param schedule schedule payload with date bounds
+     * @param model model for error/success flash
+     * @param hxRequest HX-Request header if present
+     * @return HTMX fragment or admin view depending on the caller
+     */
     @PostMapping("/admin")
     public String setSchedule(@ModelAttribute Schedule schedule,
                               Model model,
@@ -57,6 +79,12 @@ public class ScheduleController {
         return isHx(hxRequest) ? "admin :: set-schedule" : "admin";
     }
 
+    /**
+     * Builds the calendar grid for selecting timeslots in the UI.
+     *
+     * @param model template model with date range and timeslots
+     * @return schedule creation view
+     */
     @GetMapping("/admin/schedule")
     public String editWorkingHours(Model model) {
         List<LocalDateTime> dateRange = scheduleService.createDateRange(scheduleService.getLatestSchedule());
@@ -65,6 +93,13 @@ public class ScheduleController {
         model.addAttribute("timeslots", timeslots);
         return "create-schedule";
     }
+    /**
+     * Persists all chosen time slots and surfaces validation errors via flash attributes.
+     *
+     * @param selectedTimeslots ISO timestamp strings chosen in the UI
+     * @param redirectAttributes flash scope for success/error messages
+     * @return redirect to success or back to selector in case of validation issues
+     */
     @PostMapping("/admin/save-schedule")
     public String saveSelectedTimeslots(@RequestParam(required = false) List<String> selectedTimeslots,
                                         RedirectAttributes redirectAttributes) {
@@ -88,11 +123,22 @@ public class ScheduleController {
         return "redirect:/success";
     }
 
+    /**
+     * Serves the admin dashboard view containing navigation cards.
+     *
+     * @return dashboard template name
+     */
     @GetMapping("/admin/dashboard")
     public String adminDashboard() {
         return "admin-dashboard";
     }
 
+    /**
+     * Lists all reserved slots so admins can monitor bookings.
+     *
+     * @param model template model with booked slot data
+     * @return booked slots template
+     */
     @GetMapping("/admin/booked")
     public String viewBookedSlots(Model model) {
         var bookedSlots = slotRepository.findAll()
@@ -103,6 +149,12 @@ public class ScheduleController {
         return "admin-booked";
     }
 
+    /**
+     * Shows every slot irrespective of status for auditing.
+     *
+     * @param model template model with all slot records
+     * @return slot overview template
+     */
     @GetMapping("/admin/schedule/all")
     public String viewAllSlots(Model model) {
         var allSlots = slotRepository.findAll();
@@ -110,6 +162,12 @@ public class ScheduleController {
         return "admin-schedule-all";
     }
 
+    /**
+     * Displays an interactive table for hiding/showing slots.
+     *
+     * @param model data model containing ordered slots and date filters
+     * @return manage slots template
+     */
     @GetMapping("/admin/slots/manage")
     public String manageSlots(Model model) {
         var slots = slotRepository.findAll()
@@ -129,6 +187,13 @@ public class ScheduleController {
     }
 
 
+    /**
+     * Toggles an individual slot between {@link SlotStatus#AVAILABLE} and {@link SlotStatus#HIDDEN}.
+     *
+     * @param id slot identifier
+     * @param redirectAttributes flash attributes capturing errors
+     * @return redirect back to the management view
+     */
     @PostMapping("/admin/slots/toggle/{id}")
     public String toggleSlot(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         var slot = slotRepository.findById(id).orElse(null);
@@ -147,6 +212,12 @@ public class ScheduleController {
         return "redirect:/admin/slots/manage";
     }
 
+    /**
+     * Utility to detect HTMX requests so the corresponding partial view can be returned.
+     *
+     * @param hxHeader incoming HX header
+     * @return true when the request should receive a fragment response
+     */
     private boolean isHx(String hxHeader) {
         return hxHeader != null && hxHeader.equalsIgnoreCase("true");
     }

@@ -35,6 +35,7 @@
 
                 <p class="admin-note">Nutzen Sie die native Scroll-/Picker-Erfahrung Ihres Geräts, um präzise Daten zu wählen.</p>
 
+                <!-- Inline error, re-rendered over HTMX so the same fragment can show validation issues -->
                 <p class="inline-alert" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
                 <div class="form-actions">
@@ -44,6 +45,7 @@
 
             <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
 
+            <!-- After the date range is saved we reveal the follow-up action via HTMX -->
             <div th:if="${successMessage}" id="edit-schedule-container">
                 <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend">
                     Edit Time for Created Schedule

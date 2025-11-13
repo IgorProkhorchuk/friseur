@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 
+/**
+ * Represents a high-level availability window that is later expanded into discrete slots.
+ */
 @Entity
 @Table
 public class Schedule {

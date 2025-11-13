@@ -19,6 +19,7 @@
             No slots available.
         </div>
 
+        <!-- Accordion groups slots by calendar day so admins can quickly reveal just the relevant rows -->
         <div th:unless="${#lists.isEmpty(slots)}" class="admin-accordion">
             <div th:each="date, iterStat : ${slotDates}" class="accordion-item">
                 <input type="checkbox"
@@ -40,6 +41,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <!-- Iterate over all slots but render the row only if it falls on the current accordion date -->
                             <th:block th:each="slot : ${slots}">
                                 <tr th:if="${slot.timeSlot.toLocalDate()} == ${date}">
                                     <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
@@ -50,6 +52,7 @@
                                     </td>
                                     <td>
                                         <div class="slot-table-actions">
+                                            <!-- Buttons are suppressed when the slot is reserved; toggling works via POST and CSRF token -->
                                             <form th:if="${slot.slotStatus.name() != 'RESERVED'}"
                                                   th:action="@{'/admin/slots/toggle/' + ${slot.slotId}}"
                                                   method="post">

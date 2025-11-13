@@ -16,7 +16,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Builds date ranges and slots from admin-defined schedules.
+ */
 @Service
 public class ScheduleService {
     private static final Logger logger = LoggerFactory.getLogger(ScheduleService.class);
@@ -29,12 +31,23 @@ public class ScheduleService {
         this.slotRepository = slotRepository;
     }
 
+    /**
+     * Retrieves the newest persisted schedule window, which acts as the active configuration.
+     *
+     * @return the most recent schedule or null if none exist
+     */
     public Schedule getLatestSchedule() {
         Schedule latestSchedule = scheduleRepository.findTopByOrderByIdDesc();
         logger.info("Getting latest schedule");
         return latestSchedule;
     }
 
+    /**
+     * Expands the inclusive start/end dates of a schedule into a list of day boundaries.
+     *
+     * @param latestSchedule active schedule record
+     * @return list of day entries covering the configured period
+     */
     public List<LocalDateTime> createDateRange(Schedule latestSchedule) {
         List<LocalDateTime> dateRange = new ArrayList<>();
         LocalDate startDate = latestSchedule.getStartDate();
@@ -50,6 +63,12 @@ public class ScheduleService {
         return dateRange;
     }
 
+    /**
+     * Generates hourly time slots (9-21) for each day in the provided range.
+     *
+     * @param dateRange list of days to expand
+     * @return full list of discrete slot timestamps
+     */
     public List<LocalDateTime> createTimeslots(List<LocalDateTime> dateRange) {
         List<LocalDateTime> timeslots = new ArrayList<>();
         for (LocalDateTime date : dateRange) {
@@ -61,6 +80,11 @@ public class ScheduleService {
         return timeslots;
     }
 
+    /**
+     * Converts the selected slot timestamps into {@link Slot} entities and persists them as available.
+     *
+     * @param selectedTimeslots list of ISO date-time strings selected in the UI
+     */
     public void saveSelectedTimeslots(List<String> selectedTimeslots) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 

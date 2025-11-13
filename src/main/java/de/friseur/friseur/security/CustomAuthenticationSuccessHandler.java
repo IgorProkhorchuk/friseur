@@ -10,7 +10,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * Redirects users to role-specific landing pages after authentication succeeds.
+ */
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    /**
+     * Redirects admins to the dashboard and all other roles to the generic home page.
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();

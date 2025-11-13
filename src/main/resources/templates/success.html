@@ -6,6 +6,7 @@
     <head th:replace="~{base :: head}"></head>
 </head>
 <body>
+<!-- Both blocks render only when the controller supplied a success flash -->
 <div th:if="${successMessage}" th:text="${successMessage}" class="success-message"></div>
 <div th:if="${successMessage}">
   <a href="/admin" class="button">Add Another Date Range</a>

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Captures a booking between a {@link User} and a {@link Slot} along with service metadata.
+ */
 @Entity
 @Table
 public class Appointment {
@@ -23,6 +26,9 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private AppointmentStatus appointmentStatus;
 
+    /**
+     * Creates a fully populated appointment, typically used by JPA when hydrating entities.
+     */
     public Appointment(Long appointmentId, User user, String clientName, String serviceType, Slot slot, LocalDateTime createdAt, AppointmentStatus appointmentStatus) {
         this.appointmentId = appointmentId;
         this.user = user; // Use the User object

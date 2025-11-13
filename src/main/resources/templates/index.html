@@ -9,6 +9,7 @@
         <h3>Welcome to Home Page</h3>
         <div class="main-book-button">
             <h3>
+                <!-- HTMX button swaps the availability widget with the slots list without a full reload -->
                 <button hx-get="/slots" hx-target="#available-slots" hx-swap="outerHTML">Termin Buchen</button>
             </h3>
         </div>

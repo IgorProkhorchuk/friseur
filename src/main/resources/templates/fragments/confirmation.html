@@ -2,7 +2,9 @@
 
     <p th:text="${message}"></p>
 </div>
+<!-- UX hint for users after booking; JS below keeps the countdown and redirect in sync -->
 <p id="countdown">Redirecting in <span id="seconds">3</span> seconds...</p>
+<!-- Simple client-side countdown that navigates to the dashboard without requiring another server round-trip -->
 <script>
     let seconds = 3;
     const countdownElem = document.getElementById('seconds');
@@ -15,4 +17,3 @@
         }
     }, 1000);
 </script>
-

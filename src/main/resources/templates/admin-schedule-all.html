@@ -28,6 +28,7 @@
           <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
           <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
           <td>
+            <!-- Color-coded badge indicates slot state; class appended based on actual status -->
             <span class="status-tag"
                   th:classappend="${slot.slotStatus.name() == 'AVAILABLE' ? ' tag-available' : (slot.slotStatus.name() == 'HIDDEN' ? ' tag-hidden' : '')}"
                   th:text="${slot.slotStatus}">Status</span>

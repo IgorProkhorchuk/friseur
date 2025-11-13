@@ -54,7 +54,7 @@
 
 
 
-<!-- Main Content -->
+<!-- Main Content placeholder; child templates replace ::mainContent to inject their body -->
 <main>
     <div th:replace="~{::mainContent}"></div>
 </main>
@@ -71,6 +71,7 @@
 </footer>
 </div>
 <!-- <script th:src="@{/js/script.js}" src="/js/script.js"></script> -->
+<!-- Global HTMX hook that attaches CSRF headers to every AJAX request -->
 <script>
     document.body.addEventListener('htmx:configRequest', function(evt) {
         var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');

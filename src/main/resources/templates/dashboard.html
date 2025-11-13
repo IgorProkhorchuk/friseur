@@ -14,10 +14,12 @@
     <section class="appointment-section">
         <h2>Your Upcoming Appointments</h2>
 
+        <!-- Empty-state card when no upcoming appointments exist -->
         <div th:if="${#lists.isEmpty(appointments)}" class="no-appointments card-panel">
             <p>You have no booked slots yet.</p>
         </div>
 
+        <!-- Appointment cards are only rendered when data is present -->
         <div th:if="${!#lists.isEmpty(appointments)}" class="appointment-grid">
             <article class="appointment-card" th:each="appointment : ${appointments}">
                 <div class="appointment-card__header">

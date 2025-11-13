@@ -4,6 +4,9 @@ package de.friseur.friseur.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Represents a single bookable time unit that can optionally be linked to an appointment.
+ */
 @Entity
 @Table
 public class Slot {

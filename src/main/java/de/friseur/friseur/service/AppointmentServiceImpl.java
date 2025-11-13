@@ -18,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Default implementation handling appointment lookups and cancellation rules.
+ */
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
 
@@ -28,6 +31,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Autowired
     private SlotRepository slotRepository;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Appointment> getUpcomingAppointmentsForUser(String username) {
         log.info("Fetching upcoming appointments for user: {}", username);
@@ -35,6 +41,9 @@ public class AppointmentServiceImpl implements AppointmentService {
                 username, AppointmentStatus.UPCOMING, LocalDateTime.now());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public void cancelUserAppointment(Long appointmentId, String username)

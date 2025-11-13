@@ -18,7 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Provides read and write operations around {@link Slot} availability and reservations.
+ */
 @Service
 public class SlotService {
     private static final Logger logger = LoggerFactory.getLogger(SlotService.class);
@@ -32,6 +34,11 @@ public class SlotService {
         this.userRepository = userRepository; // Initialize UserRepository
     }
 
+    /**
+     * Retrieves every future slot currently marked as available.
+     *
+     * @return chronologically ordered list of timestamps
+     */
     public List<LocalDateTime> getAllAvailableSlots() {
         try {
             logger.info("Getting all available slots");
@@ -48,6 +55,11 @@ public class SlotService {
         }
     }
 
+    /**
+     * Collapses available slots into distinct dates for UI grouping.
+     *
+     * @return sorted list of dates that still contain free slots
+     */
     public List<LocalDate> getAllAvailableDates() {
         try {
             logger.info("Getting all available dates");
@@ -66,7 +78,17 @@ public class SlotService {
         }
     }
 
-public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, String serviceType) {
+    /**
+     * Reserves a slot for the specified user by creating an {@link Appointment}, updating
+     * the user aggregate, and flagging the slot as reserved.
+     *
+     * @param timeSlot    exact slot timestamp
+     * @param userId      id of the booking user
+     * @param username    display name stored on the appointment
+     * @param serviceType chosen service
+     * @return {@code true} when the reservation workflow completed successfully
+     */
+    public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, String serviceType) {
         try {
             logger.info("Reserving slot at {}", timeSlot);
             Slot slot = slotRepository.findByTimeSlot(timeSlot);

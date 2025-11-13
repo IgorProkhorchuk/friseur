@@ -14,10 +14,12 @@
             <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
         </div>
 
+        <!-- Quick feedback when the repository contains no reserved slots -->
         <div th:if="${#lists.isEmpty(bookedSlots)}" class="info-card">
             Keine gebuchten Slots vorhanden.
         </div>
 
+        <!-- Table only renders if there is data; the unless mirrors the empty-state condition above -->
         <div th:unless="${#lists.isEmpty(bookedSlots)}" class="table-wrapper">
             <table class="data-table">
                 <thead>

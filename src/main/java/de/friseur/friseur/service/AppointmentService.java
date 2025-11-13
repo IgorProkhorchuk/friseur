@@ -6,6 +6,9 @@ import de.friseur.friseur.service.exception.UnauthorizedCancelException;
 
 import java.util.List;
 
+/**
+ * Defines user-facing appointment operations such as listing and cancellation.
+ */
 public interface AppointmentService {
 
     /**

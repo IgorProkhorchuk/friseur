@@ -34,6 +34,7 @@
       </div>
     </form>
 
+    <!-- Each alert listens to Spring Security query parameters surfaced during redirects -->
     <div class="auth-alert" th:if="${param.error}">Invalid username or password.</div>
     <div class="auth-alert" th:if="${param.expired}">Session expired. Please log in again.</div>
     <div class="auth-success" th:if="${param.logout}">You have been logged out.</div>
