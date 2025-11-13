@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title th:text="${pageTitle}">FrisÖr - Hairdress Salon in Berlin</title>
+    <title th:text="${pageTitle} ?: #{app.meta.title}">FrisÖr - Hairdress Salon in Berlin</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/admin-manage-slots.css}">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
@@ -26,14 +26,17 @@
         </nav>
         <nav class="navbar-buttons">
             <div class="panel">
-                <a href="/home">Home</a>
-                <a href="/user/appointments/dashboard">Meine Slots</a>
-                <a href="/admin/dashboard" sec:authorize="hasRole('ADMIN')">Admin</a>
-                <a class="auth-button auth-link" th:href="@{/login}" sec:authorize="!isAuthenticated()">
+                <a href="/home" th:text="#{nav.home}">Home</a>
+                <a href="/user/appointments/dashboard" th:text="#{nav.mySlots}">My Slots</a>
+                <a href="/admin/dashboard" sec:authorize="hasRole('ADMIN')" th:text="#{nav.admin}">Admin</a>
+                <a class="auth-button auth-link"
+                   th:href="@{/login}"
+                   sec:authorize="!isAuthenticated()"
+                   th:text="#{nav.login}">
                     Login
                 </a>
                 <form class="auth-form" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-                    <button class="auth-button" type="submit">
+                    <button class="auth-button" type="submit" th:text="#{nav.logout}">
                         Logout
                     </button>
                 </form>
@@ -54,10 +57,10 @@
 <!-- Footer -->
 <footer>
     <div class="footer-content">
-        <p>Address: Großgörschenstraße 8, Berlin</p>
-        <p>Phone: +49 123 456 789</p>
-        <p>Email: info@cut-by-me.de</p>
-        <p>&copy; 2025 FriSÖr</p>
+        <p th:text="#{footer.address}">Address: Großgörschenstraße 8, Berlin</p>
+        <p th:text="#{footer.phone}">Phone: +49 123 456 789</p>
+        <p th:text="#{footer.email}">Email: info@cut-by-me.de</p>
+        <p th:text="#{footer.copyright}">&copy; 2025 FriSÖr</p>
     </div>
 </footer>
 </div>

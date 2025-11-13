@@ -8,15 +8,15 @@
     <section class="admin-section">
         <div class="admin-section-header">
             <div>
-                <p class="section-eyebrow">Admin · Slots</p>
-                <h1>Manage Slots</h1>
-                <p>Click on a date to view or manage its slots. Hidden slots remain unsichtbar für Kund:innen.</p>
+                <p class="section-eyebrow" th:text="#{admin.manage.eyebrow}">Admin · Slots</p>
+                <h1 th:text="#{admin.manage.title}">Manage Slots</h1>
+                <p th:text="#{admin.manage.subtitle}">Click on a date to view or manage its slots. Hidden slots remain unsichtbar für Kund:innen.</p>
             </div>
-            <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
+            <a href="/admin/dashboard" class="ghost-button" th:text="#{admin.manage.back}">⬅ Back to Dashboard</a>
         </div>
 
         <div th:if="${#lists.isEmpty(slots)}" class="info-card">
-            No slots available.
+            <span th:text="#{admin.manage.empty}">No slots available.</span>
         </div>
 
         <div th:unless="${#lists.isEmpty(slots)}" class="admin-accordion">
@@ -34,9 +34,9 @@
                         <table class="data-table">
                             <thead>
                             <tr>
-                                <th>Time</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th th:text="#{admin.manage.table.time}">Time</th>
+                                <th th:text="#{admin.manage.table.status}">Status</th>
+                                <th th:text="#{admin.manage.table.action}">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,7 +55,7 @@
                                                   method="post">
                                                 <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                                                 <button type="submit"
-                                                        th:text="${slot.slotStatus.name() == 'HIDDEN' ? 'Unhide' : 'Hide'}"
+                                                        th:text="${slot.slotStatus.name() == 'HIDDEN'} ? ${#messages.msg('admin.manage.button.unhide')} : ${#messages.msg('admin.manage.button.hide')}"
                                                         th:classappend="${slot.slotStatus.name() == 'HIDDEN' ? ' unhide-btn' : ' hide-btn'}">
                                                 </button>
                                             </form>
