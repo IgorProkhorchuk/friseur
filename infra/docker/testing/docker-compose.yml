@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    container_name: friseur_test_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+    networks:
+      - friseur_net
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: friseur_test_app
+    env_file: .env
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+    networks:
+      - friseur_net
+    volumes:
+      - /var/log/friseur-test:/var/log/friseur
+
+volumes:
+  pgdata_test:
+
+networks:
+  friseur_net:
+

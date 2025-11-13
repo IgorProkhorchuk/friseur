@@ -55,6 +55,7 @@ button {
 
 .page-wrapper {
     flex: 1;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: radial-gradient(circle at top, rgba(249, 186, 91, 0.08), transparent 50%), var(--bg-primary);
@@ -89,7 +90,7 @@ header {
 
 .navbar-top {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -105,10 +106,11 @@ header {
     font-family: 'Georgia', 'Times New Roman', 'Merriweather', serif;
     font-size: clamp(1.8rem, 3vw, 2.4rem);
     letter-spacing: 0.18em;
-    text-transform: uppercase;
+    text-transform: capitalize;
     color: var(--accent);
     text-align: center;
     font-style: italic;
+    font-weight: bold;
 }
 
 .navbar-buttons {
@@ -159,35 +161,36 @@ header {
     transform: translateY(0);
 }
 
-.auth-form {
-    margin: 0;
-    display: flex;
-}
-
-.auth-icon-button {
-    width: 44px;
-    height: 44px;
-    border-radius: var(--radius-sm);
-    border: 1px solid transparent;
-    background: transparent;
+.auth-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    background: transparent;
     cursor: pointer;
-    transition: background 0.25s ease, transform 0.25s ease;
+    transition: color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
-.auth-icon-button svg {
-    width: 28px;
-    height: 28px;
-    stroke: var(--accent);
-    stroke-width: 1.5;
-}
-
-.auth-icon-button:hover {
-    background: rgba(249, 186, 91, 0.15);
+.auth-button:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
     border-color: var(--accent);
-    transform: translateY(-1px);
+}
+
+.auth-button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.auth-form {
+    margin: 0;
+    display: flex;
 }
 
 .sr-only {
@@ -488,6 +491,7 @@ header {
 
 /* Footer */
 footer {
+    margin-top: auto;
     background: var(--bg-secondary);
     padding: 2rem 1rem;
     border-top: 1px solid var(--border-color);
@@ -509,7 +513,7 @@ footer {
 @media (min-width: 900px) {
     .navbar-top {
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: space-evenly;
         padding: 1rem 2rem;
     }
 
@@ -737,6 +741,148 @@ footer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1rem;
+}
+
+.success-page {
+    gap: 1.5rem;
+}
+
+.success-hero {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.success-hero h1 {
+    margin-bottom: 0.35rem;
+}
+
+.success-hero p {
+    color: var(--text-muted);
+}
+
+.success-layout {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.success-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.success-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    background: rgba(126, 217, 87, 0.15);
+    color: #7ed957;
+    border: 1px solid rgba(126, 217, 87, 0.35);
+}
+
+.success-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.success-card .success-message {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #7ed957;
+}
+
+.success-subtext {
+    color: var(--text-muted);
+}
+
+.success-actions {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.success-action {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.success-action.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid rgba(249, 186, 91, 0.4);
+}
+
+@media (min-width: 768px) {
+    .success-layout {
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+        align-items: stretch;
+    }
+
+    .success-actions {
+        align-self: stretch;
+    }
+}
+
+.confirmation-wrapper {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.confirmation-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.confirmation-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(126, 217, 87, 0.15);
+    border: 1px solid rgba(126, 217, 87, 0.35);
+    color: #7ed957;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.confirmation-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.confirmation-title {
+    font-weight: 600;
+    color: #7ed957;
+}
+
+.confirmation-note {
+    color: var(--text-muted);
+    font-size: 0.95rem;
 }
 
 .admin-action-card {

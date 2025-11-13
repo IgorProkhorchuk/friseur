@@ -1,18 +1,24 @@
-<div id="message" xmlns:th="http://www.w3.org/1999/xhtml">
-
-    <p th:text="${message}"></p>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+    
+</html>
+<div class="confirmation-wrapper" xmlns:th="http://www.w3.org/1999/xhtml">
+    <article class="confirmation-card">
+        <div class="confirmation-icon" aria-hidden="true">✓</div>
+        <div class="confirmation-copy">
+            <p class="confirmation-title" th:text="${message}">Slot reserved successfully</p>
+            <p class="confirmation-note">Wir leiten Sie gleich zu Ihrem Dashboard weiter.</p>
+        </div>
+    </article>
 </div>
-<p id="countdown">Redirecting in <span id="seconds">3</span> seconds...</p>
 <script>
-    let seconds = 3;
-    const countdownElem = document.getElementById('seconds');
-    const interval = setInterval(function() {
-        seconds--;
-        countdownElem.textContent = seconds;
-        if (seconds <= 0) {
-            clearInterval(interval);
-            window.location.href = "/user/appointments/dashboard";
-        }
-    }, 1000);
+    window.setTimeout(function redirectToDashboard() {
+        window.location.href = "/user/appointments/dashboard";
+    }, 3000);
 </script>
-
+</body>
+<footer th:replace="~{base :: footer}"></footer>
+</html>

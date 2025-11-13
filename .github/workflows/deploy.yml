@@ -15,16 +15,16 @@ jobs:
       STAGE_DIR: /srv/cut-by-me/testing
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set environment target
         id: envpick
         run: |
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "TARGET_DIR=$PROD_DIR" >> $GITHUB_OUTPUT
+            echo "TARGET_DIR=${PROD_DIR}" >> $GITHUB_OUTPUT
           else
-            echo "TARGET_DIR=$STAGE_DIR" >> $GITHUB_OUTPUT
+            echo "TARGET_DIR=${STAGE_DIR}" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up JDK 25
@@ -36,41 +36,37 @@ jobs:
       - name: Build with Maven
         run: mvn -B -ntp clean package -DskipTests
 
-      - name: Add server to known_hosts
+      - name: Prepare SSH
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Copy deployment files (rsync)
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_deploy
+          chmod 700 ~/.ssh
+          ssh-keyscan -T 10 -H ${{ env.SERVER_IP }} >> ~/.ssh/known_hosts
+          printf "%s" "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
 
-          # ensure dirs on server
-          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "sudo mkdir -p ${{ steps.envpick.outputs.TARGET_DIR }}/app/target"
+      - name: Upload deployment artifacts
+        run: |
+          TARGET=${{ steps.envpick.outputs.TARGET_DIR }}
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "mkdir -p $TARGET/app/target"
 
-          # rsync jar + compose + env + Dockerfile to the right env
           rsync -rzlt --delete -e "ssh -i ~/.ssh/id_deploy" \
             target/friseur-0.9.jar \
-            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:${{ steps.envpick.outputs.TARGET_DIR }}/app/target/
+            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:$TARGET/app/target/
 
           rsync -rzlt -e "ssh -i ~/.ssh/id_deploy" \
             infra/docker/${GITHUB_REF_NAME}/docker-compose.yml \
-            infra/docker/${GITHUB_REF_NAME}/.env \
             infra/docker/app/Dockerfile \
-            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:${{ steps.envpick.outputs.TARGET_DIR }}/
+            ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:$TARGET/
 
-      - name: Restart stack remotely
+      - name: Restart Docker stack
         run: |
-          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} <<'EOF'
+          BRANCH=${GITHUB_REF_NAME}
+          TARGET=${{ steps.envpick.outputs.TARGET_DIR }}
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} bash -s <<EOF
             set -e
-            if [ "${GITHUB_REF_NAME}" = "main" ]; then
-              TARGET_DIR="${PROD_DIR}"
-            else
-              TARGET_DIR="${STAGE_DIR}"
-            fi
-            cd "$TARGET_DIR"
-            sudo docker compose down
-            sudo docker compose up -d --build
-            sudo docker compose ps
+            echo "Deploying branch: $BRANCH to $TARGET"
+            cd "$TARGET"
+            docker compose down || true
+            docker compose up -d --build
+            docker compose ps
           EOF

@@ -3,6 +3,7 @@ package de.friseur.friseur.service;
 import de.friseur.friseur.model.Schedule;
 import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.model.SlotStatus;
+import de.friseur.friseur.repository.AppointmentRepository;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import org.slf4j.Logger;
@@ -19,14 +20,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class ScheduleService {
+
+    private final AppointmentRepository appointmentRepository;
     private static final Logger logger = LoggerFactory.getLogger(ScheduleService.class);
     private final ScheduleRepository scheduleRepository;
     @Autowired
     private final SlotRepository slotRepository;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, SlotRepository slotRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, SlotRepository slotRepository, AppointmentRepository appointmentRepository) {
         this.scheduleRepository = scheduleRepository;
         this.slotRepository = slotRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public Schedule getLatestSchedule() {
@@ -77,4 +81,17 @@ public class ScheduleService {
 
         slotRepository.saveAll(newSlots);
     }
+
+    public boolean saveSchedule(Schedule schedule) {
+        List<Schedule> overlappingSchedules = scheduleRepository.findOverlappingSchedules(
+                schedule.getStartDate(), schedule.getEndDate());
+                if (overlappingSchedules.isEmpty()) {
+            scheduleRepository.save(schedule);
+            return true;
+        } else {
+            logger.warn("Cannot save schedule. Overlapping schedules found: {}", overlappingSchedules);
+            return false;
+    }
 }
+}
+

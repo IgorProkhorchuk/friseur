@@ -22,28 +22,19 @@
             <div class="logo">
                 <img th:src="@{/images/logo.svg}" alt="FrisÖr Logo">
             </div>
-            <div class="salon-name">FriSÖr</div>
+            <div class="salon-name">FrisÖr</div>
         </nav>
         <nav class="navbar-buttons">
             <div class="panel">
                 <a href="/home">Home</a>
-                <a href="/user/appointments/dashboard">My slots</a>
-                <a class="auth-icon-button auth-link" th:href="@{/login}" sec:authorize="!isAuthenticated()" aria-label="Login">
-                    <span class="sr-only">Login</span>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3 12h11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 8l4 4-4 4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+                <a href="/user/appointments/dashboard">Meine Slots</a>
+                <a href="/admin/dashboard" sec:authorize="hasRole('ADMIN')">Admin</a>
+                <a class="auth-button auth-link" th:href="@{/login}" sec:authorize="!isAuthenticated()">
+                    Login
                 </a>
                 <form class="auth-form" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-                    <button class="auth-icon-button" type="submit" aria-label="Logout">
-                        <span class="sr-only">Logout</span>
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M21 12H10" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M14 8l-4 4 4 4" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+                    <button class="auth-button" type="submit">
+                        Logout
                     </button>
                 </form>
             </div>
@@ -63,10 +54,10 @@
 <!-- Footer -->
 <footer>
     <div class="footer-content">
-        <p>Address: Main Street 123, Berlin</p>
+        <p>Address: Großgörschenstraße 8, Berlin</p>
         <p>Phone: +49 123 456 789</p>
-        <p>Email: info@frisorberlin.de</p>
-        <p>&copy; 2024 FriSÖr</p>
+        <p>Email: info@cut-by-me.de</p>
+        <p>&copy; 2025 FriSÖr</p>
     </div>
 </footer>
 </div>

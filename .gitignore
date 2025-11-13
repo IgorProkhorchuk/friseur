@@ -1,8 +1,17 @@
+.gitignore
+.gitattributes
 HELP.md
 target/
+*.jar
+*.log
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+*.iml
+# Runtime volumes
+**/pgdata_*/
+**/logs/
 
 ### STS ###
 .apt_generated
@@ -33,3 +42,7 @@ build/
 .vscode/
 
 ### ENV ###
+*.env
+.env
+**/.env
+infra/docker/*/.env

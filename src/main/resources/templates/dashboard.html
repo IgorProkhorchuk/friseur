@@ -5,17 +5,25 @@
 <header th:replace="~{base :: header}"></header>
 
 <div class="main-content dashboard-page" th:fragment="mainContent">
+    <div id="dashboard-hero">
     <section class="dashboard-hero">
-        <h1>Welcome to Your Dashboard</h1>
+        <h2>Willkommen in Ihrem Dashboard</h2>
         <p>Behalten Sie Ihre nächsten Termine im Blick und verwalten Sie Ihre Buchungen jederzeit.</p>
-        <a class="button" th:href="@{/slots}">Neuen Termin buchen</a>
+        <a class="button"
+           hx-get="/slots"
+           hx-target="#dashboard-hero"
+           hx-swap="outerHTML"
+           th:if="${#lists.isEmpty(appointments)}">
+            Neuen Termin buchen
+        </a>
     </section>
+    </div>
 
     <section class="appointment-section">
-        <h2>Your Upcoming Appointments</h2>
+        <h2>Ihre nächsten Termine</h2>
 
         <div th:if="${#lists.isEmpty(appointments)}" class="no-appointments card-panel">
-            <p>You have no booked slots yet.</p>
+            <p>Sie haben noch keine gebuchten Slots.</p>
         </div>
 
         <div th:if="${!#lists.isEmpty(appointments)}" class="appointment-grid">
