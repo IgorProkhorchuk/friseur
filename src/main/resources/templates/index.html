@@ -6,23 +6,23 @@
 
 <div class="main-content" th:fragment="mainContent">
     <div id="available-slots">
-        <h3>Herzlich Willkommen!</h3>
+        <h3 th:text="#{home.hero.welcome}">Herzlich Willkommen!</h3>
         <div class="main-book-button">
             <h3>
-                <button hx-get="/slots" hx-target="#available-slots" hx-swap="outerHTML">Termin Buchen</button>
+                <button hx-get="/slots" hx-target="#available-slots" hx-swap="outerHTML" th:text="#{home.hero.bookButton}">Termin Buchen</button>
             </h3>
         </div>
         <div class="profile">
-        <p>Willkommen zu einem einzigartigen Haarerlebnis in Tempelhof, bei dem jeder Besuch ein Schritt zu Ihrem perfekten Stil ist. Bekannt als der „Michelin-Stern“ des Hairstylings in Berlin, verwandelt Yulia Haare mit der Präzision einer Künstlerin und der Herzlichkeit einer vertrauensvollen Freundin.</p>
+        <p th:text="#{home.hero.intro}">Willkommen zu einem einzigartigen Haarerlebnis in Tempelhof, bei dem jeder Besuch ein Schritt zu Ihrem perfekten Stil ist. Bekannt als der „Michelin-Stern“ des Hairstylings in Berlin, verwandelt Yulia Haare mit der Präzision einer Künstlerin und der Herzlichkeit einer vertrauensvollen Freundin.</p>
         </div>
         <div class="services">
             <div class="service-card">
-                <h3>✨ Signatur-Styling</h3>
-                <p>Von subtiler Eleganz bis zu mutigen Statements – jeder Schnitt wird individuell gestaltet, um die natürliche Schönheit zu betonen und den persönlichen Stil zu unterstreichen.</p>
+                <h3 th:text="#{home.hero.service1.title}">✨ Signatur-Styling</h3>
+                <p th:text="#{home.hero.service1.description}">Von subtiler Eleganz bis zu mutigen Statements – jeder Schnitt wird individuell gestaltet, um die natürliche Schönheit zu betonen und den persönlichen Stil zu unterstreichen.</p>
             </div>
             <div class="service-card">
-                <h3>🎨 Farb-Expertise</h3>
-                <p>Professionelle Farbbehandlungen mit hochwertigen Produkten – sei es für natürlich wirkende Highlights oder kreative Farbtransformationen.</p>
+                <h3 th:text="#{home.hero.service2.title}">🎨 Farb-Expertise</h3>
+                <p th:text="#{home.hero.service2.description}">Professionelle Farbbehandlungen mit hochwertigen Produkten – sei es für natürlich wirkende Highlights oder kreative Farbtransformationen.</p>
             </div>
         </div>
     </div>

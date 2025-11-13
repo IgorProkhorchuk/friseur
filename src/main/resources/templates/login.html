@@ -7,40 +7,40 @@
 <div class="main-content auth-page" th:fragment="mainContent">
   <section class="auth-card">
     <div class="auth-header">
-      <p class="section-eyebrow">Welcome back</p>
-      <h1>Login</h1>
-      <p>Greifen Sie auf Ihre persönlichen Slots und Buchungen zu.</p>
+      <p class="section-eyebrow" th:text="#{login.eyebrow}">Welcome back</p>
+      <h1 th:text="#{login.title}">Login</h1>
+      <p th:text="#{login.subtitle}">Greifen Sie auf Ihre persönlichen Slots und Buchungen zu.</p>
     </div>
 
     <form class="auth-form-grid" th:action="@{/login}" method="post">
       <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
       <div class="auth-input-group">
-        <label for="username">Username</label>
+        <label for="username" th:text="#{login.label.username}">Username</label>
         <input class="auth-input" type="text" id="username" name="username" required />
       </div>
 
       <div class="auth-input-group">
-        <label for="password">Password</label>
+        <label for="password" th:text="#{login.label.password}">Password</label>
         <input class="auth-input" type="password" id="password" name="password" required />
       </div>
 
       <div class="auth-actions">
         <label class="auth-checkbox">
           <input type="checkbox" name="remember-me" />
-          Remember me
+          <span th:text="#{login.checkbox.remember}">Remember me</span>
         </label>
-        <button type="submit" class="button">Login</button>
+        <button type="submit" class="button" th:text="#{login.button.submit}">Login</button>
       </div>
     </form>
 
-    <div class="auth-alert" th:if="${param.error}">Invalid username or password.</div>
-    <div class="auth-alert" th:if="${param.expired}">Session expired. Please log in again.</div>
-    <div class="auth-success" th:if="${param.logout}">You have been logged out.</div>
+    <div class="auth-alert" th:if="${param.error}" th:text="#{login.alert.error}">Invalid username or password.</div>
+    <div class="auth-alert" th:if="${param.expired}" th:text="#{login.alert.expired}">Session expired. Please log in again.</div>
+    <div class="auth-success" th:if="${param.logout}" th:text="#{login.alert.logout}">You have been logged out.</div>
 
     <p class="auth-tertiary">
-      Noch kein Konto?
-      <a th:href="@{/register}">Jetzt registrieren</a>
+      <span th:text="#{login.cta.prompt}">Noch kein Konto?</span>
+      <a th:href="@{/register}" th:text="#{login.cta.link}">Jetzt registrieren</a>
     </p>
   </section>
 </div>

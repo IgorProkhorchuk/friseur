@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <head th:replace="~{base :: head}"></head>
-    <title>Schedule</title>
+    <title th:text="#{createSchedule.pageTitle}">Schedule</title>
 </head>
 <body>
 <main>
-<h3>Schedule</h3>
+<h3 th:text="#{createSchedule.heading}">Schedule</h3>
 <div id="save-schedule">
     <form th:action="@{/admin/save-schedule}" method="post">
         <!-- CSRF Token -->
@@ -36,7 +36,7 @@
             </th:block>
         </ul>
 
-        <button type="submit" class="submit-button" hx-target="#save-schedule" hx-swap="outerHTML">Save Selected Timeslots</button>
+        <button type="submit" class="submit-button" hx-target="#save-schedule" hx-swap="outerHTML" th:text="#{createSchedule.button.save}">Save Selected Timeslots</button>
     </form>
 </div>
 </main>

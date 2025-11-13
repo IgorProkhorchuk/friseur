@@ -7,8 +7,8 @@
 <div>
     <div class="main-content" th:fragment="mainContent">
         <div class="stub">
-            <p class="shop-stub">Unser Onlineshop wird bald eröffnet. Bleiben Sie dran!</p>
-            <button class="button-back" onclick="window.history.back()">Back</button>
+            <p class="shop-stub" th:text="#{shop.stub}">Unser Onlineshop wird bald eröffnet. Bleiben Sie dran!</p>
+            <button class="button-back" onclick="window.history.back()" th:text="#{shop.button.back}">Back</button>
         </div>
 
     </div>
