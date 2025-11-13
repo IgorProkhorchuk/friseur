@@ -9,8 +9,8 @@
     <article class="confirmation-card">
         <div class="confirmation-icon" aria-hidden="true">✓</div>
         <div class="confirmation-copy">
-            <p class="confirmation-title" th:text="${message}">Slot reserved successfully</p>
-            <p class="confirmation-note">Wir leiten Sie gleich zu Ihrem Dashboard weiter.</p>
+            <p class="confirmation-title" th:text="${message} ?: #{confirmation.message.default}">Slot reserved successfully</p>
+            <p class="confirmation-note" th:text="#{confirmation.note}">Wir leiten Sie gleich zu Ihrem Dashboard weiter.</p>
         </div>
     </article>
 </div>

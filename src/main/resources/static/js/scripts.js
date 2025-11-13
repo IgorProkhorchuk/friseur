@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Select all spans within the .coming-soon-text paragraph
     const texts = document.querySelectorAll(".coming-soon-text span");
 
+    if (!texts.length) {
+        return;
+    }
+
     texts.forEach(span => {
         // Display the span if its lang attribute matches the detected language
         if (span.getAttribute("lang") === langCode) {
@@ -15,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fallback: if no matching language found, show English as default
     if (![...texts].some(span => span.style.display === "inline")) {
-        document.querySelector(".coming-soon-text span[lang='en']").style.display = "inline";
+        const fallback = document.querySelector(".coming-soon-text span[lang='en']");
+        if (fallback) {
+            fallback.style.display = "inline";
+        }
     }
 });

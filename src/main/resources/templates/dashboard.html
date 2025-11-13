@@ -7,23 +7,24 @@
 <div class="main-content dashboard-page" th:fragment="mainContent">
     <div id="dashboard-hero">
     <section class="dashboard-hero">
-        <h2>Willkommen in Ihrem Dashboard</h2>
-        <p>Behalten Sie Ihre nächsten Termine im Blick und verwalten Sie Ihre Buchungen jederzeit.</p>
+        <h2 th:text="#{dashboard.hero.title}">Willkommen in Ihrem Dashboard</h2>
+        <p th:text="#{dashboard.hero.subtitle}">Behalten Sie Ihre nächsten Termine im Blick und verwalten Sie Ihre Buchungen jederzeit.</p>
         <a class="button"
            hx-get="/slots"
            hx-target="#dashboard-hero"
            hx-swap="outerHTML"
-           th:if="${#lists.isEmpty(appointments)}">
+           th:if="${#lists.isEmpty(appointments)}"
+           th:text="#{dashboard.hero.button}">
             Neuen Termin buchen
         </a>
     </section>
     </div>
 
     <section class="appointment-section">
-        <h2>Ihre nächsten Termine</h2>
+        <h2 th:text="#{dashboard.section.upcoming}">Ihre nächsten Termine</h2>
 
         <div th:if="${#lists.isEmpty(appointments)}" class="no-appointments card-panel">
-            <p>Sie haben noch keine gebuchten Slots.</p>
+            <p th:text="#{dashboard.empty}">Sie haben noch keine gebuchten Slots.</p>
         </div>
 
         <div th:if="${!#lists.isEmpty(appointments)}" class="appointment-grid">
@@ -37,7 +38,7 @@
                 <div class="card-actions">
                     <form th:action="@{'/user/appointments/cancel/' + ${appointment.appointmentId}}" method="post">
                         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-                        <button type="submit" class="ghost-button">Cancel</button>
+                        <button type="submit" class="ghost-button" th:text="#{dashboard.button.cancel}">Cancel</button>
                     </form>
                 </div>
             </article>

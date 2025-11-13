@@ -6,8 +6,8 @@
 
 <div class="main-content slots-page" th:fragment="mainContent">
     <div class="slots-header">
-        <h1>Verfügbare Slots</h1>
-        <p>Wählen Sie einen passenden Termin – alle Zeiten sind in Echtzeit verfügbar.</p>
+        <h1 th:text="#{slots.header.title}">Verfügbare Slots</h1>
+        <p th:text="#{slots.header.subtitle}">Wählen Sie einen passenden Termin – alle Zeiten sind in Echtzeit verfügbar.</p>
     </div>
 
     <!--
@@ -40,7 +40,7 @@
                                 </div>
                             </th:block>
                         </div>
-                        <button type="submit" class="submit-button" hx-target="#confirmation" hx-swap="outerHTML">Select Time</button>
+                        <button type="submit" class="submit-button" hx-target="#confirmation" hx-swap="outerHTML" th:text="#{slots.button.select}">Select Time</button>
                     </form>
                 </div>
             </div>

@@ -8,11 +8,11 @@
     <section class="admin-section">
         <div class="admin-section-header">
             <div>
-                <p class="section-eyebrow">Admin · Planung</p>
-                <h1>Add New Date Range</h1>
-                <p>Definieren Sie neue Verfügbarkeiten – die nativen Datepicker zeigen mobile Scroll-Auswahl (iPhone Style).</p>
+                <p class="section-eyebrow" th:text="#{admin.plan.eyebrow}">Admin · Planung</p>
+                <h1 th:text="#{admin.plan.title}">Add New Date Range</h1>
+                <p th:text="#{admin.plan.subtitle}">Definieren Sie neue Verfügbarkeiten – die nativen Datepicker zeigen mobile Scroll-Auswahl (iPhone Style).</p>
             </div>
-            <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
+            <a href="/admin/dashboard" class="ghost-button" th:text="#{admin.plan.back}">⬅ Back to Dashboard</a>
         </div>
 
         <div class="card-panel" id="set-schedule" th:fragment="set-schedule">
@@ -24,28 +24,28 @@
 
                 <div class="form-grid range-picker">
                     <label for="startDate">
-                        Start Date
+                        <span th:text="#{admin.plan.label.start}">Start Date</span>
                         <input type="date" id="startDate" name="startDate" required class="date-input"/>
                     </label>
                     <label for="endDate">
-                        End Date
+                        <span th:text="#{admin.plan.label.end}">End Date</span>
                         <input type="date" id="endDate" name="endDate" required class="date-input"/>
                     </label>
                 </div>
 
-                <p class="admin-note">Nutzen Sie die native Scroll-/Picker-Erfahrung Ihres Geräts, um präzise Daten zu wählen.</p>
+                <p class="admin-note" th:text="#{admin.plan.note}">Nutzen Sie die native Scroll-/Picker-Erfahrung Ihres Geräts, um präzise Daten zu wählen.</p>
 
                 <p class="inline-alert" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
                 <div class="form-actions">
-                    <button type="submit" class="button">Set Schedule</button>
+                    <button type="submit" class="button" th:text="#{admin.plan.button.submit}">Set Schedule</button>
                 </div>
             </form>
 
             <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
 
             <div th:if="${successMessage}" id="edit-schedule-container">
-                <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend">
+                <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend" th:text="#{admin.plan.button.edit}">
                     Edit Time for Created Schedule
                 </button>
             </div>

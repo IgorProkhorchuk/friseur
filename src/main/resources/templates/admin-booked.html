@@ -7,25 +7,25 @@
     <section class="admin-section">
         <div class="admin-section-header">
             <div>
-                <p class="section-eyebrow">Admin · Übersicht</p>
-                <h1>Gebuchte Slots anzeigen</h1>
-                <p>Alle bestätigten Termine mit Kundenname und Kontakt.</p>
+                <p class="section-eyebrow" th:text="#{admin.booked.eyebrow}">Admin · Übersicht</p>
+                <h1 th:text="#{admin.booked.title}">Gebuchte Slots anzeigen</h1>
+                <p th:text="#{admin.booked.subtitle}">Alle bestätigten Termine mit Kundenname und Kontakt.</p>
             </div>
-            <a href="/admin/dashboard" class="ghost-button">⬅ Zurück zum Dashboard</a>
+            <a href="/admin/dashboard" class="ghost-button" th:text="#{admin.booked.back}">⬅ Zurück zum Dashboard</a>
         </div>
 
         <div th:if="${#lists.isEmpty(bookedSlots)}" class="info-card">
-            Keine gebuchten Slots vorhanden.
+            <span th:text="#{admin.booked.empty}">Keine gebuchten Slots vorhanden.</span>
         </div>
 
         <div th:unless="${#lists.isEmpty(bookedSlots)}" class="table-wrapper">
             <table class="data-table">
                 <thead>
                 <tr>
-                    <th>Datum</th>
-                    <th>Uhrzeit</th>
-                    <th>Kunde</th>
-                    <th>Kontakt</th>
+                    <th th:text="#{admin.booked.table.date}">Datum</th>
+                    <th th:text="#{admin.booked.table.time}">Uhrzeit</th>
+                    <th th:text="#{admin.booked.table.client}">Kunde</th>
+                    <th th:text="#{admin.booked.table.contact}">Kontakt</th>
                 </tr>
                 </thead>
                 <tbody>

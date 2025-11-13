@@ -6,35 +6,35 @@
 
 <div class="main-content admin-page" th:fragment="mainContent">
     <section class="admin-hero">
-        <p class="section-eyebrow">Control Center</p>
-        <h1>Admin Dashboard</h1>
-        <p>Steuern Sie Buchungen, Zeitfenster und Verfügbarkeiten zentral von hier.</p>
+        <p class="section-eyebrow" th:text="#{admin.dashboard.eyebrow}">Control Center</p>
+        <h1 th:text="#{admin.dashboard.title}">Admin Dashboard</h1>
+        <p th:text="#{admin.dashboard.subtitle}">Steuern Sie Buchungen, Zeitfenster und Verfügbarkeiten zentral von hier.</p>
     </section>
 
     <section class="admin-action-grid">
         <a href="/admin/booked" class="admin-action-card">
             <span class="admin-card-icon">📅</span>
-            <h3>View Booked Slots</h3>
-            <p>Überprüfen Sie bestätigte Termine und Kundendetails.</p>
-            <span class="admin-card-footer">Open overview →</span>
+            <h3 th:text="#{admin.dashboard.card.booked.title}">View Booked Slots</h3>
+            <p th:text="#{admin.dashboard.card.booked.desc}">Überprüfen Sie bestätigte Termine und Kundendetails.</p>
+            <span class="admin-card-footer" th:text="#{admin.dashboard.card.booked.cta}">Open overview →</span>
         </a>
         <a href="/admin/schedule/all" class="admin-action-card">
             <span class="admin-card-icon">🗓</span>
-            <h3>View Full Schedule</h3>
-            <p>Alle Slots nach Datum – inklusive freier und versteckter Zeiten.</p>
-            <span class="admin-card-footer">See calendar →</span>
+            <h3 th:text="#{admin.dashboard.card.schedule.title}">View Full Schedule</h3>
+            <p th:text="#{admin.dashboard.card.schedule.desc}">Alle Slots nach Datum – inklusive freier und versteckter Zeiten.</p>
+            <span class="admin-card-footer" th:text="#{admin.dashboard.card.schedule.cta}">See calendar →</span>
         </a>
         <a href="/admin" class="admin-action-card">
             <span class="admin-card-icon">➕</span>
-            <h3>Add New Date Range</h3>
-            <p>Planen Sie neue Zeiträume und aktivieren Sie verfügbare Slots.</p>
-            <span class="admin-card-footer">Add dates →</span>
+            <h3 th:text="#{admin.dashboard.card.add.title}">Add New Date Range</h3>
+            <p th:text="#{admin.dashboard.card.add.desc}">Planen Sie neue Zeiträume und aktivieren Sie verfügbare Slots.</p>
+            <span class="admin-card-footer" th:text="#{admin.dashboard.card.add.cta}">Add dates →</span>
         </a>
         <a href="/admin/slots/manage" class="admin-action-card">
             <span class="admin-card-icon">⚙️</span>
-            <h3>Modify Existing Slots</h3>
-            <p>Slots verstecken oder freigeben – direkt nach Datum gruppiert.</p>
-            <span class="admin-card-footer">Manage slots →</span>
+            <h3 th:text="#{admin.dashboard.card.manage.title}">Modify Existing Slots</h3>
+            <p th:text="#{admin.dashboard.card.manage.desc}">Slots verstecken oder freigeben – direkt nach Datum gruppiert.</p>
+            <span class="admin-card-footer" th:text="#{admin.dashboard.card.manage.cta}">Manage slots →</span>
         </a>
     </section>
 </div>
