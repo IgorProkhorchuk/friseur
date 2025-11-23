@@ -34,7 +34,7 @@ public class UserController {
         try {
             userService.registerUser(username, email, phone, password, confirmPassword);
             logger.info("User registration successful for username {}", username);
-            return "redirect:/register?success";
+            return "redirect:/login?success=true";
         } catch (IllegalArgumentException e) {
             logger.error("User registration failed for username {}: {}", username, e.getMessage());
             model.addAttribute("error", e.getMessage());
