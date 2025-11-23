@@ -7,20 +7,20 @@
   <section class="admin-section">
     <div class="admin-section-header">
       <div>
-        <p class="section-eyebrow">Admin · Plan</p>
-        <h1>View Full Schedule</h1>
-        <p>Alle angelegten Slots inklusive Status.</p>
+        <p class="section-eyebrow" th:text="#{admin.schedule.eyebrow}">Admin · Plan</p>
+        <h1 th:text="#{admin.schedule.title}">View Full Schedule</h1>
+        <p th:text="#{admin.schedule.subtitle}">Alle angelegten Slots inklusive Status.</p>
       </div>
-      <a href="/admin/dashboard" class="ghost-button">⬅ Back to Dashboard</a>
+      <a href="/admin/dashboard" class="ghost-button" th:text="#{admin.schedule.back}">⬅ Back to Dashboard</a>
     </div>
 
     <div class="table-wrapper">
       <table class="data-table">
         <thead>
         <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Status</th>
+          <th th:text="#{admin.schedule.table.date}">Date</th>
+          <th th:text="#{admin.schedule.table.time}">Time</th>
+          <th th:text="#{admin.schedule.table.status}">Status</th>
         </tr>
         </thead>
         <tbody>

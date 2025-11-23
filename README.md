@@ -1,56 +1,101 @@
-# Hairdress Salon Website
+# FrisÖr - Hair Salon Appointment Booker
 
-## Overview
+This is a web application for a hairdressing salon in Berlin Tempelhof that allows users to book and manage their appointments.
 
-The Hairdress Salon Website is designed to provide an easy and convenient way for clients to book appointment, manage their appointment, shop for products, and make payments online. This project consists of four main pages: Homepage, Edit Booking, Shop, and Checkout.
+## Features
 
-## Pages
+*   **User Authentication:** Users can register and log in to their accounts.
+*   **Appointment Booking:** Users can view available time slots and book appointments.
+*   **Appointment Management:** Users can view their upcoming appointments and cancel them.
+*   **Admin Dashboard:** Admins have a separate dashboard to manage the salon's operations.
+*   **Schedule Management:** Admins can create and manage the weekly schedule and available slots.
+*   **User Management:** Admins can view and manage all registered users.
 
-### 1. Homepage
+## Screenshots (desktop & mobile)
 
-**Main Features:**
-- **Booking Form:**
-    - Fields:
-        - Name (required)
-        - Phone (required, with validation for correct phone format: +(country code 49, 48, or 380) digits)
+| Home Page | Login Page |
+| :---: | :---: |
+| ![Home Page](screenshots/home.png) | ![Login Page](screenshots/login.png) |
 
-**Timeslot Selection:**
-- "Book an appointment" button allows users to choose their preferred appointment startTime.
-- **Display Next Five Working Days:**
-    - Dropdown buttons for each working day (5 upcoming days) with an option to “View More Days” to load the next five working days.
-    - By default, the nearest available day is opened.
-- **Available Timeslots per Day:**
-    - Clicking on a day dropdown reveals only available timeslots for that day.
-    - Three timeslots are displayed per row.
-    - If no slots are available: "All slots are booked. Please select another day" message is shown.
-    - When a new day is selected, the previously opened day's dropdown is automatically closed.
+| Register Page | User Dashboard |
+| :---: | :---: |
+| ![Register Page](screenshots/register.png) | ![User Dashboard](screenshots/user-dashboard.png) |
 
-**Hold Timeslot Mechanism:**
-- Once a timeslot is selected, a "confirm selected startTime" button appears and it is temporarily held for 3 minutes.
-- Redirects user to a confirmation page with options: "Confirm" or "Cancel." A countdown timer is displayed above the buttons. If user clicks the "back" button, ask for cancellation of the selected timeslot and, if confirmed, release the timeslot for further appointment.
-
-**Post-Confirmation:**
-- After confirming the booking, a confirmation message is sent to the client, suggesting they proceed with the payment for the service.
-- Option to link this confirmation with a calendar integration (iCal, Google Calendar).
-
-### 2. Edit Booking / Payment Page
-
-**User Registration/Auto-Login:**
-- Clients can log in to view or modify their appointment using name and phone as password.
-- No option to register/login with the same phone but a different name.
-
-**Features:**
-- **Cancel Booking**: Clients can cancel their appointment if needed.
-- **Checkout**: Option for clients to pay for their upcoming service (and products from the shop in future), integrating with common payment gateways (PayPal and Stripe).
-- **Reschedule Appointment**:
-    - To reschedule, the user must first cancel their existing booking, which redirects them to the homepage to create a new one.
-
-### 3. Shop Page
-
-**Content:**
-- The shop page is under construction.
+| Book Appointment | Admin Dashboard |
+| :---: | :---: |
+| ![Book Appointment](screenshots/book-appointment.png) | ![Admin Dashboard](screenshots/admin-dashboard.png) |
 
 
-## License
+## Technology Stack
 
-This project is licensed under the MIT License. See the [LICENSE](https://opensource.org/license/mit) file for more details.
+*   **Backend:**
+    *   Java 25
+    *   Spring Boot 3.5.0
+    *   Spring Security
+    *   Spring Data JPA
+*   **Frontend:**
+    *   Thymeleaf
+    *   HTMX
+    *   CSS
+    *   JavaScript
+*   **Database:**
+    *   PostgreSQL
+*   **Build Tool:**
+    *   Maven
+
+## Getting Started
+
+### Prerequisites
+
+*   Java 25 or higher
+*   Maven 3.6.3 or higher
+*   PostgreSQL database
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/friseur.git
+    cd friseur
+    ```
+
+2.  **Configure the database:**
+    *   Open `src/main/resources/application.properties`.
+    *   Update the `spring.datasource.url`, `spring.datasource.username`, and `spring.datasource.password` properties to match your PostgreSQL configuration.
+
+3.  **Build the project:**
+    ```bash
+    mvn clean install
+    ```
+
+## Usage
+
+1.  **Run the application:**
+    ```bash
+    mvn spring-boot:run
+    ```
+2.  The application will be available at `http://localhost:8080`.
+
+## API Endpoints
+
+### Home
+*   `GET /`: Displays the homepage.
+*   `GET /login`: Displays the login page.
+*   `GET /register`: Displays the registration page.
+*   `POST /register`: Handles user registration.
+
+### User
+*   `GET /user/dashboard`: Displays the user dashboard.
+*   `GET /appointments/book`: Displays the appointment booking page.
+*   `POST /appointments/book`: Handles the booking of an appointment.
+*   `GET /appointments/my-appointments`: Displays the user's appointments.
+*   `POST /appointments/cancel/{id}`: Cancels an appointment.
+
+### Admin
+*   `GET /admin/dashboard`: Displays the admin dashboard.
+*   `GET /admin/schedule/create`: Displays the page for creating a new schedule.
+*   `POST /admin/schedule/create`: Handles the creation of a new schedule.
+*   `GET /admin/schedule/`: Displays the list of all schedules.
+*   `GET /admin/users`: Displays a list of all users.
+*   `GET /admin/users/{id}`: Displays the details of a specific user.
+*   `POST /admin/users/delete/{id}`: Deletes a user.

@@ -7,12 +7,7 @@
 <div class="main-content auth-page" th:fragment="mainContent">
   <section class="auth-card">
     <div class="auth-header">
-        <div id="section-eyebrow" th:if="${param.success == null}">
-            <p class="section-eyebrow">Welcome back</p>
-        </div>
-        <div id="section-eyebrow" th:if="${param.success}" class="auth-success">
-            You have been registered successfully! Please login.
-        </div>
+      <p class="section-eyebrow">Welcome back</p>
       <h1>Login</h1>
       <p>Greifen Sie auf Ihre persönlichen Slots und Buchungen zu.</p>
     </div>
