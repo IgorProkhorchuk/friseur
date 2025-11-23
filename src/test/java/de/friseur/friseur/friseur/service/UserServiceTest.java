@@ -31,20 +31,20 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void existsByUsername_shouldReturnTrue_whenUserExists() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(new User()));
-        assertTrue(userService.existsByUsername("testuser"));
+    void existsByEmail_shouldReturnTrue_whenUserExists() {
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(new User()));
+        assertTrue(userService.existsByEmail("test@test.com"));
     }
 
     @Test
-    void existsByUsername_shouldReturnFalse_whenUserDoesNotExist() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
-        assertFalse(userService.existsByUsername("testuser"));
+    void existsByEmail_shouldReturnFalse_whenUserDoesNotExist() {
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.empty());
+        assertFalse(userService.existsByEmail("test@test.com"));
     }
 
     @Test
     void registerUser_shouldRegisterUserSuccessfully() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.empty());
         when(passwordEncoder.encode("password")).thenReturn("encodedPassword");
 
         boolean result = userService.registerUser("testuser", "test@test.com", "123456789", "password", "password");
@@ -61,8 +61,8 @@ class UserServiceTest {
     }
 
     @Test
-    void registerUser_shouldThrowException_whenUsernameExists() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(new User()));
+    void registerUser_shouldThrowException_whenEmailExists() {
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(new User()));
 
         assertThrows(IllegalArgumentException.class, () -> {
             userService.registerUser("testuser", "test@test.com", "123456789", "password", "password");
@@ -73,25 +73,25 @@ class UserServiceTest {
     void loginUser_shouldReturnTrue_whenCredentialsAreCorrect() {
         User user = new User();
         user.setPassword("encodedPassword");
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
 
-        assertTrue(userService.loginUser("testuser", "password"));
+        assertTrue(userService.loginUser("test@test.com", "password"));
     }
 
     @Test
     void loginUser_shouldReturnFalse_whenUserNotFound() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
-        assertFalse(userService.loginUser("testuser", "password"));
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.empty());
+        assertFalse(userService.loginUser("test@test.com", "password"));
     }
 
     @Test
     void loginUser_shouldReturnFalse_whenPasswordIsIncorrect() {
         User user = new User();
         user.setPassword("encodedPassword");
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
         when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(false);
 
-        assertFalse(userService.loginUser("testuser", "password"));
+        assertFalse(userService.loginUser("test@test.com", "password"));
     }
 }

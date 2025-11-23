@@ -66,7 +66,7 @@ public class SlotService {
         }
     }
 
-public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, String serviceType) {
+    public boolean reserveSlot(LocalDateTime timeSlot, int userId, String clientName, String serviceType) {
         try {
             logger.info("Reserving slot at {}", timeSlot);
             Slot slot = slotRepository.findByTimeSlot(timeSlot);
@@ -82,7 +82,7 @@ public boolean reserveSlot(LocalDateTime timeSlot, int userId, String username, 
             // 1. Create a new Appointment
             Appointment newAppointment = new Appointment();
             newAppointment.setUser(user); // Set the User object
-            newAppointment.setClientName(username);
+            newAppointment.setClientName(clientName);
             newAppointment.setServiceType(serviceType);
             newAppointment.setCreatedAt(LocalDateTime.now());
             newAppointment.setAppointmentStatus(AppointmentStatus.UPCOMING);

@@ -32,7 +32,7 @@
                 <tr th:each="slot : ${bookedSlots}">
                     <td th:text="${#temporals.format(slot.timeSlot, 'dd MMM yyyy')}"></td>
                     <td th:text="${#temporals.format(slot.timeSlot, 'HH:mm')}"></td>
-                    <td th:text="${slot.appointment?.user?.username} ?: '—'"></td>
+                    <td th:text="${slot.appointment?.user?.displayName} ?: '—'"></td>
                     <td th:text="${slot.appointment?.user?.email} ?: '—'"></td>
                 </tr>
                 </tbody>

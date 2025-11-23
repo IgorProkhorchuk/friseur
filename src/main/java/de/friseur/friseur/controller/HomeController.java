@@ -64,10 +64,11 @@ public class HomeController {
     @PostMapping("/slots")
     public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timeSlot, Model model) {
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        int userID = repository.findByUsername(username).orElseThrow().getUserId();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = repository.findByEmail(email).orElseThrow();
+        int userID = user.getUserId();
 
-        boolean savedSlot = slotService.reserveSlot(timeSlot, userID, username, "Haircut");
+        boolean savedSlot = slotService.reserveSlot(timeSlot, userID, user.getDisplayName(), "Haircut");
         if (savedSlot) {
             model.addAttribute("message", "Slot reserved successfully");
         } else {
@@ -86,7 +87,8 @@ public class HomeController {
                 .anyMatch("ROLE_USER"::equals);
 
         if (isStandardUser) {
-            model.addAttribute("userName", authentication.getName());
+            repository.findByEmail(authentication.getName())
+                    .ifPresent(user -> model.addAttribute("userName", user.getDisplayName()));
         }
     }
 

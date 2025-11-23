@@ -24,8 +24,8 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean existsByUsername(String username) {
-        return userRepository.findByUsername(username).isPresent();
+    public boolean existsByEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
     public boolean registerUser(String username, String email, String phone, String password, String confirmPassword) {
         if (!password.equals(confirmPassword)) {
@@ -33,9 +33,9 @@ public class UserService {
             throw new IllegalArgumentException("Passwords do not match!");
         }
 
-        if (existsByUsername(username)) {
-            logger.warn("User registration failed: username {} already exists", username);
-            throw new IllegalArgumentException("Username already exists!");
+        if (existsByEmail(email)) {
+            logger.warn("User registration failed: email {} already exists", email);
+            throw new IllegalArgumentException("User with this email already exists!");
         }
 
         User user = new User();
@@ -46,19 +46,18 @@ public class UserService {
         user.setRoles(Set.of("ROLE_USER"));
 
         userRepository.save(user);
-        logger.info("User registered successfully: username {}", username);
+        logger.info("User registered successfully: username {}: email: {}", username, email);
         return true;
     }
 
-    public boolean loginUser(String username, String password) {
-        User user = userRepository.findByUsername(username).orElse(null);
+    public boolean loginUser(String email, String password) {
+        User user = userRepository.findByEmail(email).orElse(null);
         if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            logger.info("User {} logged in successfully", username);
+            logger.info("User {} logged in successfully", email);
             return true;
         } else {
-            logger.warn("Failed login attempt for user {}", username);
+            logger.warn("Failed login attempt for user {}", email);
             return false;
         }
     }
 }
-

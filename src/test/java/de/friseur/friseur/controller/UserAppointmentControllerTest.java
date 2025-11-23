@@ -6,6 +6,7 @@ import de.friseur.friseur.model.Slot;
 import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.exception.AppointmentNotFoundException;
 import de.friseur.friseur.service.exception.UnauthorizedCancelException;
+import de.friseur.friseur.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,6 +39,9 @@ class UserAppointmentControllerTest {
     @MockBean
     private de.friseur.friseur.service.UserDetailsServiceImpl userDetailsService;
 
+    @MockBean
+    private UserRepository userRepository;
+
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -54,14 +58,17 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void showUserDashboard() throws Exception {
         Appointment appointment = new Appointment();
         Slot slot = new Slot();
         slot.setTimeSlot(LocalDateTime.of(2024, 1, 1, 10, 0));
         appointment.setSlot(slot);
+        var user = new de.friseur.friseur.model.User();
+        user.setUsername("user");
+        when(userRepository.findByEmail("user@example.com")).thenReturn(java.util.Optional.of(user));
 
-        when(appointmentService.getUpcomingAppointmentsForUser("user"))
+        when(appointmentService.getUpcomingAppointmentsForUser("user@example.com"))
                 .thenReturn(Collections.singletonList(appointment));
 
         mockMvc.perform(get("/user/appointments/dashboard"))
@@ -79,7 +86,7 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_htmx() throws Exception {
         mockMvc.perform(post("/user/appointments/cancel/1")
                         .with(csrf())
@@ -88,7 +95,7 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_noHtmx() throws Exception {
         mockMvc.perform(post("/user/appointments/cancel/1").with(csrf()))
                 .andExpect(status().isFound())
@@ -96,9 +103,9 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_notFound_htmx() throws Exception {
-        doThrow(new AppointmentNotFoundException("Not found")).when(appointmentService).cancelUserAppointment(1L, "user");
+        doThrow(new AppointmentNotFoundException("Not found")).when(appointmentService).cancelUserAppointment(1L, "user@example.com");
 
         mockMvc.perform(post("/user/appointments/cancel/1")
                         .with(csrf())
@@ -107,9 +114,9 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_notFound_noHtmx() throws Exception {
-        doThrow(new AppointmentNotFoundException("Not found")).when(appointmentService).cancelUserAppointment(1L, "user");
+        doThrow(new AppointmentNotFoundException("Not found")).when(appointmentService).cancelUserAppointment(1L, "user@example.com");
 
         mockMvc.perform(post("/user/appointments/cancel/1").with(csrf()))
                 .andExpect(status().isFound())
@@ -117,9 +124,9 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_unauthorized_htmx() throws Exception {
-        doThrow(new UnauthorizedCancelException("Unauthorized")).when(appointmentService).cancelUserAppointment(1L, "user");
+        doThrow(new UnauthorizedCancelException("Unauthorized")).when(appointmentService).cancelUserAppointment(1L, "user@example.com");
 
         mockMvc.perform(post("/user/appointments/cancel/1")
                         .with(csrf())
@@ -128,9 +135,9 @@ class UserAppointmentControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user@example.com", roles = {"USER"})
     void cancelAppointment_unauthorized_noHtmx() throws Exception {
-        doThrow(new UnauthorizedCancelException("Unauthorized")).when(appointmentService).cancelUserAppointment(1L, "user");
+        doThrow(new UnauthorizedCancelException("Unauthorized")).when(appointmentService).cancelUserAppointment(1L, "user@example.com");
 
         mockMvc.perform(post("/user/appointments/cancel/1").with(csrf()))
                 .andExpect(status().isFound())

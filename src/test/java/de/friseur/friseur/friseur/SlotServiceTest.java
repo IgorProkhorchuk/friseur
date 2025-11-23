@@ -81,7 +81,7 @@ class SlotServiceTest {
     void reserveSlot_shouldReserveSlotSuccessfully() {
         LocalDateTime timeSlot = LocalDateTime.of(2025, 1, 1, 9, 0);
         int userId = 1;
-        String username = "testuser";
+        String clientName = "testuser";
         String serviceType = "Haircut";
         Slot slot = new Slot();
         slot.setTimeSlot(timeSlot);
@@ -92,7 +92,7 @@ class SlotServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         when(appointmentRepository.save(any(Appointment.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        boolean result = slotService.reserveSlot(timeSlot, userId, username, serviceType);
+        boolean result = slotService.reserveSlot(timeSlot, userId, clientName, serviceType);
 
         assertTrue(result);
         verify(slotRepository).save(slot);

@@ -29,17 +29,17 @@ public class AppointmentServiceImpl implements AppointmentService {
     private SlotRepository slotRepository;
 
     @Override
-    public List<Appointment> getUpcomingAppointmentsForUser(String username) {
-        log.info("Fetching upcoming appointments for user: {}", username);
-        return appointmentRepository.findByUser_UsernameAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
-                username, AppointmentStatus.UPCOMING, LocalDateTime.now());
+    public List<Appointment> getUpcomingAppointmentsForUser(String email) {
+        log.info("Fetching upcoming appointments for user with email: {}", email);
+        return appointmentRepository.findByUser_EmailAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
+                email, AppointmentStatus.UPCOMING, LocalDateTime.now());
     }
 
     @Override
     @Transactional
-    public void cancelUserAppointment(Long appointmentId, String username)
+    public void cancelUserAppointment(Long appointmentId, String email)
             throws AppointmentNotFoundException, UnauthorizedCancelException {
-        log.info("Attempting to cancel appointment ID: {} for user: {}", appointmentId, username);
+        log.info("Attempting to cancel appointment ID: {} for user email: {}", appointmentId, email);
 
         Optional<Appointment> appointmentOptional = appointmentRepository.findById(appointmentId);
 
@@ -50,9 +50,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment appointment = appointmentOptional.get();
 
-        if (appointment.getUser() == null || !Objects.equals(appointment.getUser().getUsername(), username)) {
+        if (appointment.getUser() == null || !Objects.equals(appointment.getUser().getEmail(), email)) {
             log.warn("User {} unauthorized to cancel appointment {} owned by {}",
-                    username, appointmentId, (appointment.getUser() != null ? appointment.getUser().getUsername() : "unknown"));
+                    email, appointmentId, (appointment.getUser() != null ? appointment.getUser().getEmail() : "unknown"));
             throw new UnauthorizedCancelException("You are not authorized to cancel this appointment.");
         }
 
@@ -63,12 +63,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         // Business rule: Cannot cancel if appointment's slot time is in the past or too soon (e.g., within 24 hours)
         if (appointment.getSlot() != null && appointment.getSlot().getTimeSlot().isBefore(LocalDateTime.now())) {
-            log.warn("Attempt to cancel past appointment {} for user {}", appointmentId, username);
+            log.warn("Attempt to cancel past appointment {} for user {}", appointmentId, email);
             throw new IllegalStateException("Cannot cancel an appointment whose time has already passed.");
         }
         // Example: Add a rule for cancellation window (e.g., 24 hours before)
         // if (appointment.getSlot() != null && appointment.getSlot().getTimeSlot().isBefore(LocalDateTime.now().plusHours(24))) {
-        //     log.warn("Attempt to cancel appointment {} for user {} too close to scheduled time {}", appointmentId, username, appointment.getSlot().getTimeSlot());
+        //     log.warn("Attempt to cancel appointment {} for user {} too close to scheduled time {}", appointmentId, email, appointment.getSlot().getTimeSlot());
         //     throw new IllegalStateException("Appointments cannot be cancelled less than 24 hours in advance.");
         // }
 
@@ -83,6 +83,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             slotRepository.save(slot);
 
         }
-        log.info("Successfully cancelled appointment ID: {} for user: {}", appointmentId, username);
+        log.info("Successfully cancelled appointment ID: {} for user: {}", appointmentId, email);
     }
 }

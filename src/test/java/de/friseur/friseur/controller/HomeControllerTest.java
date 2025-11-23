@@ -73,8 +73,12 @@ class HomeControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = "USER")
+    @WithMockUser(username = "testuser@example.com", roles = "USER")
     void testHome_withUser() throws Exception {
+        User mockUser = new User();
+        mockUser.setUsername("testuser");
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.of(mockUser));
+
         mockMvc.perform(get("/home"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
@@ -104,11 +108,12 @@ class HomeControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = "USER")
+    @WithMockUser(username = "testuser@example.com", roles = "USER")
     void testReserveSlot_success() throws Exception {
         User mockUser = new User();
         mockUser.setUserId(1);
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(mockUser));
+        mockUser.setUsername("testuser");
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.of(mockUser));
         when(slotService.reserveSlot(any(LocalDateTime.class), any(Integer.class), anyString(), anyString())).thenReturn(true);
 
         mockMvc.perform(post("/slots")
@@ -120,11 +125,12 @@ class HomeControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "testuser", roles = "USER")
+    @WithMockUser(username = "testuser@example.com", roles = "USER")
     void testReserveSlot_failure() throws Exception {
         User mockUser = new User();
         mockUser.setUserId(1);
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(mockUser));
+        mockUser.setUsername("testuser");
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.of(mockUser));
         when(slotService.reserveSlot(any(LocalDateTime.class), any(Integer.class), anyString(), anyString())).thenReturn(false);
 
         mockMvc.perform(post("/slots")

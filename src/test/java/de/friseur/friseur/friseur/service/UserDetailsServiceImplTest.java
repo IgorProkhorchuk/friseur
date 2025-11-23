@@ -29,20 +29,21 @@ class UserDetailsServiceImplTest {
     @Test
     void loadUserByUsername_shouldReturnUserDetails_whenUserExists() {
         User user = new User();
+        user.setEmail("testuser@example.com");
         user.setUsername("testuser");
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.of(user));
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.of(user));
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername("testuser");
+        UserDetails userDetails = userDetailsService.loadUserByUsername("testuser@example.com");
 
-        assertEquals(user.getUsername(), userDetails.getUsername());
+        assertEquals(user.getEmail(), userDetails.getUsername());
     }
 
     @Test
     void loadUserByUsername_shouldThrowException_whenUserDoesNotExist() {
-        when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.empty());
 
         assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername("testuser");
+            userDetailsService.loadUserByUsername("testuser@example.com");
         });
     }
 }

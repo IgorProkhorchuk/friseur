@@ -3,6 +3,7 @@ package de.friseur.friseur.controller;
 import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.exception.AppointmentNotFoundException;
 import de.friseur.friseur.service.exception.UnauthorizedCancelException;
+import de.friseur.friseur.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserAppointmentController {
 
     private final AppointmentService appointmentService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserAppointmentController(AppointmentService appointmentService) {
+    public UserAppointmentController(AppointmentService appointmentService, UserRepository userRepository) {
         this.appointmentService = appointmentService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/dashboard")
@@ -29,9 +32,9 @@ public class UserAppointmentController {
             return "redirect:/login";
         }
 
-        String username = authentication.getName();
+        String email = authentication.getName();
         // Fetch upcoming appointments for logged-in user
-        var appointments = appointmentService.getUpcomingAppointmentsForUser(username);
+        var appointments = appointmentService.getUpcomingAppointmentsForUser(email);
         model.addAttribute("appointments", appointments);
         addUserNameIfStandardUser(authentication, model);
 
@@ -59,11 +62,11 @@ public class UserAppointmentController {
             return ResponseEntity.status(HttpStatus.FOUND).header("Location", "/login").build();
         }
 
-        String currentUsername = authentication.getName(); // Get username for authorization checks
+        String currentUserEmail = authentication.getName(); // Get email for authorization checks
 
         try {
             // The service method should verify that the appointment belongs to the current user
-            appointmentService.cancelUserAppointment(appointmentId, currentUsername);
+            appointmentService.cancelUserAppointment(appointmentId, currentUserEmail);
 
             if (isHtmxRequest(hxRequest)) {
                 // For HTMX, a 200 OK with an empty body will allow hx-swap="outerHTML"
@@ -88,7 +91,7 @@ public class UserAppointmentController {
                                      .build();
             }
         } catch (UnauthorizedCancelException e) {
-            // Log the exception: log.error("User {} unauthorized to cancel appointment {}", currentUsername, appointmentId, e);
+            // Log the exception: log.error("User {} unauthorized to cancel appointment {}", currentUserEmail, appointmentId, e);
             if (isHtmxRequest(hxRequest)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to cancel this appointment.");
             } else {
@@ -118,7 +121,8 @@ public class UserAppointmentController {
                 .anyMatch("ROLE_USER"::equals);
 
         if (isStandardUser) {
-            model.addAttribute("userName", authentication.getName());
+            userRepository.findByEmail(authentication.getName())
+                    .ifPresent(user -> model.addAttribute("userName", user.getDisplayName()));
         }
     }
 

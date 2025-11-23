@@ -57,8 +57,17 @@ public class User implements UserDetails {
         this.userId = userId;
     }
 
-    public String getUsername() {
+    public String getDisplayName() {
         return username;
+    }
+
+    public void setDisplayName(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public void setUsername(String username) {

@@ -81,16 +81,16 @@ class UserControllerTest {
 
     @Test
     void loginUser_success() throws Exception {
-        when(userDetailsService.loadUserByUsername("user"))
+        when(userDetailsService.loadUserByUsername("user@example.com"))
                 .thenReturn(User.builder()
-                        .username("user")
+                        .username("user@example.com")
                         .password(passwordEncoder.encode("password"))
                         .roles("USER")
                         .build());
 
         mockMvc.perform(post("/login")
                         .with(csrf())
-                        .param("username", "user")
+                        .param("email", "user@example.com")
                         .param("password", "password"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/home"));
@@ -98,23 +98,23 @@ class UserControllerTest {
 
     @Test
     void loginUser_failure() throws Exception {
-        when(userDetailsService.loadUserByUsername("user"))
+        when(userDetailsService.loadUserByUsername("user@example.com"))
                 .thenReturn(User.builder()
-                        .username("user")
+                        .username("user@example.com")
                         .password(passwordEncoder.encode("password"))
                         .roles("USER")
                         .build());
 
         mockMvc.perform(post("/login")
                         .with(csrf())
-                        .param("username", "user")
+                        .param("email", "user@example.com")
                         .param("password", "wrongpassword"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error=true"));
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "user@example.com")
     void logout() throws Exception {
         mockMvc.perform(post("/logout").with(csrf()))
                 .andExpect(status().is3xxRedirection())
