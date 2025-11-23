@@ -7,9 +7,14 @@
 <div class="main-content auth-page" th:fragment="mainContent">
   <section class="auth-card">
     <div class="auth-header">
-      <p class="section-eyebrow">Welcome back</p>
-      <h1>Login</h1>
-      <p>Greifen Sie auf Ihre persönlichen Slots und Buchungen zu.</p>
+      <p class="section-eyebrow" th:text="#{login.eyebrow}" th:unless="${param.success}">Welcome back</p>
+      <p class="section-eyebrow section-eyebrow--success"
+         th:text="#{login.eyebrow.registrationSuccess}"
+         th:if="${param.success}">
+         Registration successful! You can now login
+      </p>
+      <h1 th:text="#{login.title}">Login</h1>
+      <p th:text="#{login.subtitle}">Access your personal slots and bookings.</p>
     </div>
 
     <form class="auth-form-grid" th:action="@{/login}" method="post">
