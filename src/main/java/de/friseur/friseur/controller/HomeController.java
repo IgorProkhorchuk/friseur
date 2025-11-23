@@ -5,11 +5,10 @@ import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.SlotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +24,15 @@ import java.util.List;
 @RequestMapping
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-    @Autowired
-    UserRepository repository;
-    @Autowired
-    private SlotService slotService;
-    @Autowired
-    private AppointmentService appointmentService;
+    private final UserRepository repository;
+    private final SlotService slotService;
+    private final AppointmentService appointmentService;
+
+    public HomeController(UserRepository repository, SlotService slotService, AppointmentService appointmentService) {
+        this.repository = repository;
+        this.slotService = slotService;
+        this.appointmentService = appointmentService;
+    }
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
