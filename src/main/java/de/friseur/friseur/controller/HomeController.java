@@ -1,15 +1,14 @@
 package de.friseur.friseur.controller;
 
-import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.repository.UserRepository;
 import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.SlotService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,20 +24,25 @@ import java.util.List;
 @RequestMapping
 public class HomeController {
     private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-    @Autowired
-    UserRepository repository;
-    @Autowired
-    private SlotService slotService;
-    @Autowired
-    private AppointmentService appointmentService;
+    private final UserRepository repository;
+    private final SlotService slotService;
+    private final AppointmentService appointmentService;
+
+    public HomeController(UserRepository repository, SlotService slotService, AppointmentService appointmentService) {
+        this.repository = repository;
+        this.slotService = slotService;
+        this.appointmentService = appointmentService;
+    }
 
     @GetMapping("/")
-    public String home() {
+    public String home(Model model, Authentication authentication) {
+        displayUserName(model, authentication);
         return "index";
     }
 
     @GetMapping("/home")
-    public String hello() {
+    public String hello(Model model, Authentication authentication) {
+        displayUserName(model, authentication);
         return "index";
     }
 
@@ -57,19 +61,33 @@ public class HomeController {
         return "slots";
     }
 
-@PostMapping("/slots")
-public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timeSlot,  Model model) {
+    @PostMapping("/slots")
+    public String reserveSlot(@RequestParam("slot") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime timeSlot, Model model) {
 
-    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-    int userID = repository.findByUsername(username).orElseThrow().getUserId();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        int userID = repository.findByUsername(username).orElseThrow().getUserId();
 
-    boolean savedSlot = slotService.reserveSlot(timeSlot, userID, username, "Haircut");
-    if (savedSlot) {
-        model.addAttribute("message", "Slot reserved successfully");
-    } else {
-        model.addAttribute("message", "Slot reservation failed");
+        boolean savedSlot = slotService.reserveSlot(timeSlot, userID, username, "Haircut");
+        if (savedSlot) {
+            model.addAttribute("message", "Slot reserved successfully");
+        } else {
+            model.addAttribute("message", "Slot reservation failed");
+        }
+        return "fragments/confirmation";
     }
-    return "fragments/confirmation";
-}
+
+    private void displayUserName(Model model, Authentication authentication) {
+        if (authentication == null) {
+            return;
+        }
+
+        boolean isStandardUser = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch("ROLE_USER"::equals);
+
+        if (isStandardUser) {
+            model.addAttribute("userName", authentication.getName());
+        }
+    }
 
 }

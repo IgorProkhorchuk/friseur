@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class UserAppointmentController {
         // Fetch upcoming appointments for logged-in user
         var appointments = appointmentService.getUpcomingAppointmentsForUser(username);
         model.addAttribute("appointments", appointments);
+        addUserNameIfStandardUser(authentication, model);
 
         return "dashboard";
     }
@@ -108,6 +110,16 @@ public class UserAppointmentController {
 
     private boolean isHtmxRequest(String hxRequestHeader) {
         return hxRequestHeader != null && hxRequestHeader.equalsIgnoreCase("true");
+    }
+
+    private void addUserNameIfStandardUser(Authentication authentication, Model model) {
+        boolean isStandardUser = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch("ROLE_USER"::equals);
+
+        if (isStandardUser) {
+            model.addAttribute("userName", authentication.getName());
+        }
     }
 
 }
