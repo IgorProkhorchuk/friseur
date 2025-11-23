@@ -7,24 +7,24 @@
 <div class="main-content dashboard-page" th:fragment="mainContent">
     <div id="dashboard-hero">
     <section class="dashboard-hero">
-        <h2 th:text="#{dashboard.hero.title}">Willkommen in Ihrem Dashboard</h2>
-        <p th:text="#{dashboard.hero.subtitle}">Behalten Sie Ihre nächsten Termine im Blick und verwalten Sie Ihre Buchungen jederzeit.</p>
+        <h2 th:if="${userName != null}" th:text="#{dashboard.hero.title(${userName})}">Welcome to your dashboard, </h2>
+        <p th:text="#{dashboard.hero.subtitle}">Keep track of upcoming appointments and manage bookings anytime.</p>
         <a class="button"
            hx-get="/slots"
            hx-target="#dashboard-hero"
            hx-swap="outerHTML"
            th:if="${#lists.isEmpty(appointments)}"
            th:text="#{dashboard.hero.button}">
-            Neuen Termin buchen
+            Book a new appointment
         </a>
     </section>
     </div>
 
     <section class="appointment-section">
-        <h2 th:text="#{dashboard.section.upcoming}">Ihre nächsten Termine</h2>
+        <h2 th:text="#{dashboard.section.upcoming}">Your upcoming appointments</h2>
 
         <div th:if="${#lists.isEmpty(appointments)}" class="no-appointments card-panel">
-            <p th:text="#{dashboard.empty}">Sie haben noch keine gebuchten Slots.</p>
+            <p th:text="#{dashboard.empty}">You haven't booked any slots yet.</p>
         </div>
 
         <div th:if="${!#lists.isEmpty(appointments)}" class="appointment-grid">
