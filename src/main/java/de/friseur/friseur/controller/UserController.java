@@ -33,10 +33,8 @@ public class UserController {
     ) {
         try {
             userService.registerUser(username, email, phone, password, confirmPassword);
-            logger.info("User registration successful for username {}", username);
             return "redirect:/login?success=true";
         } catch (IllegalArgumentException e) {
-            logger.error("User registration failed for username {}: {}", username, e.getMessage());
             model.addAttribute("error", e.getMessage());
             return "register";
         }
@@ -50,16 +48,14 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(
-            @RequestParam("username") String username,
+            @RequestParam("email") String email,
             @RequestParam("password") String password,
             Model model
     ) {
-        if (userService.loginUser(username, password)) {
-            logger.info("User {} logged in successfully", username);
+        if (userService.loginUser(email, password)) {
             return "redirect:/slots";
         } else {
-            logger.warn("Failed login attempt for user {}", username);
-            model.addAttribute("error", "Invalid username or password");
+            model.addAttribute("error", "Invalid email or password");
             return "login";
         }
     }

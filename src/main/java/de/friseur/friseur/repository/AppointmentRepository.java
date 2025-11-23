@@ -15,8 +15,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     );
 
     // This method is used by AppointmentServiceImpl to get upcoming appointments for a user
-    List<Appointment> findByUser_UsernameAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
-            String username,
+    List<Appointment> findByUser_EmailAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
+            String email,
             AppointmentStatus status,
             LocalDateTime dateTime
     );

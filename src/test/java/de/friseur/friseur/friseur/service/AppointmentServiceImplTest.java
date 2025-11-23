@@ -39,26 +39,26 @@ class AppointmentServiceImplTest {
 
     @Test
     void getUpcomingAppointmentsForUser_shouldReturnUpcomingAppointments() {
-        String username = "testuser";
+        String email = "test@example.com";
         Appointment appointment = new Appointment();
-        when(appointmentRepository.findByUser_UsernameAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
-                eq(username), eq(AppointmentStatus.UPCOMING), any(LocalDateTime.class)))
+        when(appointmentRepository.findByUser_EmailAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
+                eq(email), eq(AppointmentStatus.UPCOMING), any(LocalDateTime.class)))
                 .thenReturn(Collections.singletonList(appointment));
 
-        List<Appointment> appointments = appointmentService.getUpcomingAppointmentsForUser(username);
+        List<Appointment> appointments = appointmentService.getUpcomingAppointmentsForUser(email);
 
         assertFalse(appointments.isEmpty());
         assertEquals(1, appointments.size());
-        verify(appointmentRepository).findByUser_UsernameAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
-                eq(username), eq(AppointmentStatus.UPCOMING), any(LocalDateTime.class));
+        verify(appointmentRepository).findByUser_EmailAndAppointmentStatusAndSlot_TimeSlotAfterOrderBySlot_TimeSlotAsc(
+                eq(email), eq(AppointmentStatus.UPCOMING), any(LocalDateTime.class));
     }
 
     @Test
     void cancelUserAppointment_shouldCancelAppointmentSuccessfully() throws AppointmentNotFoundException, UnauthorizedCancelException {
-        String username = "testuser";
+        String email = "test@example.com";
         Long appointmentId = 1L;
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         Slot slot = new Slot();
         slot.setTimeSlot(LocalDateTime.now().plusDays(1));
         Appointment appointment = new Appointment();
@@ -69,7 +69,7 @@ class AppointmentServiceImplTest {
 
         when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
 
-        appointmentService.cancelUserAppointment(appointmentId, username);
+        appointmentService.cancelUserAppointment(appointmentId, email);
 
         assertEquals(AppointmentStatus.CANCELLED, appointment.getAppointmentStatus());
         verify(appointmentRepository).save(appointment);
@@ -81,21 +81,21 @@ class AppointmentServiceImplTest {
     @Test
     void cancelUserAppointment_shouldThrowAppointmentNotFoundException() {
         Long appointmentId = 1L;
-        String username = "testuser";
+        String email = "test@example.com";
         when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.empty());
 
         assertThrows(AppointmentNotFoundException.class, () -> {
-            appointmentService.cancelUserAppointment(appointmentId, username);
+            appointmentService.cancelUserAppointment(appointmentId, email);
         });
     }
 
     @Test
     void cancelUserAppointment_shouldThrowUnauthorizedCancelException() {
-        String username = "testuser";
-        String ownerUsername = "owner";
+        String email = "test@example.com";
+        String ownerEmail = "owner@example.com";
         Long appointmentId = 1L;
         User owner = new User();
-        owner.setUsername(ownerUsername);
+        owner.setEmail(ownerEmail);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId(appointmentId);
         appointment.setUser(owner);
@@ -103,16 +103,16 @@ class AppointmentServiceImplTest {
         when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
 
         assertThrows(UnauthorizedCancelException.class, () -> {
-            appointmentService.cancelUserAppointment(appointmentId, username);
+            appointmentService.cancelUserAppointment(appointmentId, email);
         });
     }
 
     @Test
     void cancelUserAppointment_shouldThrowIllegalStateException_whenAppointmentNotUpcoming() {
-        String username = "testuser";
+        String email = "test@example.com";
         Long appointmentId = 1L;
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         Appointment appointment = new Appointment();
         appointment.setAppointmentId(appointmentId);
         appointment.setUser(user);
@@ -121,16 +121,16 @@ class AppointmentServiceImplTest {
         when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
 
         assertThrows(IllegalStateException.class, () -> {
-            appointmentService.cancelUserAppointment(appointmentId, username);
+            appointmentService.cancelUserAppointment(appointmentId, email);
         });
     }
 
     @Test
     void cancelUserAppointment_shouldThrowIllegalStateException_whenSlotIsInThePast() {
-        String username = "testuser";
+        String email = "test@example.com";
         Long appointmentId = 1L;
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         Slot slot = new Slot();
         slot.setTimeSlot(LocalDateTime.now().minusDays(1));
         Appointment appointment = new Appointment();
@@ -142,7 +142,7 @@ class AppointmentServiceImplTest {
         when(appointmentRepository.findById(appointmentId)).thenReturn(Optional.of(appointment));
 
         assertThrows(IllegalStateException.class, () -> {
-            appointmentService.cancelUserAppointment(appointmentId, username);
+            appointmentService.cancelUserAppointment(appointmentId, email);
         });
     }
 }

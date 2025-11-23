@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ScheduleController.class)
 @Import(SecurityConfig.class)
-@WithMockUser(username = "admin", roles = {"ADMIN"})
+@WithMockUser(username = "admin@example.com", roles = {"ADMIN"})
 class ScheduleControllerTest {
 
     @Autowired

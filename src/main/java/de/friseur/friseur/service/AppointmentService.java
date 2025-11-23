@@ -11,10 +11,10 @@ public interface AppointmentService {
     /**
      * Retrieves all upcoming appointments for a given user.
      *
-     * @param username The username of the user.
+     * @param email The email of the user.
      * @return A list of upcoming appointments.
      */
-    List<Appointment> getUpcomingAppointmentsForUser(String username);
+    List<Appointment> getUpcomingAppointmentsForUser(String email);
 
     /**
      * Cancels an appointment for a user.
@@ -22,14 +22,14 @@ public interface AppointmentService {
      * before proceeding with the cancellation.
      *
      * @param appointmentId The ID of the appointment to cancel.
-     * @param username      The username of the user requesting the cancellation.
+     * @param email         The email of the user requesting the cancellation.
      * @throws AppointmentNotFoundException  if the appointment with the given ID does not exist.
      * @throws UnauthorizedCancelException if the user is not authorized to cancel this appointment.
      */
-    void cancelUserAppointment(Long appointmentId, String username)
+    void cancelUserAppointment(Long appointmentId, String email)
             throws AppointmentNotFoundException, UnauthorizedCancelException;
 
     // You can add other methods here as needed, e.g., for booking appointments,
     // finding available slots, etc.
-    // Appointment bookAppointment(String username, LocalDateTime dateTime, String serviceName);
+    // Appointment bookAppointment(String email, LocalDateTime dateTime, String serviceName);
 }
