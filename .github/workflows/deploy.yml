@@ -9,11 +9,11 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-env:
-  SERVER_IP: ${{ secrets.SERVER_IP }}
-  SERVER_USER: ${{ secrets.SERVER_USER }}
-  PROD_DIR: ${{ vars.PROD_DIR }}
-  STAGE_DIR: ${{ vars.STAGE_DIR }}
+    env:
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      PROD_DIR: ${{ vars.PROD_DIR }}
+      STAGE_DIR: ${{ vars.STAGE_DIR }}
 
 
     # steps: # step without testing branch
