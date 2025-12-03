@@ -31,6 +31,7 @@ public class SecurityConfig {
                         request
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/home").permitAll()
+                                .requestMatchers("/privacy").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/create-schedule").hasRole("ADMIN")
                                 .requestMatchers("/admin-dashboard").hasRole("ADMIN")

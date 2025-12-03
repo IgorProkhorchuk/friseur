@@ -46,6 +46,11 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/privacy")
+    public String privacy() {
+        return "privacy";
+    }
+
     @GetMapping("/shop")
     public String shop() {
         return "shop";

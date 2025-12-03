@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}">
+</head>
+<header th:replace="~{base :: header}"></header>
+<body>
+<main class="main-content">
+    <h1 th:text="#{privacy.h1}">Datenschutzerklärung</h1>
+
+    <p th:text="#{privacy.intro}">Wir freuen uns über Ihr Interesse an unserem Online-Buchungssystem. Der Schutz Ihrer persönlichen Daten ist uns wichtig. Nachfolgend informieren wir Sie darüber, welche Daten wir erheben, wie wir sie verwenden und welche Rechte Sie haben.</p>
+
+    <h2 th:text="#{privacy.h2.responsible}">1. Verantwortliche Stelle</h2>
+    <p>
+        FrisÖr – Online-Buchungssystem<br>
+        Ihor Prokhorchuk<br>
+        E-Mail: info@cut-by-me.de
+    </p>
+    <p th:text="#{privacy.responsible.alt}">(oder Ihre finale Kontaktadresse)</p>
+
+    <h2 th:text="#{privacy.h2.data.collection}">2. Erhebung und Verarbeitung personenbezogener Daten</h2>
+    <p th:text="#{privacy.data.collection.intro}">Bei der Registrierung und der Nutzung unseres Buchungssystems erheben wir ausschließlich die Daten, die Sie selbst angeben, insbesondere:</p>
+    <ul>
+        <li th:text="#{privacy.data.name}">Name</li>
+        <li th:text="#{privacy.data.phone}">Telefonnummer</li>
+        <li th:text="#{privacy.data.optional}">Optional weitere Informationen, die Sie im Profil hinterlegen</li>
+    </ul>
+    <p th:text="#{privacy.data.collection.purpose}">Diese Daten werden ausschließlich zur Bereitstellung der folgenden Funktionen verwendet:</p>
+    <ul>
+        <li th:text="#{privacy.purpose.account}">Erstellung und Verwaltung Ihres Benutzerkontos</li>
+        <li th:text="#{privacy.purpose.booking}">Buchung, Verwaltung und Stornierung von Terminen</li>
+        <li th:text="#{privacy.purpose.contact}">Kontaktaufnahme bei Rückfragen zu Terminen</li>
+    </ul>
+    <p th:text="#{privacy.cookies}">Wir setzen keine Tracking- oder Analyse-Cookies ein. Es werden nur technisch notwendige Cookies genutzt, sofern diese zur Anmeldung oder Sitzungsverwaltung erforderlich sind.</p>
+
+    <h2 th:text="#{privacy.h2.data.sharing}">3. Weitergabe von Daten</h2>
+    <p th:text="#{privacy.data.sharing.text}">Ihre Daten werden nicht an Dritte weitergegeben, außer wenn dies gesetzlich vorgeschrieben ist.</p>
+
+    <h2 th:text="#{privacy.h2.storage.duration}">4. Speicherdauer und Löschung</h2>
+    <p th:text="#{privacy.storage.duration.text}">Sie können Ihre persönlichen Daten jederzeit selbst löschen oder Ihr Konto vollständig entfernen. Nach der Löschung werden alle personenbezogenen Daten unverzüglich aus unserem System entfernt, sofern keine gesetzlichen Aufbewahrungsfristen bestehen.</p>
+
+    <h2 th:text="#{privacy.h2.your.rights}">5. Ihre Rechte</h2>
+    <p th:text="#{privacy.your.rights.intro}">Sie haben jederzeit das Recht auf:</p>
+    <ul>
+        <li th:text="#{privacy.rights.access}">Auskunft über Ihre gespeicherten Daten</li>
+        <li th:text="#{privacy.rights.rectification}">Berichtigung unrichtiger Daten</li>
+        <li th:text="#{privacy.rights.erasure}">Löschung Ihrer Daten</li>
+        <li th:text="#{privacy.rights.restriction}">Einschränkung der Verarbeitung</li>
+        <li th:text="#{privacy.rights.objection}">Widerspruch gegen die Verarbeitung</li>
+    </ul>
+    <p th:text="#{privacy.rights.exercise}">Für die Ausübung dieser Rechte können Sie uns jederzeit kontaktieren.</p>
+
+    <h2 th:text="#{privacy.h2.data.security}">6. Datensicherheit</h2>
+    <p th:text="#{privacy.data.security.text}">Wir schützen Ihre Daten durch geeignete technische und organisatorische Maßnahmen vor unbefugtem Zugriff, Verlust oder Missbrauch.</p>
+
+    <h2 th:text="#{privacy.h2.contact}">7. Kontakt</h2>
+    <p th:text="#{privacy.contact.text}">Bei Fragen zum Datenschutz wenden Sie sich bitte an: <a href="mailto:info@cut-by-me.de">info@cut-by-me.de</a></p>
+</main>
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>
