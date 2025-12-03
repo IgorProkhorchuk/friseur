@@ -12,8 +12,8 @@ jobs:
     env:
       SERVER_IP: ${{ secrets.SERVER_IP }}
       SERVER_USER: ${{ secrets.SERVER_USER }}
-      PROD_DIR: ${{ vars.PROD_DIR }}
-      STAGE_DIR: ${{ vars.STAGE_DIR }}
+      PROD_DIR: ${{ secrets.PROD_DIR }}
+      STAGE_DIR: ${{ secrets.STAGE_DIR }}
 
 
     # steps: # step without testing branch
