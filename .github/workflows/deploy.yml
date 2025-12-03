@@ -2,7 +2,8 @@ name: Build & Deploy (staging/prod)
 
 on:
   push:
-    branches: [ "testing", "main" ]
+    # branches: [ "testing", "main" ]
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
@@ -14,7 +15,7 @@ jobs:
       PROD_DIR: /srv/cut-by-me/production
       STAGE_DIR: /srv/cut-by-me/testing
 
-    steps:
+    steps: # step without testing branch
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -23,9 +24,20 @@ jobs:
         run: |
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "TARGET_DIR=${PROD_DIR}" >> $GITHUB_OUTPUT
-          else
-            echo "TARGET_DIR=${STAGE_DIR}" >> $GITHUB_OUTPUT
           fi
+
+    # steps:
+    #   - name: Checkout code
+    #     uses: actions/checkout@v4
+
+    #   - name: Set environment target
+    #     id: envpick
+    #     run: |
+    #       if [ "${GITHUB_REF_NAME}" = "main" ]; then
+    #         echo "TARGET_DIR=${PROD_DIR}" >> $GITHUB_OUTPUT
+    #       else
+    #         echo "TARGET_DIR=${STAGE_DIR}" >> $GITHUB_OUTPUT
+    #       fi
 
       - name: Set up JDK 25
         uses: actions/setup-java@v4
