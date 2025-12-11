@@ -2,7 +2,7 @@
 
 ## CI/CD and Environments
 - **Testing**: `infra/docker/testing/docker-compose.yml` spins up Postgres + the app (expects an image tag `friseur:test`). Ansible playbooks in `infra/ansible-playbooks/start-testing.yml` and `stop-testing.yml` start/stop the stack on host group `cutbyme`.
-- **Production-like**: `infra/docker/main/docker-compose.yml` is the reference for a two-service stack (Postgres + app). Build or supply an image before running (see Setup guide).
+- **Production-like**: `infra/docker/main/docker-compose.yml` is the reference for a two-service stack (Postgres + app). Build or supply an image before running (see [Setup guide](SETUP.md)).
 - **Typical pipeline** (recommended):
   1) Run unit/integration tests: `./mvnw test`.
   2) Build jar: `./mvnw clean package -DskipTests`.
