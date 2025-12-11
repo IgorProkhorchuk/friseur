@@ -43,7 +43,17 @@ This is a web application for a hairdressing salon in Berlin Tempelhof that allo
 *   **Build Tool:**
     *   Maven
 
+## Documentation
+
+- Architecture & rationale: [ARCHITECTURE.md](ARCHITECTURE.md)
+- User journey: [USER_FLOW.md](USER_FLOW.md)
+- Admin journey: [ADMIN_FLOW.md](ADMIN_FLOW.md)
+- Setup & local/Docker runbook: [SETUP.md](SETUP.md)
+- Deployment & operations: [DEPLOYMENT.md](DEPLOYMENT.md)
+
 ## Getting Started
+
+For a full walkthrough (env vars, Docker, migrations, test data), see [SETUP.md](SETUP.md).
 
 ### Prerequisites
 
