@@ -1,5 +1,6 @@
 package de.friseur.friseur.controller;
 
+import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
 import de.friseur.friseur.model.Appointment;
 import de.friseur.friseur.model.Slot;
@@ -7,6 +8,7 @@ import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.exception.AppointmentNotFoundException;
 import de.friseur.friseur.service.exception.UnauthorizedCancelException;
 import de.friseur.friseur.repository.UserRepository;
+import de.friseur.friseur.security.jwt.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserAppointmentController.class)
-@Import({UserAppointmentControllerTest.TestConfig.class, SecurityConfig.class})
+@Import({UserAppointmentControllerTest.TestConfig.class, SecurityConfig.class, JwtConfig.class})
 class UserAppointmentControllerTest {
 
     @Autowired
@@ -41,6 +43,9 @@ class UserAppointmentControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private JwtService jwtService;
 
     @TestConfiguration
     static class TestConfig {
