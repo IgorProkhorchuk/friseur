@@ -46,3 +46,6 @@ build/
 .env
 **/.env
 infra/docker/*/.env
+
+### Ansible Inventory ###
+infra/ansible-playbooks/inventory.ini

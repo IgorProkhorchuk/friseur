@@ -3,16 +3,29 @@ name: Build & Deploy (staging/prod)
 on:
   push:
     branches: [ "testing", "main" ]
+    # branches: [ "main" ]
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     env:
-      SERVER_IP: 87.106.40.134
-      SERVER_USER: igor
-      PROD_DIR: /srv/cut-by-me/production
-      STAGE_DIR: /srv/cut-by-me/testing
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      PROD_DIR: ${{ secrets.PROD_DIR }}
+      STAGE_DIR: ${{ secrets.STAGE_DIR }}
+
+
+    # steps: # step without testing branch
+    #   - name: Checkout code
+    #     uses: actions/checkout@v4
+
+    #   - name: Set environment target
+    #     id: envpick
+    #     run: |
+    #       if [ "${GITHUB_REF_NAME}" = "main" ]; then
+    #         echo "TARGET_DIR=${PROD_DIR}" >> $GITHUB_OUTPUT
+    #       fi
 
     steps:
       - name: Checkout code
@@ -59,6 +72,7 @@ jobs:
             ${{ env.SERVER_USER }}@${{ env.SERVER_IP }}:$TARGET/
 
       - name: Restart Docker stack
+        if: github.ref_name == 'main'
         run: |
           BRANCH=${GITHUB_REF_NAME}
           TARGET=${{ steps.envpick.outputs.TARGET_DIR }}

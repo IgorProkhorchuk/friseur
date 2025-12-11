@@ -1,5 +1,6 @@
 package de.friseur.friseur.controller;
 
+import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
 import de.friseur.friseur.model.Schedule;
 import de.friseur.friseur.model.Slot;
@@ -7,6 +8,7 @@ import de.friseur.friseur.model.SlotStatus;
 import de.friseur.friseur.repository.ScheduleRepository;
 import de.friseur.friseur.repository.SlotRepository;
 import de.friseur.friseur.service.ScheduleService;
+import de.friseur.friseur.security.jwt.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ScheduleController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtConfig.class})
 @WithMockUser(username = "admin@example.com", roles = {"ADMIN"})
 class ScheduleControllerTest {
 
@@ -46,6 +48,9 @@ class ScheduleControllerTest {
 
     @MockBean
     private de.friseur.friseur.service.UserDetailsServiceImpl userDetailsService;
+
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     void admin() throws Exception {
