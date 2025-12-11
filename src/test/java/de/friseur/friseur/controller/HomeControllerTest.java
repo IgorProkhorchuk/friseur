@@ -1,13 +1,11 @@
 package de.friseur.friseur.controller;
 
-import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
 import de.friseur.friseur.model.User;
 import de.friseur.friseur.repository.UserRepository;
 import de.friseur.friseur.service.AppointmentService;
 import de.friseur.friseur.service.SlotService;
 import de.friseur.friseur.service.UserDetailsServiceImpl;
-import de.friseur.friseur.security.jwt.JwtService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(HomeController.class)
-@Import({HomeControllerTest.TestConfig.class, SecurityConfig.class, JwtConfig.class})
+@Import({HomeControllerTest.TestConfig.class, SecurityConfig.class})
 class HomeControllerTest {
 
     @Autowired
@@ -48,9 +46,6 @@ class HomeControllerTest {
 
     @MockBean
     private UserDetailsServiceImpl userDetailsService;
-
-    @MockBean
-    private JwtService jwtService;
 
     @TestConfiguration
     static class TestConfig {

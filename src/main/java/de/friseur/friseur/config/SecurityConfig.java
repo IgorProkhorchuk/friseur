@@ -2,9 +2,8 @@ package de.friseur.friseur.config;
 
 
 import de.friseur.friseur.security.CustomAuthenticationSuccessHandler;
-import de.friseur.friseur.security.jwt.JwtAuthenticationFilter;
-import de.friseur.friseur.security.jwt.JwtService;
 import de.friseur.friseur.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,20 +14,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import java.util.concurrent.TimeUnit;
+
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
-    private final JwtService jwtService;
-    private final JwtProperties jwtProperties;
-
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtService jwtService, JwtProperties jwtProperties) {
-        this.userDetailsService = userDetailsService;
-        this.jwtService = jwtService;
-        this.jwtProperties = jwtProperties;
-    }
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -60,19 +54,24 @@ public class SecurityConfig {
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
+                .rememberMe(remember -> remember
+                        .key("c32e04a9-446c-4f68-8235-927493d2b131") // Develop this with rotation!!!!!
+                        .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(100)) // 100 days???
+                        .userDetailsService(userDetailsService)
+                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID", "remember-me", jwtProperties.getAccessTokenCookieName(), jwtProperties.getRefreshTokenCookieName())
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .maximumSessions(1) // don't forget to modify this later
+                        .expiredUrl("/login?expired")
                 )
                 .userDetailsService(userDetailsService);
-
-        http.addFilterBefore(jwtAuthenticationFilter(), org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     @Bean
@@ -87,12 +86,7 @@ public class SecurityConfig {
      */
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthenticationSuccessHandler(jwtService);
-    }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtService, userDetailsService, jwtProperties);
+        return new CustomAuthenticationSuccessHandler();
     }
 
 }
