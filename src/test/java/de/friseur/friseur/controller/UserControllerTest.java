@@ -1,27 +1,31 @@
 package de.friseur.friseur.controller;
 
+import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
+import de.friseur.friseur.security.jwt.JwtService;
 import de.friseur.friseur.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import(SecurityConfig.class)
+@Import({SecurityConfig.class, JwtConfig.class})
 class UserControllerTest {
 
     @Autowired
@@ -35,6 +39,19 @@ class UserControllerTest {
 
     @MockBean
     private de.friseur.friseur.service.UserDetailsServiceImpl userDetailsService;
+
+    @MockBean
+    private JwtService jwtService;
+
+    @BeforeEach
+    void setupJwtMocks() {
+        when(jwtService.generateAccessToken(any())).thenReturn("access");
+        when(jwtService.generateRefreshToken(any(), anyBoolean())).thenReturn("refresh");
+        when(jwtService.buildAccessTokenCookie(anyString()))
+                .thenReturn(ResponseCookie.from("ACCESS_TOKEN", "access").build());
+        when(jwtService.buildRefreshTokenCookie(anyString(), anyBoolean()))
+                .thenReturn(ResponseCookie.from("REFRESH_TOKEN", "refresh").build());
+    }
 
     @Test
     void showRegistrationForm() throws Exception {
@@ -118,6 +135,6 @@ class UserControllerTest {
     void logout() throws Exception {
         mockMvc.perform(post("/logout").with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(redirectedUrl("/login?logout"));
     }
 }
