@@ -20,7 +20,7 @@ flowchart TD
   SaveSlots[Persist slots\nPOST /admin/save-schedule]
   Booked[Review booked slots\nGET /admin/booked]
   AllSlots[All slots\nGET /admin/schedule/all]
-  Toggle[Toggle slot visibility\nPOST /admin/slots/toggle]
+  Toggle[Toggle slot visibility\nPOST /admin/slots/toggle/{id}]
   Success[Success]
 
   Login --> Dash --> Dates --> SlotsPage --> SaveSlots --> Success --> Dash
