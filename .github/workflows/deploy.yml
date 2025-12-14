@@ -34,17 +34,32 @@ jobs:
       - name: Set environment target
         id: envpick
         run: |
+          # Create/Clear the file
+          echo "# Environment Config for branch: ${GITHUB_REF_NAME}" > .env
+
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "POSTGRES_USER=${{ secrets.PROD_POSTGRES_USER }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.PROD_POSTGRES_PASSWORD }}" >> .env
             echo "POSTGRES_DB=${{ secrets.PROD_POSTGRES_DB }}" >> .env
+            echo "# --------JWT SECRET $(date) ${GITHUB_REF_NAME}-------------" >> .env
             echo "JWT_SECRET_BASE64=${{ secrets.JWT_SECRET_BASE64 }}" >> .env
+            echo "# ----------SPRING DATASOURCE-------------------------------" >> .env
+            echo "SPRING_DATASOURCE_URL=jdbc:postgresql://friseur_prod_postgres:5432/${{ secrets.PROD_POSTGRES_DB }}" >> .env
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.PROD_POSTGRES_USER }}" >> .env
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.PROD_POSTGRES_PASSWORD }}" >> .env
+            echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
             echo "TARGET_DIR=${PROD_DIR}" >> $GITHUB_OUTPUT
           else
             echo "POSTGRES_USER=${{ secrets.STAGE_POSTGRES_USER }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.STAGE_POSTGRES_PASSWORD }}" >> .env
             echo "POSTGRES_DB=${{ secrets.STAGE_POSTGRES_DB }}" >> .env
+            echo "# --------JWT SECRET $(date) ${GITHUB_REF_NAME}-------------" >> .env
             echo "JWT_SECRET_BASE64=${{ secrets.JWT_SECRET_BASE64 }}" >> .env
+            echo "# ----------SPRING DATASOURCE-------------------------------" >> .env
+            echo "SPRING_DATASOURCE_URL=jdbc:postgresql://friseur_test_postgres:5432/${{ secrets.STAGE_POSTGRES_DB }}" >> .env
+            echo "SPRING_DATASOURCE_USERNAME=${{ secrets.STAGE_POSTGRES_USER }}" >> .env
+            echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.STAGE_POSTGRES_PASSWORD }}" >> .env
+            echo "SERVER_PORT=${{ secrets.SERVER_PORT }}" >> .env
             echo "TARGET_DIR=${STAGE_DIR}" >> $GITHUB_OUTPUT
           fi
 
