@@ -41,11 +41,12 @@
         <input class="auth-input" type="password" id="confirmPassword" name="confirmPassword" required />
       </div>
 
-      <div class="form-actions">
-        <button type="submit" class="button" th:text="#{register.button.submit}">Register</button>
-      </div>
+    <div class="form-actions">
+      <button type="submit" class="button" th:text="#{register.button.submit}">Register</button>
+    </div>
     </form>
 
+    <div class="auth-alert" th:if="${error}" th:text="${error}">Registration failed. Try again.</div>
     <div class="auth-alert" th:if="${param.error}" th:text="#{register.alert.error}">Registration failed. Try again.</div>
     <div class="auth-success" th:if="${param.success}">
       <span th:text="#{register.alert.successPrefix}">Registration successful! You can now</span>
