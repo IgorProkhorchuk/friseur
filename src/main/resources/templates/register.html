@@ -46,8 +46,11 @@
     </div>
     </form>
 
-    <div class="auth-alert" th:if="${error}" th:text="${error}">Registration failed. Try again.</div>
-    <div class="auth-alert" th:if="${param.error}" th:text="#{register.alert.error}">Registration failed. Try again.</div>
+    <div class="auth-alert"
+         th:if="${error} or ${param.error}"
+         th:text="${error} ?: ${param.error}">
+      Registration failed. Try again.
+    </div>
     <div class="auth-success" th:if="${param.success}">
       <span th:text="#{register.alert.successPrefix}">Registration successful! You can now</span>
       <a th:href="@{/login}" th:text="#{register.alert.successLink}">login</a>.
