@@ -98,6 +98,22 @@ class HomeControllerTest {
     }
 
     @Test
+    void testDatenschutz() throws Exception {
+        mockMvc.perform(get("/datenschutz"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("datenschutz"))
+                .andExpect(model().attribute("pageTitle", "FrisÖr - Datenschutz"));
+    }
+
+    @Test
+    void testImpressum() throws Exception {
+        mockMvc.perform(get("/impressum"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("impressum"))
+                .andExpect(model().attribute("pageTitle", "FrisÖr - Impressum"));
+    }
+
+    @Test
     void testGetAllAvailableSlots() throws Exception {
         List<LocalDate> mockDates = Arrays.asList(LocalDate.now().plusDays(1));
         List<LocalDateTime> mockSlots = Arrays.asList(LocalDateTime.now().plusHours(1));
