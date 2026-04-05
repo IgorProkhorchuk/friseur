@@ -1,0 +1,10 @@
+---
+- hosts: cutbyme
+  # become: yes
+  tasks:
+    - name: Stop testing environment
+      shell: |
+        cd /srv/cut-by-me/testing
+        docker compose down
+      args:
+        executable: /bin/bash

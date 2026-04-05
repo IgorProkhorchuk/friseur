@@ -40,6 +40,7 @@
     </form>
 
     <div class="auth-alert" th:if="${param.error}">Invalid email or password.</div>
+    <div class="auth-alert" th:if="${error}" th:text="${error}">Invalid email or password.</div>
     <div class="auth-alert" th:if="${param.expired}">Session expired. Please log in again.</div>
     <div class="auth-success" th:if="${param.logout}">You have been logged out.</div>
 

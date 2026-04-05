@@ -60,6 +60,11 @@
         <p th:text="#{footer.address}">Address: Großgörschenstraße 8, Berlin</p>
         <p th:text="#{footer.phone}">Phone: +49 123 456 789</p>
         <p th:text="#{footer.email}">Email: info@cut-by-me.de</p>
+        <p class="footer-links">
+            <a th:href="@{/datenschutz}">Datenschutz</a>
+            <span aria-hidden="true">|</span>
+            <a th:href="@{/impressum}">Impressum</a>
+        </p>
         <p th:text="#{footer.copyright}">&copy; 2025 FriSÖr</p>
     </div>
 </footer>

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +19,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
+    public String showRegistrationForm(
+            @RequestParam(value = "error", required = false) String error,
+            Model model
+    ) {
+        if (error != null) {
+            model.addAttribute("error", error);
+        }
         return "register";
     }
 
@@ -28,15 +35,28 @@ public class UserController {
             @RequestParam("email") String email,
             @RequestParam("phone") String phone,
             @RequestParam("password") String password,
-            @RequestParam("confirmPassword") String confirmPassword,
-            Model model
+            @RequestParam("confirmPassword") String confirmPassword
     ) {
         try {
             userService.registerUser(username, email, phone, password, confirmPassword);
             return "redirect:/login?success=true";
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "register";
+            String redirectUrl = UriComponentsBuilder
+                    .fromPath("/register")
+                    .queryParam("error", e.getMessage())
+                    .build()
+                    .encode()
+                    .toUriString();
+            return "redirect:" + redirectUrl;
+        } catch (Exception e) {
+            logger.error("Unexpected registration error for user {}", email, e);
+            String redirectUrl = UriComponentsBuilder
+                    .fromPath("/register")
+                    .queryParam("error", "Registration failed. Please try again.")
+                    .build()
+                    .encode()
+                    .toUriString();
+            return "redirect:" + redirectUrl;
         }
     }
 

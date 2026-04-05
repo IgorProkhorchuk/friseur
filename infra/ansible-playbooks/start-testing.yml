@@ -1,0 +1,10 @@
+---
+- hosts: cutbyme
+  # become: yes
+  tasks:
+    - name: Start testing environment
+      shell: |
+        cd /srv/cut-by-me/testing
+        docker compose up -d --build
+      args:
+        executable: /bin/bash

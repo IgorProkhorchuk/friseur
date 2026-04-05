@@ -46,9 +46,16 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/privacy")
-    public String privacy() {
-        return "privacy";
+    @GetMapping({"/datenschutz", "/privacy"})
+    public String privacy(Model model) {
+        model.addAttribute("pageTitle", "FrisÖr - Datenschutz");
+        return "datenschutz";
+    }
+
+    @GetMapping("/impressum")
+    public String impressum(Model model) {
+        model.addAttribute("pageTitle", "FrisÖr - Impressum");
+        return "impressum";
     }
 
     @GetMapping("/shop")

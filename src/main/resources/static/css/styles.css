@@ -230,6 +230,36 @@ header {
     color: var(--text-muted);
 }
 
+.legal-page {
+    gap: 1.5rem;
+}
+
+.legal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.legal-kicker {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.legal-lead {
+    font-size: 1.05rem;
+}
+
+.legal-list {
+    padding-left: 1.5rem;
+    color: var(--text-muted);
+}
+
+.legal-list li + li {
+    margin-top: 0.5rem;
+}
+
 /* Hero / actions */
 #available-slots {
     display: flex;
@@ -508,6 +538,22 @@ footer {
 
 .footer-content p {
     margin: 0.4rem 0;
+}
+
+.footer-links {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.footer-links a {
+    color: var(--accent);
+}
+
+.footer-links a:hover {
+    color: var(--accent-strong);
 }
 
 /* Responsive */

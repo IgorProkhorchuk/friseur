@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<div class="main-content legal-page" th:fragment="mainContent">
+    <section class="legal-section">
+        <p class="legal-kicker">Stand: 05.04.2026</p>
+        <h1>Datenschutzerklärung</h1>
+        <p class="legal-lead">
+            Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten auf der Website von FrisÖr
+            verarbeitet werden, wenn Sie die Seiten aufrufen, ein Kundenkonto anlegen, sich anmelden oder Termine
+            buchen und verwalten.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>1. Verantwortlicher</h2>
+        <p>
+            Ihor Prokhorchuk<br>
+            FrisÖr<br>
+            Großgörschenstraße 8<br>
+            Berlin, Deutschland
+        </p>
+        <p>
+            Telefon: <a href="tel:+49123456789">+49 123 456 789</a><br>
+            E-Mail: <a href="mailto:info@cut-by-me.de">info@cut-by-me.de</a>
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>2. Zugriff auf die Website und Server-Logfiles</h2>
+        <p>
+            Beim Aufruf der Website verarbeitet der Webserver technisch erforderliche Verbindungsdaten. Dazu können
+            insbesondere Ihre IP-Adresse, Datum und Uhrzeit des Abrufs, angeforderte URL, übertragene Datenmenge,
+            Browsertyp, Betriebssystem und Referrer-URL gehören.
+        </p>
+        <p>
+            Die Verarbeitung erfolgt zur sicheren Auslieferung der Website, zur Fehleranalyse und zur Abwehr von
+            Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>3. Registrierung und Kundenkonto</h2>
+        <p>
+            Wenn Sie ein Kundenkonto anlegen, verarbeiten wir die von Ihnen eingegebenen Registrierungsdaten:
+        </p>
+        <ul class="legal-list">
+            <li>Name bzw. Anzeigename</li>
+            <li>E-Mail-Adresse</li>
+            <li>Telefonnummer</li>
+            <li>verschlüsselt gespeichertes Passwort</li>
+        </ul>
+        <p>
+            Diese Daten werden benötigt, um Ihr Kundenkonto bereitzustellen, Anmeldungen zu ermöglichen und Ihre
+            Termine Ihrem Konto zuzuordnen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>4. Terminbuchung und Terminverwaltung</h2>
+        <p>
+            Wenn Sie über die Website einen Termin buchen oder stornieren, verarbeiten wir zusätzlich die für die
+            Terminorganisation erforderlichen Daten. Dazu gehören insbesondere:
+        </p>
+        <ul class="legal-list">
+            <li>gebuchte oder stornierte Zeitfenster</li>
+            <li>gebuchte Dienstleistung, derzeit insbesondere Haircut</li>
+            <li>Terminstatus</li>
+            <li>Zeitpunkt der Erstellung des Termins</li>
+            <li>Zuordnung des Termins zu Ihrem Kundenkonto</li>
+        </ul>
+        <p>
+            Die Verarbeitung erfolgt zur Vertragserfüllung bzw. zur Durchführung vorvertraglicher Maßnahmen gemäß
+            Art. 6 Abs. 1 lit. b DSGVO.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>5. Anmeldung, technisch notwendige Cookies und Sitzungsverwaltung</h2>
+        <p>
+            Für die Anmeldung und den geschützten Zugriff auf Ihr Konto setzt die Website technisch notwendige
+            Cookies beziehungsweise vergleichbare Authentifizierungsinformationen ein. Nach dem aktuellen Stand des
+            Projekts betrifft das insbesondere Cookies für die Sitzungsverwaltung sowie die Authentifizierung
+            (`JSESSIONID`, `ACCESS_TOKEN`, `REFRESH_TOKEN`).
+        </p>
+        <p>
+            Die Access-Tokens werden aktuell für 30 Minuten ausgestellt. Refresh-Tokens haben regelmäßig eine
+            Laufzeit von 7 Tagen; bei aktivierter "Remember me"-Funktion ist eine längere Laufzeit von bis zu 100
+            Tagen vorgesehen.
+        </p>
+        <p>
+            Diese Informationen sind für den sicheren Betrieb der Website erforderlich. Rechtsgrundlage ist Art. 6
+            Abs. 1 lit. b DSGVO sowie für den Einsatz technisch notwendiger Speicherungen bzw. Zugriffe auf
+            Endeinrichtungen § 25 Abs. 2 Nr. 2 TDDDG.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>6. Externe Inhalte: Google Fonts und HTMX CDN</h2>
+        <p>
+            Die Website bindet derzeit externe Ressourcen ein, nämlich Google Fonts sowie die JavaScript-Bibliothek
+            HTMX über `unpkg.com`. Beim Laden dieser Ressourcen baut Ihr Browser eine Verbindung zu den jeweiligen
+            externen Servern auf. Dabei können insbesondere Ihre IP-Adresse, Browserinformationen und der Zeitpunkt
+            des Abrufs an die jeweiligen Anbieter übermittelt werden.
+        </p>
+        <p>
+            Die Einbindung erfolgt zur einheitlichen Darstellung der Schrift und zur Bereitstellung interaktiver
+            Funktionen der Website. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Sofern dabei Daten in Staaten
+            außerhalb der EU bzw. des EWR übermittelt werden, erfolgt dies auf Grundlage der von den jeweiligen
+            Anbietern bereitgestellten Datenschutzmechanismen.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>7. Empfänger der Daten</h2>
+        <p>
+            Auf Ihre Daten erhalten nur Stellen Zugriff, die diese zur Bereitstellung der Website und zur
+            Terminabwicklung benötigen. Dazu gehören insbesondere:
+        </p>
+        <ul class="legal-list">
+            <li>der Betreiber der Website und berechtigte Administratoren</li>
+            <li>technische Dienstleister für Hosting, Datenbank und Serverbetrieb</li>
+            <li>die Anbieter externer Ressourcen, soweit diese beim Laden der Website technisch eingebunden werden</li>
+        </ul>
+        <p>
+            Eine darüber hinausgehende Weitergabe erfolgt nur, wenn wir gesetzlich dazu verpflichtet sind oder Sie
+            eingewilligt haben.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>8. Speicherdauer</h2>
+        <p>
+            Wir speichern personenbezogene Daten nur so lange, wie dies für die genannten Zwecke erforderlich ist.
+            Im Einzelnen gilt nach dem derzeitigen Funktionsumfang:
+        </p>
+        <ul class="legal-list">
+            <li>Konto- und Profildaten bis zur Löschung des Kundenkontos oder Wegfall des Nutzungszwecks</li>
+            <li>Termindaten solange, wie sie für Terminorganisation, Nachvollziehbarkeit und gesetzliche Pflichten benötigt werden</li>
+            <li>Server-Logdaten in der Regel nur für einen begrenzten, sicherheitsbezogenen Zeitraum</li>
+            <li>Auth-Cookies bis zum Ablauf ihrer jeweiligen technischen Speicherdauer oder bis zur Abmeldung</li>
+        </ul>
+    </section>
+
+    <section class="legal-section">
+        <h2>9. Ihre Rechte</h2>
+        <p>Sie haben im Rahmen der DSGVO insbesondere folgende Rechte:</p>
+        <ul class="legal-list">
+            <li>Auskunft nach Art. 15 DSGVO</li>
+            <li>Berichtigung nach Art. 16 DSGVO</li>
+            <li>Löschung nach Art. 17 DSGVO</li>
+            <li>Einschränkung der Verarbeitung nach Art. 18 DSGVO</li>
+            <li>Datenübertragbarkeit nach Art. 20 DSGVO</li>
+            <li>Widerspruch nach Art. 21 DSGVO</li>
+        </ul>
+        <p>
+            Wenn Sie eines dieser Rechte ausüben möchten, kontaktieren Sie uns bitte unter
+            <a href="mailto:info@cut-by-me.de">info@cut-by-me.de</a>.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>10. Beschwerderecht bei einer Aufsichtsbehörde</h2>
+        <p>
+            Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde über die Verarbeitung Ihrer
+            personenbezogenen Daten zu beschweren. Für Berlin ist zuständig:
+        </p>
+        <p>
+            Berliner Beauftragte für Datenschutz und Informationsfreiheit<br>
+            Alt-Moabit 59-61, 10555 Berlin<br>
+            E-Mail: <a href="mailto:mailbox@datenschutz-berlin.de">mailbox@datenschutz-berlin.de</a><br>
+            Website:
+            <a href="https://www.datenschutz-berlin.de/" rel="noopener noreferrer" target="_blank">
+                www.datenschutz-berlin.de
+            </a>
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>11. Keine automatisierte Entscheidungsfindung</h2>
+        <p>
+            Eine ausschließlich automatisierte Entscheidungsfindung oder ein Profiling im Sinne von Art. 22 DSGVO
+            findet auf dieser Website nach dem derzeitigen Stand des Projekts nicht statt.
+        </p>
+    </section>
+</div>
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>
