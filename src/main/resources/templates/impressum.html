@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<header th:replace="~{base :: header}"></header>
+
+<div class="main-content legal-page" th:fragment="mainContent">
+    <section class="legal-section">
+        <p class="legal-kicker">Pflichtangaben für den deutschen Webauftritt</p>
+        <h1>Impressum</h1>
+    </section>
+
+    <section class="legal-section">
+        <h2>Angaben gemäß § 5 DDG</h2>
+        <p>
+            FrisÖr<br>
+            Inhaber: Ihor Prokhorchuk<br>
+            Großgörschenstraße 8<br>
+            Berlin, Deutschland
+        </p>
+        <p>
+            Telefon: <a href="tel:+49123456789">+49 123 456 789</a><br>
+            E-Mail: <a href="mailto:info@cut-by-me.de">info@cut-by-me.de</a>
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>Verantwortlich für den Inhalt gemäß § 18 Abs. 2 MStV</h2>
+        <p>
+            Ihor Prokhorchuk<br>
+            Großgörschenstraße 8<br>
+            Berlin, Deutschland
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>Kontakt für Termin- und Website-Anfragen</h2>
+        <p>
+            Für Anfragen zu Terminen, zum Kundenkonto oder zu den Inhalten dieser Website erreichen Sie uns über die
+            oben genannten Kontaktdaten.
+        </p>
+    </section>
+</div>
+
+<footer th:replace="~{base :: footer}"></footer>
+</body>
+</html>
