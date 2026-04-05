@@ -27,6 +27,9 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
+    public boolean existsByPhone(String phone) {
+        return userRepository.findByPhone(phone).isPresent();
+    }
     public boolean registerUser(String username, String email, String phone, String password, String confirmPassword) {
         if (!password.equals(confirmPassword)) {
             logger.warn("User registration failed: passwords do not match for username {}", username);
@@ -36,6 +39,10 @@ public class UserService {
         if (existsByEmail(email)) {
             logger.warn("User registration failed: email {} already exists", email);
             throw new IllegalArgumentException("User with this email already exists!");
+        }
+        if (phone != null && !phone.isBlank() && existsByPhone(phone)) {
+            logger.warn("User registration failed: phone {} already exists", phone);
+            throw new IllegalArgumentException("User with this phone number already exists!");
         }
 
         User user = new User();
