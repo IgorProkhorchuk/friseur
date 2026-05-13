@@ -6,10 +6,10 @@
 
 <div class="main-content legal-page" th:fragment="mainContent">
     <section class="legal-section">
-        <p class="legal-kicker">Stand: 05.04.2026</p>
+        <p class="legal-kicker">Stand: 13.05.2026</p>
         <h1>Datenschutzerklärung</h1>
         <p class="legal-lead">
-            Diese Datenschutzerklärung beschreibt, welche personenbezogenen Daten auf der Website von FrisÖr
+            Diese Datenschutzerklärung informiert darüber, welche personenbezogenen Daten auf der Website von FrisÖr
             verarbeitet werden, wenn Sie die Seiten aufrufen, ein Kundenkonto anlegen, sich anmelden oder Termine
             buchen und verwalten.
         </p>
@@ -21,24 +21,33 @@
             Name Nachname<br>
             FrisÖr<br>
             Großgörschenstraße 8<br>
-            Berlin, Deutschland
+            PLZ Berlin, Deutschland
         </p>
         <p>
             Telefon: <a href="tel:+49123456789">+49 123 456 789</a><br>
             E-Mail: <a href="mailto:info@cut-by-me.de">info@cut-by-me.de</a>
         </p>
+        <p>
+            Hinweis: Bitte ersetzen Sie die Platzhalter vor Veröffentlichung durch die vollständigen und richtigen
+            Kontaktdaten der verantwortlichen Person.
+        </p>
     </section>
 
     <section class="legal-section">
-        <h2>2. Zugriff auf die Website und Server-Logfiles</h2>
+        <h2>2. Aufruf der Website und Server-Logfiles</h2>
         <p>
             Beim Aufruf der Website verarbeitet der Webserver technisch erforderliche Verbindungsdaten. Dazu können
-            insbesondere Ihre IP-Adresse, Datum und Uhrzeit des Abrufs, angeforderte URL, übertragene Datenmenge,
-            Browsertyp, Betriebssystem und Referrer-URL gehören.
+            insbesondere IP-Adresse, Datum und Uhrzeit des Abrufs, angeforderte URL, HTTP-Status, übertragene
+            Datenmenge, Browsertyp, Betriebssystem und Referrer-URL gehören.
         </p>
         <p>
-            Die Verarbeitung erfolgt zur sicheren Auslieferung der Website, zur Fehleranalyse und zur Abwehr von
-            Missbrauch. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+            Die Verarbeitung erfolgt, um die Website auszuliefern, die Systemsicherheit zu gewährleisten, Fehler zu
+            analysieren und Missbrauch abzuwehren. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes
+            Interesse liegt im sicheren und stabilen Betrieb der Website.
+        </p>
+        <p>
+            Server-Logdaten werden nur so lange gespeichert, wie dies für die genannten Zwecke erforderlich ist, und
+            anschließend gelöscht oder anonymisiert, sofern keine gesetzliche Aufbewahrungspflicht besteht.
         </p>
     </section>
 
@@ -50,19 +59,36 @@
         <ul class="legal-list">
             <li>Name bzw. Anzeigename</li>
             <li>E-Mail-Adresse</li>
-            <li>Telefonnummer</li>
+            <li>Telefonnummer, sofern angegeben</li>
             <li>verschlüsselt gespeichertes Passwort</li>
+            <li>zugewiesene Benutzerrolle</li>
         </ul>
         <p>
-            Diese Daten werden benötigt, um Ihr Kundenkonto bereitzustellen, Anmeldungen zu ermöglichen und Ihre
-            Termine Ihrem Konto zuzuordnen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.
+            Diese Daten werden benötigt, um Ihr Kundenkonto bereitzustellen, Anmeldungen zu ermöglichen und Termine
+            Ihrem Konto zuzuordnen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Ohne die erforderlichen Angaben
+            können wir kein Kundenkonto bereitstellen; eine Terminbuchung über das geschützte Kundenkonto ist dann
+            nicht möglich.
         </p>
     </section>
 
     <section class="legal-section">
-        <h2>4. Terminbuchung und Terminverwaltung</h2>
+        <h2>4. Anmeldung und Authentifizierung</h2>
         <p>
-            Wenn Sie über die Website einen Termin buchen oder stornieren, verarbeiten wir zusätzlich die für die
+            Bei der Anmeldung verarbeiten wir Ihre E-Mail-Adresse und das Passwort, um Sie zu authentifizieren. Das
+            Passwort wird nicht im Klartext gespeichert, sondern als Hashwert. Bei erfolgreicher Anmeldung werden
+            technisch notwendige Authentifizierungsinformationen gesetzt, damit Sie geschützte Bereiche nutzen können.
+        </p>
+        <p>
+            Die Access-Tokens werden aktuell für 30 Minuten ausgestellt. Refresh-Tokens haben regelmäßig eine Laufzeit
+            von 7 Tagen; bei aktivierter "Remember me"-Funktion ist eine längere Laufzeit von bis zu 100 Tagen
+            vorgesehen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>5. Terminbuchung und Terminverwaltung</h2>
+        <p>
+            Wenn Sie über die Website einen Termin buchen oder stornieren, verarbeiten wir die für die
             Terminorganisation erforderlichen Daten. Dazu gehören insbesondere:
         </p>
         <ul class="legal-list">
@@ -71,82 +97,103 @@
             <li>Terminstatus</li>
             <li>Zeitpunkt der Erstellung des Termins</li>
             <li>Zuordnung des Termins zu Ihrem Kundenkonto</li>
+            <li>Name und Kontaktdaten, die berechtigte Administratoren zur Terminabwicklung einsehen können</li>
         </ul>
         <p>
             Die Verarbeitung erfolgt zur Vertragserfüllung bzw. zur Durchführung vorvertraglicher Maßnahmen gemäß
-            Art. 6 Abs. 1 lit. b DSGVO.
+            Art. 6 Abs. 1 lit. b DSGVO. Soweit Daten zur Erfüllung gesetzlicher Pflichten aufbewahrt werden müssen,
+            ist Art. 6 Abs. 1 lit. c DSGVO die Rechtsgrundlage.
         </p>
     </section>
 
     <section class="legal-section">
-        <h2>5. Anmeldung, technisch notwendige Cookies und Sitzungsverwaltung</h2>
+        <h2>6. Kontaktaufnahme</h2>
         <p>
-            Für die Anmeldung und den geschützten Zugriff auf Ihr Konto setzt die Website technisch notwendige
-            Cookies beziehungsweise vergleichbare Authentifizierungsinformationen ein. Nach dem aktuellen Stand des
-            Projekts betrifft das insbesondere Cookies für die Sitzungsverwaltung sowie die Authentifizierung
-            (`JSESSIONID`, `ACCESS_TOKEN`, `REFRESH_TOKEN`).
+            Wenn Sie uns per E-Mail, Telefon oder über die im Impressum genannten Kontaktdaten kontaktieren,
+            verarbeiten wir Ihre Angaben, um die Anfrage zu bearbeiten. Dazu können Name, Kontaktdaten, Inhalt der
+            Nachricht und der Zeitpunkt der Kontaktaufnahme gehören.
         </p>
         <p>
-            Die Access-Tokens werden aktuell für 30 Minuten ausgestellt. Refresh-Tokens haben regelmäßig eine
-            Laufzeit von 7 Tagen; bei aktivierter "Remember me"-Funktion ist eine längere Laufzeit von bis zu 100
-            Tagen vorgesehen.
-        </p>
-        <p>
-            Diese Informationen sind für den sicheren Betrieb der Website erforderlich. Rechtsgrundlage ist Art. 6
-            Abs. 1 lit. b DSGVO sowie für den Einsatz technisch notwendiger Speicherungen bzw. Zugriffe auf
-            Endeinrichtungen § 25 Abs. 2 Nr. 2 TDDDG.
+            Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern die Kontaktaufnahme mit einem Termin oder Vertrag
+            zusammenhängt, und im Übrigen Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in der
+            Bearbeitung eingehender Anfragen.
         </p>
     </section>
 
     <section class="legal-section">
-        <h2>6. Externe Inhalte: Google Fonts und HTMX CDN</h2>
+        <h2>7. Cookies und vergleichbare Technologien</h2>
         <p>
-            Die Website bindet derzeit externe Ressourcen ein, nämlich Google Fonts sowie die JavaScript-Bibliothek
-            HTMX über `unpkg.com`. Beim Laden dieser Ressourcen baut Ihr Browser eine Verbindung zu den jeweiligen
-            externen Servern auf. Dabei können insbesondere Ihre IP-Adresse, Browserinformationen und der Zeitpunkt
-            des Abrufs an die jeweiligen Anbieter übermittelt werden.
+            Diese Website verwendet nach dem aktuellen Projektstand keine Tracking-, Marketing- oder Analyse-Cookies.
+            Es werden nur technisch notwendige Cookies bzw. vergleichbare Speicherungen eingesetzt, die für Anmeldung,
+            CSRF-Schutz, Sitzungsverwaltung und geschützte Terminbereiche erforderlich sind. Dazu gehören insbesondere
+            <code>JSESSIONID</code>, <code>ACCESS_TOKEN</code> und <code>REFRESH_TOKEN</code>.
         </p>
         <p>
-            Die Einbindung erfolgt zur einheitlichen Darstellung der Schrift und zur Bereitstellung interaktiver
-            Funktionen der Website. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Sofern dabei Daten in Staaten
-            außerhalb der EU bzw. des EWR übermittelt werden, erfolgt dies auf Grundlage der von den jeweiligen
-            Anbietern bereitgestellten Datenschutzmechanismen.
+            Diese Cookies sind erforderlich, damit der ausdrücklich gewünschte digitale Dienst bereitgestellt werden
+            kann. Die Speicherung bzw. der Zugriff auf Informationen auf Ihrem Endgerät erfolgt daher auf Grundlage von
+            § 25 Abs. 2 Nr. 2 TDDDG ohne vorherige Einwilligung. Die anschließende Verarbeitung personenbezogener Daten
+            erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO.
         </p>
     </section>
 
     <section class="legal-section">
-        <h2>7. Empfänger der Daten</h2>
+        <h2>8. Lokale Schriftarten und JavaScript</h2>
         <p>
-            Auf Ihre Daten erhalten nur Stellen Zugriff, die diese zur Bereitstellung der Website und zur
-            Terminabwicklung benötigen. Dazu gehören insbesondere:
+            Die Website liefert die verwendeten Schriftarten und die JavaScript-Funktionen für interaktive
+            Terminbereiche lokal vom eigenen Server aus. Es werden hierfür keine externen Ressourcen von Google Fonts,
+            unpkg oder vergleichbaren Content-Delivery-Netzwerken beim Seitenaufruf geladen.
+        </p>
+        <p>
+            Die Verarbeitung erfolgt zur einheitlichen Darstellung der Website und zur Bereitstellung der
+            Buchungsfunktionen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in
+            einer funktionsfähigen und nutzerfreundlichen Darstellung der Website.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>9. Empfänger der Daten</h2>
+        <p>
+            Zugriff auf personenbezogene Daten erhalten nur Stellen, die diese zur Bereitstellung der Website,
+            Kontoverwaltung oder Terminabwicklung benötigen. Dazu gehören insbesondere:
         </p>
         <ul class="legal-list">
             <li>der Betreiber der Website und berechtigte Administratoren</li>
-            <li>technische Dienstleister für Hosting, Datenbank und Serverbetrieb</li>
-            <li>die Anbieter externer Ressourcen, soweit diese beim Laden der Website technisch eingebunden werden</li>
+            <li>technische Dienstleister für Hosting, Datenbank, Serverbetrieb und Wartung</li>
+            <li>öffentliche Stellen, sofern eine gesetzliche Pflicht zur Auskunft oder Aufbewahrung besteht</li>
         </ul>
         <p>
-            Eine darüber hinausgehende Weitergabe erfolgt nur, wenn wir gesetzlich dazu verpflichtet sind oder Sie
-            eingewilligt haben.
+            Mit Dienstleistern, die personenbezogene Daten in unserem Auftrag verarbeiten, schließen wir soweit
+            erforderlich Verträge zur Auftragsverarbeitung nach Art. 28 DSGVO.
         </p>
     </section>
 
     <section class="legal-section">
-        <h2>8. Speicherdauer</h2>
+        <h2>10. Speicherdauer</h2>
         <p>
             Wir speichern personenbezogene Daten nur so lange, wie dies für die genannten Zwecke erforderlich ist.
             Im Einzelnen gilt nach dem derzeitigen Funktionsumfang:
         </p>
         <ul class="legal-list">
-            <li>Konto- und Profildaten bis zur Löschung des Kundenkontos oder Wegfall des Nutzungszwecks</li>
+            <li>Konto- und Profildaten bis zur Löschung des Kundenkontos oder bis der Nutzungszweck entfällt</li>
             <li>Termindaten solange, wie sie für Terminorganisation, Nachvollziehbarkeit und gesetzliche Pflichten benötigt werden</li>
-            <li>Server-Logdaten in der Regel nur für einen begrenzten, sicherheitsbezogenen Zeitraum</li>
+            <li>Kontaktanfragen bis zur abschließenden Bearbeitung und anschließend nach gesetzlichen Aufbewahrungsfristen</li>
+            <li>Server-Logdaten nur für einen begrenzten, sicherheitsbezogenen Zeitraum</li>
             <li>Auth-Cookies bis zum Ablauf ihrer jeweiligen technischen Speicherdauer oder bis zur Abmeldung</li>
         </ul>
     </section>
 
     <section class="legal-section">
-        <h2>9. Ihre Rechte</h2>
+        <h2>11. Datensicherheit</h2>
+        <p>
+            Wir treffen technische und organisatorische Maßnahmen, um personenbezogene Daten gegen Verlust,
+            unberechtigten Zugriff und Missbrauch zu schützen. Dazu gehören insbesondere passwortgeschützte
+            Benutzerkonten, verschlüsselt gespeicherte Passwörter, rollenbasierte Administrationsbereiche und
+            technisch geschützte Authentifizierungs-Cookies.
+        </p>
+    </section>
+
+    <section class="legal-section">
+        <h2>12. Ihre Rechte</h2>
         <p>Sie haben im Rahmen der DSGVO insbesondere folgende Rechte:</p>
         <ul class="legal-list">
             <li>Auskunft nach Art. 15 DSGVO</li>
@@ -154,7 +201,7 @@
             <li>Löschung nach Art. 17 DSGVO</li>
             <li>Einschränkung der Verarbeitung nach Art. 18 DSGVO</li>
             <li>Datenübertragbarkeit nach Art. 20 DSGVO</li>
-            <li>Widerspruch nach Art. 21 DSGVO</li>
+            <li>Widerspruch gegen Verarbeitungen auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO nach Art. 21 DSGVO</li>
         </ul>
         <p>
             Wenn Sie eines dieser Rechte ausüben möchten, kontaktieren Sie uns bitte unter
@@ -163,7 +210,7 @@
     </section>
 
     <section class="legal-section">
-        <h2>10. Beschwerderecht bei einer Aufsichtsbehörde</h2>
+        <h2>13. Beschwerderecht bei einer Aufsichtsbehörde</h2>
         <p>
             Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde über die Verarbeitung Ihrer
             personenbezogenen Daten zu beschweren. Für Berlin ist zuständig:
@@ -180,7 +227,7 @@
     </section>
 
     <section class="legal-section">
-        <h2>11. Keine automatisierte Entscheidungsfindung</h2>
+        <h2>14. Keine automatisierte Entscheidungsfindung</h2>
         <p>
             Eine ausschließlich automatisierte Entscheidungsfindung oder ein Profiling im Sinne von Art. 22 DSGVO
             findet auf dieser Website nach dem derzeitigen Stand des Projekts nicht statt.

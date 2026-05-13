@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title th:text="${pageTitle} ?: #{app.meta.title}">FrisÖr - Hairdress Salon in Berlin</title>
+    <link rel="stylesheet" th:href="@{/css/fonts.css}">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/admin-manage-slots.css}">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script th:src="@{/js/vendor/htmx.min.js}"></script>
     <!-- Add these meta tags for global HTMX CSRF protection if _csrf object is available -->
     <meta name="_csrf" th:content="${_csrf?.token}" th:if="${_csrf}"/>
     <meta name="_csrf_header" th:content="${_csrf?.headerName}" th:if="${_csrf}"/>
@@ -72,8 +72,10 @@
 <!-- <script th:src="@{/js/script.js}" src="/js/script.js"></script> -->
 <script>
     document.body.addEventListener('htmx:configRequest', function(evt) {
-        var csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-        var csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+        var csrfTokenMeta = document.querySelector('meta[name="_csrf"]');
+        var csrfHeaderMeta = document.querySelector('meta[name="_csrf_header"]');
+        var csrfToken = csrfTokenMeta ? csrfTokenMeta.getAttribute('content') : null;
+        var csrfHeader = csrfHeaderMeta ? csrfHeaderMeta.getAttribute('content') : null;
         if (csrfToken && csrfHeader) {
             evt.detail.headers[csrfHeader] = csrfToken;
         }
