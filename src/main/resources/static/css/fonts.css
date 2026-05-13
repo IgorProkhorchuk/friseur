@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Friseur Serif';
+    src: url('/fonts/friseur-serif/friseur-serif-regular.otf') format('opentype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Friseur Serif';
+    src: url('/fonts/friseur-serif/friseur-serif-bold.otf') format('opentype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}

@@ -24,7 +24,7 @@
 }
 
 html, body {
-    font-family: 'Merriweather', 'Georgia', serif;
+    font-family: 'Friseur Serif', 'Georgia', serif;
     font-size: 16px;
     line-height: 1.6;
     background-color: var(--bg-primary);
@@ -104,7 +104,7 @@ header {
 }
 
 .salon-name {
-    font-family: 'Georgia', 'Times New Roman', 'Merriweather', serif;
+    font-family: 'Georgia', 'Times New Roman', 'Friseur Serif', serif;
     font-size: clamp(1.8rem, 3vw, 2.4rem);
     letter-spacing: 0.18em;
     text-transform: capitalize;
@@ -358,7 +358,7 @@ header {
 }
 
 .stub h1 {
-    font-family: 'Georgia', 'Merriweather', serif;
+    font-family: 'Georgia', 'Friseur Serif', serif;
     font-style: italic;
 }
 
