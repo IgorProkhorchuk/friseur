@@ -3,6 +3,7 @@ package de.friseur.friseur.controller;
 import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
 import de.friseur.friseur.security.jwt.JwtService;
+import de.friseur.friseur.service.TokenBlacklistService;
 import de.friseur.friseur.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,9 @@ class UserControllerTest {
 
     @MockBean
     private JwtService jwtService;
+
+    @MockBean
+    private TokenBlacklistService tokenBlacklistService;
 
     @BeforeEach
     void setupJwtMocks() {
@@ -94,40 +98,6 @@ class UserControllerTest {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
-    }
-
-    @Test
-    void loginUser_success() throws Exception {
-        when(userDetailsService.loadUserByUsername("user@example.com"))
-                .thenReturn(User.builder()
-                        .username("user@example.com")
-                        .password(passwordEncoder.encode("password"))
-                        .roles("USER")
-                        .build());
-
-        mockMvc.perform(post("/login")
-                        .with(csrf())
-                        .param("email", "user@example.com")
-                        .param("password", "password"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/home"));
-    }
-
-    @Test
-    void loginUser_failure() throws Exception {
-        when(userDetailsService.loadUserByUsername("user@example.com"))
-                .thenReturn(User.builder()
-                        .username("user@example.com")
-                        .password(passwordEncoder.encode("password"))
-                        .roles("USER")
-                        .build());
-
-        mockMvc.perform(post("/login")
-                        .with(csrf())
-                        .param("email", "user@example.com")
-                        .param("password", "wrongpassword"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login?error=true"));
     }
 
     @Test

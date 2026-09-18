@@ -1,6 +1,7 @@
 package de.friseur.friseur.security.jwt;
 
 import de.friseur.friseur.config.JwtProperties;
+import de.friseur.friseur.service.TokenBlacklistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseCookie;
@@ -27,11 +28,13 @@ public class JwtService {
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
     private final JwtProperties jwtProperties;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    public JwtService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, JwtProperties jwtProperties) {
+    public JwtService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder, JwtProperties jwtProperties, TokenBlacklistService tokenBlacklistService) {
         this.jwtEncoder = jwtEncoder;
         this.jwtDecoder = jwtDecoder;
         this.jwtProperties = jwtProperties;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     public String generateAccessToken(UserDetails userDetails) {
@@ -45,6 +48,10 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         try {
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                log.debug("Token is blacklisted");
+                return false;
+            }
             Jwt jwt = jwtDecoder.decode(token);
             return userDetails.getUsername().equals(jwt.getSubject())
                     && jwt.getExpiresAt() != null
@@ -57,6 +64,10 @@ public class JwtService {
 
     public Optional<String> extractUsername(String token) {
         try {
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                log.debug("Token is blacklisted, cannot extract username");
+                return Optional.empty();
+            }
             return Optional.ofNullable(jwtDecoder.decode(token).getSubject());
         } catch (JwtException e) {
             log.debug("Failed to extract username from token: {}", e.getMessage());
@@ -64,8 +75,24 @@ public class JwtService {
         }
     }
 
+    public Optional<Instant> extractExpiration(String token) {
+        try {
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                return Optional.empty();
+            }
+            Jwt jwt = jwtDecoder.decode(token);
+            return Optional.ofNullable(jwt.getExpiresAt());
+        } catch (JwtException e) {
+            log.debug("Failed to extract expiration from token: {}", e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     public boolean isRefreshToken(String token) {
         try {
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                return false;
+            }
             Jwt jwt = jwtDecoder.decode(token);
             return TOKEN_TYPE_REFRESH.equals(jwt.getClaimAsString(TOKEN_TYPE_CLAIM));
         } catch (JwtException e) {
@@ -76,6 +103,9 @@ public class JwtService {
 
     public boolean isRememberMeRefreshToken(String token) {
         try {
+            if (tokenBlacklistService.isTokenBlacklisted(token)) {
+                return false;
+            }
             Jwt jwt = jwtDecoder.decode(token);
             return Boolean.TRUE.equals(jwt.getClaim("remember_me"));
         } catch (JwtException e) {

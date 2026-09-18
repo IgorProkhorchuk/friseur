@@ -56,15 +56,4 @@ public class UserService {
         logger.info("User registered successfully: username {}: email: {}", username, email);
         return true;
     }
-
-    public boolean loginUser(String email, String password) {
-        User user = userRepository.findByEmail(email).orElse(null);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            logger.info("User {} logged in successfully", email);
-            return true;
-        } else {
-            logger.warn("Failed login attempt for user {}", email);
-            return false;
-        }
-    }
 }

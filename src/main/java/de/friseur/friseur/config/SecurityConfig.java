@@ -4,7 +4,9 @@ package de.friseur.friseur.config;
 import de.friseur.friseur.security.CustomAuthenticationSuccessHandler;
 import de.friseur.friseur.security.jwt.JwtAuthenticationFilter;
 import de.friseur.friseur.security.jwt.JwtService;
+import de.friseur.friseur.service.TokenBlacklistService;
 import de.friseur.friseur.service.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 
 @Configuration
@@ -23,11 +30,14 @@ public class SecurityConfig {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtService jwtService;
     private final JwtProperties jwtProperties;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtService jwtService, JwtProperties jwtProperties) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtService jwtService, 
+                          JwtProperties jwtProperties, TokenBlacklistService tokenBlacklistService) {
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
         this.jwtProperties = jwtProperties;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @Bean
@@ -65,6 +75,7 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .addLogoutHandler(tokenBlacklistLogoutHandler())
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID", "remember-me", jwtProperties.getAccessTokenCookieName(), jwtProperties.getRefreshTokenCookieName())
                         .permitAll()
@@ -95,6 +106,39 @@ public class SecurityConfig {
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtService, userDetailsService, jwtProperties);
+    }
+
+    @Bean
+    public LogoutHandler tokenBlacklistLogoutHandler() {
+        return (request, response, authentication) -> {
+            if (authentication != null && authentication.getPrincipal() != null) {
+                String username = authentication.getName();
+                
+                String accessToken = resolveTokenFromCookies(request, jwtProperties.getAccessTokenCookieName());
+                String refreshToken = resolveTokenFromCookies(request, jwtProperties.getRefreshTokenCookieName());
+                
+                if (accessToken != null) {
+                    Instant accessTokenExpiry = jwtService.extractExpiration(accessToken).orElse(Instant.now());
+                    tokenBlacklistService.blacklistToken(accessToken, accessTokenExpiry, "access", username);
+                }
+                
+                if (refreshToken != null) {
+                    Instant refreshTokenExpiry = jwtService.extractExpiration(refreshToken).orElse(Instant.now());
+                    tokenBlacklistService.blacklistToken(refreshToken, refreshTokenExpiry, "refresh", username);
+                }
+            }
+        };
+    }
+
+    private String resolveTokenFromCookies(HttpServletRequest request, String name) {
+        if (request.getCookies() == null) {
+            return null;
+        }
+        return Arrays.stream(request.getCookies())
+                .filter(cookie -> name.equals(cookie.getName()))
+                .map(javax.servlet.http.Cookie::getValue)
+                .findFirst()
+                .orElse(null);
     }
 
 }

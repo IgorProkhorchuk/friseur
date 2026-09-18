@@ -65,24 +65,4 @@ public class UserController {
         logger.info("Login form displayed");
         return "login";
     }
-
-    @PostMapping("/login")
-    public String loginUser(
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            Model model
-    ) {
-        if (userService.loginUser(email, password)) {
-            return "redirect:/slots";
-        } else {
-            model.addAttribute("error", "Invalid email or password");
-            return "login";
-        }
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        logger.info("User logged out");
-        return "logout";
-    }
 }
