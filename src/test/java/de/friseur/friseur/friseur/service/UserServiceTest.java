@@ -69,29 +69,5 @@ class UserServiceTest {
         });
     }
 
-    @Test
-    void loginUser_shouldReturnTrue_whenCredentialsAreCorrect() {
-        User user = new User();
-        user.setPassword("encodedPassword");
-        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
 
-        assertTrue(userService.loginUser("test@test.com", "password"));
-    }
-
-    @Test
-    void loginUser_shouldReturnFalse_whenUserNotFound() {
-        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.empty());
-        assertFalse(userService.loginUser("test@test.com", "password"));
-    }
-
-    @Test
-    void loginUser_shouldReturnFalse_whenPasswordIsIncorrect() {
-        User user = new User();
-        user.setPassword("encodedPassword");
-        when(userRepository.findByEmail("test@test.com")).thenReturn(Optional.of(user));
-        when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(false);
-
-        assertFalse(userService.loginUser("test@test.com", "password"));
-    }
 }

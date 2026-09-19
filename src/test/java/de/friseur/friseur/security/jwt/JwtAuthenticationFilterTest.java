@@ -2,10 +2,12 @@ package de.friseur.friseur.security.jwt;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import de.friseur.friseur.config.JwtProperties;
+import de.friseur.friseur.service.TokenBlacklistService;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -26,6 +28,7 @@ import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class JwtAuthenticationFilterTest {
 
@@ -53,7 +56,10 @@ class JwtAuthenticationFilterTest {
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
 
-        jwtService = new JwtService(jwtEncoder, jwtDecoder, properties);
+        TokenBlacklistService tokenBlacklistService = Mockito.mock(TokenBlacklistService.class);
+        when(tokenBlacklistService.isTokenBlacklisted(Mockito.anyString())).thenReturn(false);
+
+        jwtService = new JwtService(jwtEncoder, jwtDecoder, properties, tokenBlacklistService);
 
         user = User.withUsername("user@example.com").password("pwd").roles("USER").build();
         userDetailsService = username -> user;

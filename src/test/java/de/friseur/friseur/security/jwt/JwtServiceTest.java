@@ -2,8 +2,10 @@ package de.friseur.friseur.security.jwt;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import de.friseur.friseur.config.JwtProperties;
+import de.friseur.friseur.service.TokenBlacklistService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -23,6 +25,7 @@ import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 class JwtServiceTest {
 
@@ -51,7 +54,10 @@ class JwtServiceTest {
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
 
-        jwtService = new JwtService(jwtEncoder, jwtDecoder, properties);
+        TokenBlacklistService tokenBlacklistService = Mockito.mock(TokenBlacklistService.class);
+        when(tokenBlacklistService.isTokenBlacklisted(Mockito.anyString())).thenReturn(false);
+
+        jwtService = new JwtService(jwtEncoder, jwtDecoder, properties, tokenBlacklistService);
         userDetails = new User("user@example.com", "password", List.of(new SimpleGrantedAuthority("ROLE_USER")));
     }
 
