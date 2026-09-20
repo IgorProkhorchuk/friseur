@@ -39,13 +39,15 @@ jobs:
           echo "APP_BUILD_CONTEXT=./app" >> .env
           echo "APP_DOCKERFILE=../Dockerfile" >> .env
           echo "APP_BUILD_TARGET=runtime" >> .env
+          echo "REMEMBER_ME_KEY=${{ secrets.REMEMBER_ME_KEY }}" >> .env
+          echo "REMEMBER_ME_TOKEN_VALIDITY_SECONDS=3888000" >> .env
+          echo "SESSION_SECURE_COOKIE=true" >> .env
+          echo "REMEMBER_ME_SECURE_COOKIE=true" >> .env
 
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "POSTGRES_USER=${{ secrets.PROD_POSTGRES_USER }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.PROD_POSTGRES_PASSWORD }}" >> .env
             echo "POSTGRES_DB=${{ secrets.PROD_POSTGRES_DB }}" >> .env
-            echo "# --------JWT SECRET $(date) ${GITHUB_REF_NAME}-------------" >> .env
-            echo "JWT_SECRET_BASE64=${{ secrets.JWT_SECRET_BASE64 }}" >> .env
             echo "# ----------SPRING DATASOURCE-------------------------------" >> .env
             echo "SPRING_DATASOURCE_URL=jdbc:postgresql://friseur_prod_postgres:5432/${{ secrets.PROD_POSTGRES_DB }}" >> .env
             echo "SPRING_DATASOURCE_USERNAME=${{ secrets.PROD_POSTGRES_USER }}" >> .env
@@ -56,8 +58,6 @@ jobs:
             echo "POSTGRES_USER=${{ secrets.STAGE_POSTGRES_USER }}" >> .env
             echo "POSTGRES_PASSWORD=${{ secrets.STAGE_POSTGRES_PASSWORD }}" >> .env
             echo "POSTGRES_DB=${{ secrets.STAGE_POSTGRES_DB }}" >> .env
-            echo "# --------JWT SECRET $(date) ${GITHUB_REF_NAME}-------------" >> .env
-            echo "JWT_SECRET_BASE64=${{ secrets.JWT_SECRET_BASE64 }}" >> .env
             echo "# ----------SPRING DATASOURCE-------------------------------" >> .env
             echo "SPRING_DATASOURCE_URL=jdbc:postgresql://friseur_test_postgres:5432/${{ secrets.STAGE_POSTGRES_DB }}" >> .env
             echo "SPRING_DATASOURCE_USERNAME=${{ secrets.STAGE_POSTGRES_USER }}" >> .env
@@ -103,10 +103,23 @@ jobs:
         run: |
           BRANCH=${GITHUB_REF_NAME}
           TARGET=${{ steps.envpick.outputs.TARGET_DIR }}
-          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} bash -s <<EOF
+          ssh -i ~/.ssh/id_deploy ${{ env.SERVER_USER }}@${{ env.SERVER_IP }} "BRANCH='$BRANCH' TARGET='$TARGET' bash -s" <<'EOF'
             set -e
             echo "Deploying branch: $BRANCH to $TARGET"
             cd "$TARGET"
+            BACKUP_DIR="$TARGET/backups/postgres"
+            BACKUP_FILE="$BACKUP_DIR/${BRANCH}_$(date -u +%Y%m%dT%H%M%SZ).dump"
+            mkdir -p "$BACKUP_DIR"
+
+            if [ -n "$(docker compose ps -q postgres 2>/dev/null)" ]; then
+              echo "Creating PostgreSQL backup: $BACKUP_FILE"
+              docker compose exec -T postgres sh -c 'pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" -Fc' > "$BACKUP_FILE"
+              test -s "$BACKUP_FILE"
+              find "$BACKUP_DIR" -type f -name "*.dump" -mtime +30 -delete
+            else
+              echo "PostgreSQL container is not running yet; skipping pre-deploy backup."
+            fi
+
             docker compose down || true
             docker compose up -d --build
             docker compose ps

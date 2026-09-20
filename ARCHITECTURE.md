@@ -1,7 +1,7 @@
 # FrisÖr Architecture
 
 ## Overview
-FrisÖr is a server-rendered Spring Boot 3.5 application that lets users book and manage hair salon appointments. It uses Thymeleaf + HTMX for lightweight interactivity, stateless JWT-based authentication, and a layered domain/service/repository structure backed by PostgreSQL and Flyway migrations.
+FrisÖr is a server-rendered Spring Boot 3.5 application that lets users book and manage hair salon appointments. It uses Thymeleaf + HTMX for lightweight interactivity, session-based Spring Security authentication with optional remember-me cookies, and a layered domain/service/repository structure backed by PostgreSQL and Flyway migrations.
 
 ## High-Level Architecture
 ```mermaid
@@ -11,7 +11,7 @@ flowchart LR
   end
 
   subgraph Edge["Web / Security"]
-    Filter[Security Filter Chain\nform login + JWT cookies]
+    Filter[Security Filter Chain\nform login + session cookies]
     MVC[Spring MVC Controllers\nHome, User, Appointments, Admin]
   end
 
@@ -41,7 +41,7 @@ sequenceDiagram
   participant Repo as JPA Repo
   participant DB as PostgreSQL
 
-  Browser->>Filter: GET /slots (JWT cookies)
+  Browser->>Filter: GET /slots (session / remember-me cookies)
   Filter-->>Controller: Attach Authentication (if valid)
   Controller->>Service: slotService.getAllAvailableSlots()
   Service->>Repo: findAllAvailableSlots()
@@ -59,15 +59,15 @@ sequenceDiagram
   - `UserService` handles registration and password hashing.
 - **Repositories** (Spring Data JPA) isolate persistence and map to `User`, `Appointment`, `Slot`, and `Schedule` entities.
 - **Security**:
-  - Stateless sessions (`SessionCreationPolicy.STATELESS`) with JWT access + refresh tokens stored as HttpOnly cookies.
-  - `JwtAuthenticationFilter` extracts/validates tokens on each request and re-issues tokens on valid refresh.
-  - `CustomAuthenticationSuccessHandler` issues tokens after form login and redirects admins to `/admin/dashboard`.
+  - Server-managed sessions (`SessionCreationPolicy.IF_REQUIRED`) with HttpOnly `JSESSIONID` cookies.
+  - Optional Spring Security remember-me cookie keeps returning users authenticated after the browser session expires.
+  - `CustomAuthenticationSuccessHandler` redirects admins to `/admin/dashboard` and standard users to `/home`.
 - **Views** use Thymeleaf and HTMX fragments for partial updates (e.g., booking/cancel flows) without a full SPA.
 - **Data**: PostgreSQL schema versioned by Flyway (`src/main/resources/db/migration`), covering users, roles, schedules, slots, and appointments.
 - **Operations**: Actuator exposes health/metrics/prometheus; logs are written to `/var/log/friseur/application.log` by default (ensure writable in containers).
 
 ## Design Decisions and Rationale
-- **Stateless JWT + cookies**: Keeps browser interactions simple (form login + HTMX) while supporting future API clients without server sessions.
+- **Session auth + remember-me**: Matches the server-rendered Thymeleaf application model, keeps logout/session invalidation predictable, and still lets mobile users stay signed in when they choose the remember-me option.
 - **Layered services/repositories**: Keeps controllers thin, centralizes validation (ownership checks, slot state transitions), and eases unit testing.
 - **HTMX + Thymeleaf**: Minimizes frontend complexity while enabling dynamic fragments for booking and dashboard updates.
 - **Flyway migrations**: Guarantees schema parity across environments and containers; runs automatically on startup.
@@ -83,5 +83,5 @@ sequenceDiagram
 ## Cross-Cutting Concerns
 - **Internationalization** via message bundles (`messages_*.properties`).
 - **Logging**: SLF4J at INFO/DEBUG with per-class loggers; failure handler logs login failures.
-- **Validation**: Jakarta Validation annotations on entities/config (`JwtProperties`) and manual checks in services.
-- **Configuration**: Externalized via environment variables for DB, ports, and JWT secrets (`spring-dotenv` supported for local `.env` files).
+- **Validation**: Jakarta Validation annotations on entities and manual checks in services.
+- **Configuration**: Externalized via environment variables for DB, ports, session cookies, and remember-me settings (`spring-dotenv` supported for local `.env` files).

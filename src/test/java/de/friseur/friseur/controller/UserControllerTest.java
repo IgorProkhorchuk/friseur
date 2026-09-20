@@ -1,16 +1,12 @@
 package de.friseur.friseur.controller;
 
-import de.friseur.friseur.config.JwtConfig;
 import de.friseur.friseur.config.SecurityConfig;
-import de.friseur.friseur.security.jwt.JwtService;
 import de.friseur.friseur.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -25,7 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import({SecurityConfig.class, JwtConfig.class})
+@Import(SecurityConfig.class)
 class UserControllerTest {
 
     @Autowired
@@ -39,23 +35,6 @@ class UserControllerTest {
 
     @MockBean
     private de.friseur.friseur.service.UserDetailsServiceImpl userDetailsService;
-
-    @MockBean
-    private JwtService jwtService;
-
-    @BeforeEach
-    void setupJwtMocks() {
-        when(jwtService.generateAccessToken(any())).thenReturn("access");
-        when(jwtService.generateRefreshToken(any(), anyBoolean())).thenReturn("refresh");
-        when(jwtService.buildAccessTokenCookie(anyString()))
-                .thenReturn(ResponseCookie.from("ACCESS_TOKEN", "access").build());
-        when(jwtService.buildRefreshTokenCookie(anyString(), anyBoolean()))
-                .thenReturn(ResponseCookie.from("REFRESH_TOKEN", "refresh").build());
-        when(jwtService.clearCookie(anyString()))
-                .thenAnswer(invocation -> ResponseCookie.from(invocation.getArgument(0), "")
-                        .maxAge(0)
-                        .build());
-    }
 
     @Test
     void showRegistrationForm() throws Exception {
