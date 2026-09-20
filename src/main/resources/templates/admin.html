@@ -45,7 +45,7 @@
             <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
 
             <div th:if="${successMessage}" id="edit-schedule-container">
-                <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="afterend" th:text="#{admin.plan.button.edit}">
+                <button hx-target="#edit-workingHours" hx-get="/admin/schedule" hx-swap="innerHTML" th:text="#{admin.plan.button.edit}">
                     Edit Time for Created Schedule
                 </button>
             </div>

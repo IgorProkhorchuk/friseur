@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   postgres:
     image: postgres:16
@@ -11,25 +10,39 @@ services:
       - pgdata_test:/var/lib/postgresql/data
     networks:
       - friseur_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
     build:
-      context: ./app
-      dockerfile: ../Dockerfile
+      context: ${APP_BUILD_CONTEXT:-../../..}
+      dockerfile: ${APP_DOCKERFILE:-infra/docker/app/Dockerfile}
+      target: ${APP_BUILD_TARGET:-runtime-from-source}
     image: friseur:test
     container_name: friseur_test_app
-    env_file: .env
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT:-8080}
+      JWT_SECRET_BASE64: ${JWT_SECRET_BASE64}
+      JWT_SECURE_COOKIE: ${JWT_SECURE_COOKIE:-false}
     ports:
       - "8081:8080"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - friseur_net
     volumes:
-      - /var/log/friseur-test:/var/log/friseur
+      - app_logs_test:/var/log/friseur
 
 volumes:
   pgdata_test:
+  app_logs_test:
 
 networks:
   friseur_net:

@@ -15,7 +15,7 @@ public class Slot {
     @Enumerated(EnumType.STRING)
     private SlotStatus slotStatus;
     @OneToOne
-    @JoinColumn(name = "appointmentId")
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     public Slot(int slotId, LocalDateTime timeSlot, SlotStatus slotStatus, Appointment appointment) {
@@ -28,7 +28,9 @@ public class Slot {
     public Slot() {
     }
 
-    public Slot(LocalDateTime localDateTime, SlotStatus slotStatus) {
+    public Slot(LocalDateTime timeSlot, SlotStatus slotStatus) {
+        this.timeSlot = timeSlot;
+        this.slotStatus = slotStatus;
     }
 
     public int getSlotId() {

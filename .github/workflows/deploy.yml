@@ -36,6 +36,9 @@ jobs:
         run: |
           # Create/Clear the file
           echo "# Environment Config for branch: ${GITHUB_REF_NAME}" > .env
+          echo "APP_BUILD_CONTEXT=./app" >> .env
+          echo "APP_DOCKERFILE=../Dockerfile" >> .env
+          echo "APP_BUILD_TARGET=runtime" >> .env
 
           if [ "${GITHUB_REF_NAME}" = "main" ]; then
             echo "POSTGRES_USER=${{ secrets.PROD_POSTGRES_USER }}" >> .env

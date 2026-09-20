@@ -5,8 +5,11 @@ import de.friseur.friseur.security.CustomAuthenticationSuccessHandler;
 import de.friseur.friseur.security.jwt.JwtAuthenticationFilter;
 import de.friseur.friseur.security.jwt.JwtService;
 import de.friseur.friseur.service.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 
 @Configuration
@@ -45,7 +49,8 @@ public class SecurityConfig {
                                 .requestMatchers("/admin-dashboard").hasRole("ADMIN")
                                 .requestMatchers("/shop").permitAll()
                                 .requestMatchers("/login").permitAll()
-                                .requestMatchers("/slots").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/slots").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/slots").authenticated()
                                 .requestMatchers("/book").authenticated()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/success").hasRole("ADMIN")
@@ -66,8 +71,24 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
+                        .addLogoutHandler((request, response, authentication) -> {
+                            response.addHeader(HttpHeaders.SET_COOKIE,
+                                    jwtService.clearCookie(jwtProperties.getAccessTokenCookieName()).toString());
+                            response.addHeader(HttpHeaders.SET_COOKIE,
+                                    jwtService.clearCookie(jwtProperties.getRefreshTokenCookieName()).toString());
+                        })
                         .deleteCookies("JSESSIONID", "remember-me", jwtProperties.getAccessTokenCookieName(), jwtProperties.getRefreshTokenCookieName())
                         .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            if ("true".equalsIgnoreCase(request.getHeader("HX-Request"))) {
+                                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                                response.setHeader("HX-Redirect", "/login");
+                                return;
+                            }
+                            new LoginUrlAuthenticationEntryPoint("/login").commence(request, response, authException);
+                        })
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -79,7 +100,7 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(4);
+        return new BCryptPasswordEncoder(12);
     }
 
     /**

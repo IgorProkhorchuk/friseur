@@ -99,6 +99,14 @@ class JwtServiceTest {
     }
 
     @Test
+    void isTokenValid_returnsFalseWhenRefreshTokenIsUsedAsAccessToken() {
+        String refreshToken = jwtService.generateRefreshToken(userDetails, false);
+
+        assertFalse(jwtService.isTokenValid(refreshToken, userDetails));
+        assertTrue(jwtService.isRefreshTokenValid(refreshToken, userDetails));
+    }
+
+    @Test
     void isTokenValidReturnsFalseForDifferentUser() {
         String token = jwtService.generateAccessToken(userDetails);
         UserDetails otherUser = new User("other@example.com", "pwd", List.of(new SimpleGrantedAuthority("ROLE_USER")));

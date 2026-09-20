@@ -36,6 +36,7 @@
                     Login
                 </a>
                 <form class="auth-form" th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                     <button class="auth-button" type="submit" th:text="#{nav.logout}">
                         Logout
                     </button>
