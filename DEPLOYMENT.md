@@ -13,7 +13,8 @@
 
 ## Required secrets / config
 - `SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`
-- `JWT_SECRET_BASE64` (>=32 bytes before Base64); set `JWT_SECURE_COOKIE=true` in HTTPS environments.
+- `REMEMBER_ME_KEY` (long random secret used to sign remember-me cookies).
+- `SESSION_SECURE_COOKIE=true` and `REMEMBER_ME_SECURE_COOKIE=true` in HTTPS environments.
 - `SERVER_PORT` (exposed as 8080 in Dockerfile; map as needed).
 - Optional: `LOGGING_FILE_NAME` if the default `/var/log/friseur/application.log` is not writable; ensure the host mount path exists (`/var/log/friseur-*` in compose files).
 - If using a registry: credentials for `docker login <registry>`.
@@ -44,7 +45,7 @@
 
 ## Manual server update (jar only)
 1. Copy `target/friseur-0.9.jar` to the server.
-2. Export env vars (DB, JWT, port).
+2. Export env vars (DB, remember-me key, port).
 3. Run:
    ```bash
    java -jar -XX:MaxRAMPercentage=75.0 friseur-0.9.jar

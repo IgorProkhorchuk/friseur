@@ -3,7 +3,7 @@
 Admin capabilities focus on defining working periods, generating slots, monitoring bookings, and moderating slot visibility.
 
 ## Steps
-- Log in via `/login` with an account that has `ROLE_ADMIN`; `CustomAuthenticationSuccessHandler` redirects to `/admin/dashboard` after issuing JWT cookies.
+- Log in via `/login` with an account that has `ROLE_ADMIN`; `CustomAuthenticationSuccessHandler` redirects to `/admin/dashboard` after Spring Security creates the session.
 - Create schedule window on `/admin` (start/end dates). `ScheduleService` rejects overlaps.
 - Generate timeslots on `/admin/schedule` by selecting hours per day; submit to `/admin/save-schedule` to persist `Slot` rows as `AVAILABLE`.
 - Review booked slots on `/admin/booked` (filtered to `RESERVED`).

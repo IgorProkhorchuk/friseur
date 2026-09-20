@@ -23,12 +23,14 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/friseur
 SPRING_DATASOURCE_USERNAME=friseur
 SPRING_DATASOURCE_PASSWORD=friseur
 SERVER_PORT=8080
-JWT_SECRET_BASE64=base64-encoded-32B-secret
-JWT_SECURE_COOKIE=false   # set true in HTTPS environments
+REMEMBER_ME_KEY=long-random-local-secret
+SESSION_SECURE_COOKIE=false      # set true in HTTPS environments
+REMEMBER_ME_SECURE_COOKIE=false  # set true in HTTPS environments
 ```
 Optional:
 - `SPRING_PROFILES_ACTIVE` to switch profiles.
 - `LOGGING_FILE_NAME` if you want a different log path than `/var/log/friseur/application.log`.
+- `REMEMBER_ME_TOKEN_VALIDITY_SECONDS` to control remember-me cookie lifetime (default: 2592000, 30 days).
 - Flyway defaults run on startup; override with `SPRING_FLYWAY_*` if needed.
 
 ## Install dependencies
