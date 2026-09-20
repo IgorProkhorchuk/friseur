@@ -27,6 +27,7 @@
                 <!-- Content area containing the form and timeslots -->
                 <div class="accordion-content">
                     <form th:action="@{/slots}" method="post">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                         <div class="slot-container">
                             <th:block th:each="slot : ${slots}">
                                 <div th:if="${slot.toLocalDate()} == ${date}">

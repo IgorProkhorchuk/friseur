@@ -82,6 +82,19 @@ class ScheduleControllerTest {
     }
 
     @Test
+    void editWorkingHours_withoutScheduleReturnsFragmentError() throws Exception {
+        when(scheduleService.getLatestSchedule()).thenReturn(null);
+
+        mockMvc.perform(get("/admin/schedule")
+                        .header("HX-Request", "true"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("create-schedule :: schedule-editor"))
+                .andExpect(model().attribute("dateRange", Collections.emptyList()))
+                .andExpect(model().attribute("timeslots", Collections.emptyList()))
+                .andExpect(model().attribute("errorMessage", "Create a date range before editing time slots."));
+    }
+
+    @Test
     void viewBookedSlots() throws Exception {
         Slot slot = new Slot();
         slot.setSlotStatus(SlotStatus.RESERVED);

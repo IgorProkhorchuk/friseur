@@ -44,9 +44,18 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
+        return isTokenValid(token, userDetails, TOKEN_TYPE_ACCESS);
+    }
+
+    public boolean isRefreshTokenValid(String token, UserDetails userDetails) {
+        return isTokenValid(token, userDetails, TOKEN_TYPE_REFRESH);
+    }
+
+    private boolean isTokenValid(String token, UserDetails userDetails, String expectedTokenType) {
         try {
             Jwt jwt = jwtDecoder.decode(token);
             return userDetails.getUsername().equals(jwt.getSubject())
+                    && expectedTokenType.equals(jwt.getClaimAsString(TOKEN_TYPE_CLAIM))
                     && jwt.getExpiresAt() != null
                     && jwt.getExpiresAt().isAfter(Instant.now());
         } catch (JwtException e) {

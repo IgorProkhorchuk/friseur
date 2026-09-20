@@ -61,15 +61,24 @@ public class ScheduleController {
     }
 
     @GetMapping("/admin/schedule")
-    public String editWorkingHours(Model model) {
-        List<LocalDateTime> dateRange = scheduleService.createDateRange(scheduleService.getLatestSchedule());
-        List<LocalDateTime> timeslots = scheduleService.createTimeslots(scheduleService.createDateRange(scheduleService.getLatestSchedule()));
+    public String editWorkingHours(Model model,
+                                   @RequestHeader(value = "HX-Request", required = false) String hxRequest) {
+        Schedule latestSchedule = scheduleService.getLatestSchedule();
+        if (latestSchedule == null) {
+            model.addAttribute("dateRange", List.of());
+            model.addAttribute("timeslots", List.of());
+            model.addAttribute("errorMessage", "Create a date range before editing time slots.");
+            return isHx(hxRequest) ? "create-schedule :: schedule-editor" : "create-schedule";
+        }
+
+        List<LocalDateTime> dateRange = scheduleService.createDateRange(latestSchedule);
+        List<LocalDateTime> timeslots = scheduleService.createTimeslots(dateRange);
         model.addAttribute("dateRange", dateRange);
         model.addAttribute("timeslots", timeslots);
-        return "create-schedule";
+        return isHx(hxRequest) ? "create-schedule :: schedule-editor" : "create-schedule";
     }
     @PostMapping("/admin/save-schedule")
-    public String saveSelectedTimeslots(@RequestParam(required = false) List<String> selectedTimeslots,
+    public String saveSelectedTimeslots(@RequestParam(name = "selectedTimeslots", required = false) List<String> selectedTimeslots,
                                         RedirectAttributes redirectAttributes) {
         try {
             if (selectedTimeslots == null || selectedTimeslots.isEmpty()) {
@@ -133,7 +142,7 @@ public class ScheduleController {
 
 
     @PostMapping("/admin/slots/toggle/{id}")
-    public String toggleSlot(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+    public String toggleSlot(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         var slot = slotRepository.findById(id).orElse(null);
         if (slot == null) {
             redirectAttributes.addFlashAttribute("error", "Slot not found");

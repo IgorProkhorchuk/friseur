@@ -1,7 +1,6 @@
 package de.friseur.friseur.controller;
 
 import de.friseur.friseur.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,13 +9,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 @Controller
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/register")
     public String showRegistrationForm(
@@ -61,28 +66,21 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String showLoginForm(Authentication authentication) {
+        if (isAuthenticated(authentication)) {
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .anyMatch("ROLE_ADMIN"::equals);
+            return isAdmin ? "redirect:/admin/dashboard" : "redirect:/home";
+        }
+
         logger.info("Login form displayed");
         return "login";
     }
 
-    @PostMapping("/login")
-    public String loginUser(
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            Model model
-    ) {
-        if (userService.loginUser(email, password)) {
-            return "redirect:/slots";
-        } else {
-            model.addAttribute("error", "Invalid email or password");
-            return "login";
-        }
-    }
-
-    @GetMapping("/logout")
-    public String logout() {
-        logger.info("User logged out");
-        return "logout";
+    private boolean isAuthenticated(Authentication authentication) {
+        return authentication != null
+                && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken);
     }
 }

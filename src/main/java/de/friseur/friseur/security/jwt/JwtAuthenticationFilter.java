@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -56,7 +57,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/images/")
-                || path.startsWith("/favicon");
+                || path.startsWith("/favicon")
+                || "/logout".equals(path);
     }
 
     private void tryAuthenticateWithAccessToken(HttpServletRequest request) {
@@ -74,7 +76,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(usernameOpt.get());
+        Optional<UserDetails> userDetailsOpt = loadUserDetails(usernameOpt.get());
+        if (userDetailsOpt.isEmpty()) {
+            return;
+        }
+
+        UserDetails userDetails = userDetailsOpt.get();
         if (jwtService.isTokenValid(token, userDetails)) {
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -94,8 +101,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(usernameOpt.get());
-        if (!jwtService.isTokenValid(refreshToken, userDetails)) {
+        Optional<UserDetails> userDetailsOpt = loadUserDetails(usernameOpt.get());
+        if (userDetailsOpt.isEmpty()) {
+            return;
+        }
+
+        UserDetails userDetails = userDetailsOpt.get();
+        if (!jwtService.isRefreshTokenValid(refreshToken, userDetails)) {
             log.debug("Refresh token is not valid for user {}", usernameOpt.get());
             return;
         }
@@ -136,5 +148,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 .map(Cookie::getValue)
                 .findFirst()
                 .orElse(null);
+    }
+
+    private Optional<UserDetails> loadUserDetails(String username) {
+        try {
+            return Optional.of(userDetailsService.loadUserByUsername(username));
+        } catch (UsernameNotFoundException e) {
+            log.debug("JWT subject does not map to an existing user: {}", username);
+            return Optional.empty();
+        }
     }
 }

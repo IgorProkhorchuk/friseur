@@ -8,37 +8,41 @@
 </head>
 <body>
 <main>
-<h3 th:text="#{createSchedule.heading}">Schedule</h3>
-<div id="save-schedule">
-    <form th:action="@{/admin/save-schedule}" method="post">
-        <!-- CSRF Token -->
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+<section th:fragment="schedule-editor">
+    <h3 th:text="#{createSchedule.heading}">Schedule</h3>
+    <div id="save-schedule">
+        <p class="inline-alert" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
-        <ul class="schedule-list">
-            <th:block th:each="date : ${dateRange}">
-                <li class="date-item">
-                    <span th:text="${#temporals.format(date, 'EEEE, MMMM d, yyyy')}"></span>
-                    <ul class="timeslot-list">
-                        <th:block th:each="timeSlot : ${timeslots}">
-                            <li th:if="${timeSlot.toLocalDate().equals(date.toLocalDate())}"
-                                class="time-item">
-                                <label class="timeslot-label">
-                                    <input type="checkbox"
-                                           name="selectedTimeslots"
-                                           th:value="${#temporals.format(timeSlot, 'yyyy-MM-dd HH:mm')}"
-                                           th:checked="${savedSlots != null and #lists.contains(savedSlots, timeSlot)}"/>
-                                    <span th:text="${#temporals.format(timeSlot, 'HH:00')}"></span>
-                                </label>
-                            </li>
-                        </th:block>
-                    </ul>
-                </li>
-            </th:block>
-        </ul>
+        <form th:if="${errorMessage == null}" th:action="@{/admin/save-schedule}" method="post">
+            <!-- CSRF Token -->
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
 
-        <button type="submit" class="submit-button" hx-target="#save-schedule" hx-swap="outerHTML" th:text="#{createSchedule.button.save}">Save Selected Timeslots</button>
-    </form>
-</div>
+            <ul class="schedule-list">
+                <th:block th:each="date : ${dateRange}">
+                    <li class="date-item">
+                        <span th:text="${#temporals.format(date, 'EEEE, MMMM d, yyyy')}"></span>
+                        <ul class="timeslot-list">
+                            <th:block th:each="timeSlot : ${timeslots}">
+                                <li th:if="${timeSlot.toLocalDate().equals(date.toLocalDate())}"
+                                    class="time-item">
+                                    <label class="timeslot-label">
+                                        <input type="checkbox"
+                                               name="selectedTimeslots"
+                                               th:value="${#temporals.format(timeSlot, 'yyyy-MM-dd HH:mm')}"
+                                               th:checked="${savedSlots != null and #lists.contains(savedSlots, timeSlot)}"/>
+                                        <span th:text="${#temporals.format(timeSlot, 'HH:00')}"></span>
+                                    </label>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </li>
+                </th:block>
+            </ul>
+
+            <button type="submit" class="submit-button" hx-target="#save-schedule" hx-swap="outerHTML" th:text="#{createSchedule.button.save}">Save Selected Timeslots</button>
+        </form>
+    </div>
+</section>
 </main>
 </body>
 </html>

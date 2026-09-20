@@ -43,7 +43,7 @@ public class UserAppointmentController {
 
 
     @PostMapping("/cancel/{appointmentId}")
-    public ResponseEntity<?> cancelAppointment(@PathVariable Long appointmentId,
+    public ResponseEntity<?> cancelAppointment(@PathVariable("appointmentId") Long appointmentId,
                                                Authentication authentication,
                                                @RequestHeader(value = "HX-Request", required = false) String hxRequest) {
 

@@ -51,6 +51,10 @@ class UserControllerTest {
                 .thenReturn(ResponseCookie.from("ACCESS_TOKEN", "access").build());
         when(jwtService.buildRefreshTokenCookie(anyString(), anyBoolean()))
                 .thenReturn(ResponseCookie.from("REFRESH_TOKEN", "refresh").build());
+        when(jwtService.clearCookie(anyString()))
+                .thenAnswer(invocation -> ResponseCookie.from(invocation.getArgument(0), "")
+                        .maxAge(0)
+                        .build());
     }
 
     @Test
@@ -84,9 +88,8 @@ class UserControllerTest {
                         .param("phone", "1234567890")
                         .param("password", "password")
                         .param("confirmPassword", "wrongpassword"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("register"))
-                .andExpect(model().attribute("error", "Password mismatch"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/register?error=Password%20mismatch"));
     }
 
     @Test
